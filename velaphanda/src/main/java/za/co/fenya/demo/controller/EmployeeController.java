@@ -284,14 +284,14 @@ public class EmployeeController {
 		return model;
 	}
 	
-	@RequestMapping(value="registerEmployee",method=RequestMethod.GET)
+	@RequestMapping(value={"/registerEmployee"},method=RequestMethod.GET)
 	public ModelAndView loadAddEmployee() {
 		
 		userName = (Employee) session.getAttribute("loggedInUser");
 		model = new ModelAndView("registerEmployee");
 		if(userName !=null){
 			
-			model.addObject("addEmployee", new EmployeeBean());
+			//model.addObject("addEmployee", new EmployeeBean());
 			model.setViewName("registerEmployee");
 		}
 		else{
