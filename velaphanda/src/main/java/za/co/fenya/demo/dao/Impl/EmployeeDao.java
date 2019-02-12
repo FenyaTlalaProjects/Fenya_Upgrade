@@ -1,6 +1,19 @@
 package za.co.fenya.demo.dao.Impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
+
+import org.hibernate.Criteria;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import za.co.fenya.demo.dao.CredentialsDaoInt;
 import za.co.fenya.demo.dao.EmployeeDaoInt;
@@ -11,29 +24,13 @@ import za.co.fenya.demo.model.Employee;
 import za.co.fenya.demo.model.Leave;
 import za.co.fenya.demo.model.LoginAttempt;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
-
-import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-
-
 
 
 @Repository("employeeDAO")
 @Transactional(propagation = Propagation.REQUIRED)
+public class EmployeeDao implements EmployeeDaoInt{
 
-public class EmployeeDao extends AbstractDao<String, Employee> implements EmployeeDaoInt{
 
-	
 	@Autowired
 	private SessionFactory sessionFactory;
 	
@@ -42,8 +39,8 @@ public class EmployeeDao extends AbstractDao<String, Employee> implements Employ
 	@Autowired 
 	private LoginAttemptDaoInt attemptDaoInt;
 	
-	@Autowired
-	private LeaveDaoInt leaveDao;
+	 @Autowired
+	 private LeaveDaoInt leaveDao;
 	String retMessage = null;
 	private Employee emp = null;
 	private List<Employee> empEmail = null;
@@ -57,9 +54,8 @@ public class EmployeeDao extends AbstractDao<String, Employee> implements Employ
 	SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Date now = new Date();
 	String timeUserRegistered = sdfDate.format(now);
-	@Override
 	public String saveEmployee(Employee employee) {
-         String password = "";
+		String password = "";
 		
 		try{
 			emp = getEmployeeByEmpNum(employee.getEmail());
@@ -77,7 +73,7 @@ public class EmployeeDao extends AbstractDao<String, Employee> implements Employ
 			      credentialsDaoInt.saveNewPassword(credential);
 			      
 			      
-			    //  JavaMail.sendPasswordToEmployee(employee,password);
+			      JavaMail.sendPasswordToEmployee(employee,password);
 			      retMessage = "Employee"+ " "+ employee.getFirstName()+" "+ employee.getLastName()+ " " + "successfully added.";
 			
 			}
@@ -93,11 +89,12 @@ public class EmployeeDao extends AbstractDao<String, Employee> implements Employ
 		return retMessage;
 	}
 
-	@Override
 	public Employee getEmployeeByEmpNum(String empUsername) {
+
 		return (Employee) sessionFactory.getCurrentSession().get(Employee.class, empUsername);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Employee> getAllTechnicians() {
 		@SuppressWarnings("rawtypes")
@@ -117,16 +114,34 @@ public class EmployeeDao extends AbstractDao<String, Employee> implements Employ
 		 }
 		return empList;
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Employee> getAllTechnicians(String empUsername) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Employee> reassignTechnicianList(String technicianName) {
+		@SuppressWarnings("rawtypes")
+		ArrayList<?> aList = new ArrayList();
+		List<Employee> empList = new ArrayList<Employee>();
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Employee.class);
+		 
+		 aList.addAll(criteria.list());
+		 List<Leave> tempTechList = leaveDao.getActiveLeave();
+		 for(Object emp:aList)
+		 {
+				 if(emp instanceof Employee){
+					 if(((Employee) emp).getRole().equalsIgnoreCase("Technician") 
+							 && ((Employee) emp).getEmail().equalsIgnoreCase(technicianName) == false){
+						 empList.add((Employee) emp);
+					 }
+				 }
+		 }
+		return empList;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Employee> getTechniciansByProvince(String province) {
 		
+		@SuppressWarnings("rawtypes")
 		ArrayList<?> aList = new ArrayList();
 		ArrayList<Employee> empList = new ArrayList<Employee>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Employee.class);
@@ -143,41 +158,22 @@ public class EmployeeDao extends AbstractDao<String, Employee> implements Employ
 		return empList;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Employee> getAllEmployees(Integer offset, Integer maxResults) {
-		// TODO Auto-generated method stub
-		return null;
+		return sessionFactory.openSession()
+			    .createCriteria(Employee.class)
+			    .setFirstResult(offset!=null?offset:0)
+			    .setMaxResults(maxResults!=null?maxResults:10)
+			    .list();
 	}
 
 	@Override
-	public List<Employee> getAllEmployees() {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Employee.class);
-		return (List<Employee>)criteria.list();
-	}
-
-	@Override
-	public List<Employee> getAllEmployees(String email) {
-		empEmailReturn = new ArrayList<Employee>();
-		try{
-			empEmail = getAllEmployees();
-			for(Employee emp:empEmail){
-				if(emp.getEmail().contains(email)){
-					empEmailReturn.add(emp);
-				}
-			}
-			
-		}catch(Exception e){
-			
-		}
-		return empEmailReturn;
-	}
-
-	@Override
-	public String updateEmployee(Employee employee) {
+	public String updateEmployee(Employee updateEmployee) {
 		Employee tempEmp = new Employee();
 		try{
 			
-		/*	tempEmp = getEmployeeByEmpNum(updateEmployee.getEmail());
+			tempEmp = getEmployeeByEmpNum(updateEmployee.getEmail());
 			String pass = tempEmp.getPassword();
 			String cellNumber = updateEmployee.getCellNumber();
 			tempEmp.setPassword(pass);
@@ -189,7 +185,7 @@ public class EmployeeDao extends AbstractDao<String, Employee> implements Employ
 			tempEmp.setLastName(updateEmployee.getLastName());
 			tempEmp.setRole(updateEmployee.getRole());
 			tempEmp.setTitle(updateEmployee.getTitle());
-			tempEmp.setDateTime(timeUserRegistered);*/
+			tempEmp.setDateTime(timeUserRegistered);
 			  sessionFactory.getCurrentSession().update(tempEmp);
 		      retMessage = "Employee"+ " "+ tempEmp.getFirstName()+" "+ tempEmp.getLastName()+ " " + " successfully updated.";
 		}
@@ -197,6 +193,27 @@ public class EmployeeDao extends AbstractDao<String, Employee> implements Employ
 			retMessage = "Employee"+ " "+ tempEmp.getFirstName()+" "+ tempEmp.getLastName()+ " " + " not updated\n" + e.getMessage();
 		}
 		return retMessage;
+	}
+	private String generatePassword(){
+		String retPassword = null;
+		Random random = new Random();
+		try{
+			String text = "VeLaPhAnDa", text1 = "EmPlOYeEs",text2 = "PaSsWoRd",text3= "GeNeRaToRFroMAToZ",text4 = "CqXxHkB",text5 = "1234567890",specialCaractors ="!@#$%^&*";
+	    	
+	    	
+	    	int select = random.nextInt(text.length());
+	    	int select1 = random.nextInt(text1.length());
+	    	int select2 = random.nextInt(specialCaractors.length());
+	    	int select3 = random.nextInt(text3.length());
+	    	int select4 = random.nextInt(text5.length());
+	    	int select5 = random.nextInt(text5.length());
+	    	int select6 = random.nextInt(text2.length());
+	    	retPassword ="V"+text.charAt(select)+ text1.charAt(select1)+ specialCaractors.charAt(select2)+ text3.charAt(select3)+text5.charAt(select5)+text4.charAt(select4)+text2.charAt(select6);
+			
+		}catch(Exception e){
+			retPassword = "DaNIy$D2b";
+		}
+		return retPassword;
 	}
 
 	@Override
@@ -258,7 +275,7 @@ public class EmployeeDao extends AbstractDao<String, Employee> implements Employ
 				loginAttempt.setUserName(emp.getEmail());
 				loginAttempt.setAttemptCount(0);
 				attemptDaoInt.upsertUserAttempt(loginAttempt);
-				//JavaMail.sendPasswordToEmployee(emp,tempPassword);
+				JavaMail.sendPasswordToEmployee(emp,tempPassword);
 				retMessage = "Temp password for employee "+ emp.getFirstName() +" "+ emp.getLastName()+ " is "+ tempPassword+".\nPassword is sent to employee through email.";
 			}
 			
@@ -266,6 +283,13 @@ public class EmployeeDao extends AbstractDao<String, Employee> implements Employ
 			retMessage = "Password not reseted "+ e.getMessage()+".";
 		}
 		return retMessage;
+	}
+
+	@Override
+	public Integer count() {
+		
+		return (Integer) sessionFactory.getCurrentSession().createCriteria(Employee.class).setProjection(Projections.rowCount()).uniqueResult();
+		
 	}
 
 	@Override
@@ -290,8 +314,34 @@ public class EmployeeDao extends AbstractDao<String, Employee> implements Employ
 		
 		return retMessage;
 	}
+
+	@Override
+	public List<Employee> getAllEmployees(String email) {
+		empEmailReturn = new ArrayList<Employee>();
+		try{
+			empEmail = getAllEmployees();
+			for(Employee emp:empEmail){
+				if(emp.getEmail().contains(email)){
+					empEmailReturn.add(emp);
+				}
+			}
+			
+		}catch(Exception e){
+			
+		}
+		return empEmailReturn;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Employee> getAllEmployees() {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Employee.class);
+		return (List<Employee>)criteria.list();
+	}
+
 	@Override
 	public List<Employee> getAllManagers() {
+		@SuppressWarnings("rawtypes")
 		ArrayList<?> aList = new ArrayList();
 		ArrayList<Employee> empList = new ArrayList<Employee>();
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Employee.class);
@@ -306,6 +356,31 @@ public class EmployeeDao extends AbstractDao<String, Employee> implements Employ
 			 }
 		 }
 		return empList;
+	}
+	
+	private String updateActivateDeactivate(Employee employee)
+	{
+		sessionFactory.getCurrentSession().update(employee);
+		retMessage = "OK";
+		return retMessage;
+	}
+	
+	private Credentials getUserCredentials(Employee employee){
+		Credentials credential = null;
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		date = new Date();
+		
+		try{
+			credential = new Credentials();
+			credential.setPassword(employee.getPassword());
+			credential.setEmail(employee.getEmail());
+			credential.setStatus("Current");
+			credential.setPasswordDateInserted(dateFormat.format(date));
+		}catch(Exception e){
+			e.getMessage();
+		}
+		return credential;
+		
 	}
 
 	@Override
@@ -325,9 +400,9 @@ public class EmployeeDao extends AbstractDao<String, Employee> implements Employ
 
 	@Override
 	public String[] managersEmails() {
+		
 		List<Employee> list = getAllManagers();
 		String[] managers =new String[list.size()];
-		int x = 0;
 		for(int i=0;i <list.size();i++){
 			managers[i] = list.get(i).getEmail();
 			
@@ -339,70 +414,19 @@ public class EmployeeDao extends AbstractDao<String, Employee> implements Employ
 	}
 
 	@Override
-	public List<Employee> reassignTechnicianList(String technicianName) {
-		@SuppressWarnings("rawtypes")
-		ArrayList<?> aList = new ArrayList();
-		List<Employee> empList = new ArrayList<Employee>();
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Employee.class);
-		 
-		 aList.addAll(criteria.list());
-		 List<Leave> tempTechList = leaveDao.getActiveLeave();
-		 for(Object emp:aList)
-		 {
-				 if(emp instanceof Employee){
-					 if(((Employee) emp).getRole().equalsIgnoreCase("Technician") 
-							 && ((Employee) emp).getEmail().equalsIgnoreCase(technicianName) == false){
-						 empList.add((Employee) emp);
-					 }
-				 }
-		 }
-		return empList;
-	}
-
-	private String generatePassword(){
-		String retPassword = null;
-		Random random = new Random();
+	public List<Employee> getAllTechnicians(String empUsername) {
 		try{
-			String text = "VeLaPhAnDa", text1 = "EmPlOYeEs",text2 = "PaSsWoRd",text3= "GeNeRaToRFroMAToZ",text4 = "CqXxHkB",text5 = "1234567890",specialCaractors ="!@#$%^&*";
-	    	
-	    	
-	    	int select = random.nextInt(text.length());
-	    	int select1 = random.nextInt(text1.length());
-	    	int select2 = random.nextInt(specialCaractors.length());
-	    	int select3 = random.nextInt(text3.length());
-	    	int select4 = random.nextInt(text5.length());
-	    	int select5 = random.nextInt(text5.length());
-	    	int select6 = random.nextInt(text2.length());
-	    	retPassword ="V"+text.charAt(select)+ text1.charAt(select1)+ specialCaractors.charAt(select2)+ text3.charAt(select3)+text5.charAt(select5)+text4.charAt(select4)+text2.charAt(select6);
+			List<Employee> tempEmployees = getAllTechnicians();
+			empEmail = new ArrayList<Employee>();
+			for(Employee emp:tempEmployees){
+				if(!emp.getEmail().equalsIgnoreCase(empUsername)){
+					empEmail.add(emp);
+				}
+			}
+		}catch(Exception e){
 			
-		}catch(Exception e){
-			retPassword = "DaNIy$D2b";
 		}
-		return retPassword;
-	}
-
-	private Credentials getUserCredentials(Employee employee){
-		Credentials credential = null;
-		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		date = new Date();
-		
-		try{
-			credential = new Credentials();
-			credential.setPassword(employee.getPassword());
-			credential.setEmail(employee.getEmail());
-			credential.setStatus("Current");
-			credential.setPasswordDateInserted(dateFormat.format(date));
-		}catch(Exception e){
-			e.getMessage();
-		}
-		return credential;
-		
+		return empEmail;
 	}
 	
-	private String updateActivateDeactivate(Employee employee)
-	{
-		sessionFactory.getCurrentSession().update(employee);
-		retMessage = "OK";
-		return retMessage;
-	}
 }

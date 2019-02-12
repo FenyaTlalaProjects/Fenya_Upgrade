@@ -11,12 +11,13 @@ import za.co.fenya.demo.model.User;
 import za.co.fenya.demo.service.UserService;
 
 
-@Service("userService")
-@Transactional
-public class UserServiceImpl implements UserService{
+
+/*@Service("userService")
+@Transactional*/
+public class UserServiceImpl /*implements UserService*/{
 
 	
-	@Autowired
+	/*@Autowired
 	private UserDao dao;
 	
 	
@@ -67,7 +68,7 @@ public class UserServiceImpl implements UserService{
 	public boolean isUserSSOUnique(Integer id, String sso) {
 		
 		User user = findBySSO(sso);
-		return ( user == null || ((id != null) && (user.getId() == id)));
-	}
+		return false( user == null || ((id != null) && (user.getId() == id)));
+	}*/
 
 }

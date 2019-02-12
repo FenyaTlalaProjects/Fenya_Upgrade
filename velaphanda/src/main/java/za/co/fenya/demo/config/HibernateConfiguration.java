@@ -16,21 +16,37 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import sun.security.krb5.Credentials;
 import za.co.fenya.demo.model.Accessories;
+import za.co.fenya.demo.model.ApprovedOrderStock;
+import za.co.fenya.demo.model.BootStock;
+import za.co.fenya.demo.model.Credentials;
 import za.co.fenya.demo.model.Customer;
 import za.co.fenya.demo.model.CustomerContactDetails;
+import za.co.fenya.demo.model.CustomerDeviceHistory;
+import za.co.fenya.demo.model.DeliveryNoteHeader;
+import za.co.fenya.demo.model.DeliveryNoteLineItem;
 import za.co.fenya.demo.model.Device;
 import za.co.fenya.demo.model.DeviceContactPerson;
 import za.co.fenya.demo.model.Employee;
+import za.co.fenya.demo.model.HOStock;
+import za.co.fenya.demo.model.History;
+import za.co.fenya.demo.model.HistoryMovement;
 import za.co.fenya.demo.model.Leave;
+import za.co.fenya.demo.model.LeaveStatus;
 import za.co.fenya.demo.model.LoginAttempt;
+import za.co.fenya.demo.model.ModelNumbers;
+import za.co.fenya.demo.model.OrderDetails;
 import za.co.fenya.demo.model.OrderHeader;
+import za.co.fenya.demo.model.OrderHistory;
+import za.co.fenya.demo.model.SiteStock;
+import za.co.fenya.demo.model.SpareMaster;
+import za.co.fenya.demo.model.SpareReports;
 import za.co.fenya.demo.model.TicketHistory;
 import za.co.fenya.demo.model.Tickets;
-import za.co.fenya.demo.model.User;
-import za.co.fenya.demo.model.UserDocument;
+import za.co.fenya.demo.model.CustomerDocument;
 import za.co.fenya.demo.model.UserLogDetails;
+import za.co.fenya.demo.model.VelaphandaProfile;
+
 
 
 
@@ -48,9 +64,12 @@ public class HibernateConfiguration {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan(new String[] { "za.co.fenya.demo.model" });
-        sessionFactory.setAnnotatedClasses(User.class,UserDocument.class,Employee.class,Customer.class,Accessories.class,
-        		Device.class,DeviceContactPerson.class,Leave.class,OrderHeader.class,Tickets.class,TicketHistory.class,UserLogDetails.class,
-        		LoginAttempt.class, Credentials.class,CustomerContactDetails.class);
+        sessionFactory.setAnnotatedClasses(Accessories.class,ApprovedOrderStock.class,BootStock.class,Credentials.class,
+        		Customer.class,CustomerContactDetails.class,CustomerDeviceHistory.class,DeliveryNoteHeader.class,DeliveryNoteLineItem.class,
+        		Device.class,DeviceContactPerson.class,Employee.class,History.class,HistoryMovement.class,HOStock.class,Leave.class,LeaveStatus.class,
+        		LoginAttempt.class,ModelNumbers.class,OrderDetails.class,OrderHeader.class,OrderHistory.class,SiteStock.class,
+        		SpareMaster.class,SpareReports.class,TicketHistory.class,Tickets.class,CustomerDocument.class,UserLogDetails.class,
+        		VelaphandaProfile.class);
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
      }

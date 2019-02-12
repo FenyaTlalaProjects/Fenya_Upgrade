@@ -7,42 +7,42 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import za.co.fenya.demo.dao.UserDocumentDao;
-import za.co.fenya.demo.model.UserDocument;
+import za.co.fenya.demo.model.CustomerDocument;
 
 
 @Repository("userDocumentDao")
-public class UserDocumentDaoImpl extends AbstractDao<Integer, UserDocument> implements UserDocumentDao{
+public class UserDocumentDaoImpl extends AbstractDao<Integer, CustomerDocument> implements UserDocumentDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<UserDocument> findAll() {
+	public List<CustomerDocument> findAll() {
 		Criteria crit = createEntityCriteria();
-		return (List<UserDocument>)crit.list();
+		return (List<CustomerDocument>)crit.list();
 	}
 
 	@Override
-	public UserDocument findById(int id) {
+	public CustomerDocument findById(int id) {
 		return getByKey(id);
 	}
 
 	@Override
-	public void save(UserDocument document) {
+	public void save(CustomerDocument document) {
 		persist(document);
 		
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<UserDocument> findAllByUserId(int userId) {
+	public List<CustomerDocument> findAllByUserId(String customerName) {
 		Criteria crit = createEntityCriteria();
 		Criteria userCriteria = crit.createCriteria("user");
-		userCriteria.add(Restrictions.eq("id", userId));
-		return (List<UserDocument>)crit.list();
+		userCriteria.add(Restrictions.eq("id", customerName));
+		return (List<CustomerDocument>)crit.list();
 	}
 
 	@Override
 	public void deleteById(int id) {
-		UserDocument document =  getByKey(id);
+		CustomerDocument document =  getByKey(id);
 		delete(document);
 	}
 

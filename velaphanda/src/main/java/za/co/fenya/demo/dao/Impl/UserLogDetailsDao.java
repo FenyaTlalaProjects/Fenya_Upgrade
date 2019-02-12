@@ -1,12 +1,14 @@
 package za.co.fenya.demo.dao.Impl;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+
+
+
 
 
 
@@ -22,13 +24,10 @@ import za.co.fenya.demo.model.Employee;
 import za.co.fenya.demo.model.UserLogDetails;
 
 
-
 @Repository("userLogDetailsDao")
 @Transactional(propagation = Propagation.REQUIRED)
-
-public class UserLogDetailsDao extends AbstractDao<String, UserLogDetails> implements UserLogDetailsDaoInt{
-
-
+public class UserLogDetailsDao implements UserLogDetailsDaoInt {
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 	@Autowired
@@ -36,10 +35,8 @@ public class UserLogDetailsDao extends AbstractDao<String, UserLogDetails> imple
 	private Date currentDate,logoutDateTime;
 	private Employee employee;
 	private UserLogDetails userLogDetails;
-	
-	
 	@Override
-	public String saveUserLogDetails(UserLogDetails details) {
+	public void saveUserLogDetails(UserLogDetails details) {
 		employee = (Employee) session.getAttribute("loggedInUser");
 		
 		String sessionID = session.getId();
@@ -55,7 +52,6 @@ public class UserLogDetailsDao extends AbstractDao<String, UserLogDetails> imple
 		}catch(Exception e){
 			e.getMessage();
 		}
-		return "";
 	}
 	
 	
@@ -71,7 +67,7 @@ public class UserLogDetailsDao extends AbstractDao<String, UserLogDetails> imple
 	}
 	/*@Transactional
 	@Scheduled(fixedRate=5000 )*/
-	public String lougoutTimeStamp(){
+	public void lougoutTimeStamp(){
 		
 		currentDate = new  Date();
 		
@@ -93,7 +89,6 @@ public class UserLogDetailsDao extends AbstractDao<String, UserLogDetails> imple
 		}catch(Exception e){
 			e.getMessage();
 		}
-				return "";
 	}
 	private String getSessionID(){
 		String sessionID = null;
@@ -108,7 +103,7 @@ public class UserLogDetailsDao extends AbstractDao<String, UserLogDetails> imple
 
 
 	@Override
-	public String updateTimeout(String sessionID) {
+	public void updateTimeout(String sessionID) {
 		userLogDetails = new UserLogDetails();
 		currentDate = new  Date();
 		try{
@@ -119,7 +114,6 @@ public class UserLogDetailsDao extends AbstractDao<String, UserLogDetails> imple
 		}catch(Exception e){
 			e.getMessage();
 		}
-		return "";
 	}
 
 
@@ -149,24 +143,24 @@ public class UserLogDetailsDao extends AbstractDao<String, UserLogDetails> imple
 
 
 	@Override
-	public String getLastUserLogDetails(String userEmail) {
-		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	public void getLastUserLogDetails(String userEmail) {
 		try{
-			 
+			
 			List<UserLogDetails> getUsers = getLogoutDateTime();
 			for(UserLogDetails users:getUsers){
 				if(users.getEmployee().getEmail().equalsIgnoreCase(userEmail) && users.getLogoutDateTime()==null){
-					
-					//Date incrementedDate = DateUtils.addHours(users.getLoginDateTime(), 1);
-					//users.setLogoutDateTime(incrementedDate);
+					 
+					Calendar c = Calendar.getInstance();
+				    c.setTime(users.getLoginDateTime());
+				    c.add(Calendar.HOUR, 1);
+					Date incrementedDate = c.getTime();
+					users.setLogoutDateTime(incrementedDate);
 					sessionFactory.getCurrentSession().update(users);
 				}
 			}
 		}catch(Exception e){
 			
 		}
-		return "";
 	}
 
 }

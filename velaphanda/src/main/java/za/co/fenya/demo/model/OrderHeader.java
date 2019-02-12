@@ -1,6 +1,6 @@
 package za.co.fenya.demo.model;
 
-
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,8 +29,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class OrderHeader {
+public class OrderHeader implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GenericGenerator(name="gen",strategy="increment")
 	@GeneratedValue(generator="gen")

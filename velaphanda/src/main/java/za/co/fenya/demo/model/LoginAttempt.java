@@ -1,6 +1,6 @@
 package za.co.fenya.demo.model;
 
-
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,11 +19,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class LoginAttempt {
+public class LoginAttempt implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@Column(name="User_Name")
 	private String userName;
 	@Column(name="Attempt_Count")
 	private int attemptCount;
+
 }

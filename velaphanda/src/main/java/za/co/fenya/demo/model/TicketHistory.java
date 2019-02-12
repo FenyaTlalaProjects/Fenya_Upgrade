@@ -1,5 +1,6 @@
 package za.co.fenya.demo.model;
 
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,8 +24,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TicketHistory {
+public class TicketHistory implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE)
 	@Column(name="TicketHistoryID")
@@ -65,4 +70,5 @@ public class TicketHistory {
 	@ManyToOne
 	@JoinColumn(name="Device")
 	private Tickets tickets;
+
 }

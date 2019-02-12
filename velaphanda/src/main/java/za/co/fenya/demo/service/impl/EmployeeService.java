@@ -1,6 +1,5 @@
 package za.co.fenya.demo.service.impl;
 
-
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -12,9 +11,11 @@ import za.co.fenya.demo.dao.EmployeeDaoInt;
 import za.co.fenya.demo.model.Employee;
 import za.co.fenya.demo.service.EmployeeServiceInt;
 
+
+
 @Service("employeeService")
 @Transactional
-public class EmployeeService implements EmployeeServiceInt{
+public class EmployeeService implements EmployeeServiceInt {
 
 	
 	@Autowired
@@ -62,6 +63,12 @@ public class EmployeeService implements EmployeeServiceInt{
 		retMessage = employeeDAO.changePassword(email);
 		return retMessage;
 	}
+
+	@Override
+	public Integer count() {
+		return employeeDAO.count();
+	}
+
 	@Override
 	public String deactivateEmployee(String email) {
 		return employeeDAO.deactivateEmployee(email);
@@ -91,4 +98,5 @@ public class EmployeeService implements EmployeeServiceInt{
 	public List<Employee> getAllTechnicians(String empUsername) {
 		return employeeDAO.getAllTechnicians(empUsername);
 	}
+
 }

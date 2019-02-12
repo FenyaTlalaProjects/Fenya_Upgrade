@@ -107,6 +107,31 @@
 			<artifactId>mailapi</artifactId>
 			<version>1.4.3</version>
 		</dependency>
+			<dependency>
+    	<groupId>net.sf.jasperreports</groupId>
+    	<artifactId>jasperreports</artifactId>
+    	<version>3.7.6</version>
+    	<type>jar</type>
+    	<scope>compile</scope>
+    	<exclusions>
+    		<exclusion>
+    			<artifactId>commons-collections</artifactId>
+    			<groupId>commons-collections</groupId>
+    		</exclusion>
+    		<exclusion>
+    			<artifactId>commons-beanutils</artifactId>
+    			<groupId>commons-beanutils</groupId>
+    		</exclusion>
+    		<exclusion>
+    			<artifactId>commons-digester</artifactId>
+    			<groupId>commons-digester</groupId>
+    		</exclusion>
+    		<exclusion>
+    			<artifactId>commons-logging</artifactId>
+    			<groupId>commons-logging</groupId>
+    		</exclusion>
+    	</exclusions>
+    </dependency>
   </dependencies>
 
   <build>

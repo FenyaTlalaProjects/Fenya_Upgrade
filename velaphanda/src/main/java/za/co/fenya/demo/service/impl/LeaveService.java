@@ -1,6 +1,5 @@
 package za.co.fenya.demo.service.impl;
 
-
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -8,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import za.co.fenya.demo.bean.LeaveBean;
 import za.co.fenya.demo.dao.LeaveDaoInt;
 import za.co.fenya.demo.model.Leave;
 import za.co.fenya.demo.service.LeaveInt;
@@ -15,23 +15,22 @@ import za.co.fenya.demo.service.LeaveInt;
 
 @Service("leaveService")
 @Transactional
-
 public class LeaveService implements LeaveInt{
-
+	
 	@Autowired
 	private LeaveDaoInt leaveDaoInt;
 	
 	private String retMessage = null;
 
 	@Override
-	public String leaveRequest(/*LeaveBean leave*/) {
-		retMessage = leaveDaoInt.leaveRequest(/*leave*/);
+	public String leaveRequest(LeaveBean leave) {
+		retMessage = leaveDaoInt.leaveRequest(leave);
 		return retMessage;
 	}
 
 	@Override
-	public String updateLeaveRequest(/*LeaveBean leave*/) {
-		retMessage = leaveDaoInt.updateLeaveRequest(/*leave*/);
+	public String updateLeaveRequest(LeaveBean leave) {
+		retMessage = leaveDaoInt.updateLeaveRequest(leave);
 		return retMessage;
 	}
 

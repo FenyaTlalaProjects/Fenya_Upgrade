@@ -19,12 +19,12 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name="USER_DOCUMENT")
+@Table(name="CUSTOMER_DOCUMENT")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDocument {
+public class CustomerDocument {
 	
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -44,8 +44,8 @@ public class UserDocument {
 	private byte[] content;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "USER_ID")
-	private User user;
+	@JoinColumn(name = "Customer_Name")
+	private Customer customer;
 	
 	
 	@Override
@@ -63,9 +63,9 @@ public class UserDocument {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof UserDocument))
+		if (!(obj instanceof CustomerDocument))
 			return false;
-		UserDocument other = (UserDocument) obj;
+		CustomerDocument other = (CustomerDocument) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -81,7 +81,7 @@ public class UserDocument {
 
 	@Override
 	public String toString() {
-		return "UserDocument [id=" + id + ", name=" + name + ", description="
+		return "CustomerDocument [id=" + id + ", name=" + name + ", description="
 				+ description + ", type=" + type + "]";
 	}
 

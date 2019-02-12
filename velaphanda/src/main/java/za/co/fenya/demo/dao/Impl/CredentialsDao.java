@@ -1,10 +1,10 @@
 package za.co.fenya.demo.dao.Impl;
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
 
 
 
@@ -22,12 +22,10 @@ import za.co.fenya.demo.model.Credentials;
 
 
 
-
 @Repository("credentialsDao")
 @Transactional(propagation=Propagation.REQUIRED)
-public class CredentialsDao extends AbstractDao<String, Credentials> implements CredentialsDaoInt{
+public class CredentialsDao implements CredentialsDaoInt{
 
-	
 	@Autowired
 	private SessionFactory sessionFactory;
 	
@@ -58,6 +56,7 @@ public class CredentialsDao extends AbstractDao<String, Credentials> implements 
 	public List<Credentials> getCredentialsForUser(String email) {
 		return null;
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Credentials> getCredentialsForUser() {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Credentials.class);
@@ -134,4 +133,5 @@ public class CredentialsDao extends AbstractDao<String, Credentials> implements 
 		}
 		return credentials;
 	}
+
 }

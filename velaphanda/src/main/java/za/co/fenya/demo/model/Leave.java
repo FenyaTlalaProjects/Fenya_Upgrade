@@ -1,6 +1,6 @@
 package za.co.fenya.demo.model;
 
-import java.util.Date;
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,8 +23,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Leave {
+public class Leave implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GenericGenerator(name="gen",strategy="increment")
 	@GeneratedValue(generator="gen")
@@ -55,4 +59,6 @@ public class Leave {
 	@ManyToOne
 	@JoinColumn(name="Requested_By")
 	private Employee employee;
+	
+
 }

@@ -2,12 +2,14 @@ package za.co.fenya.demo.dao;
 
 import java.util.List;
 
+import za.co.fenya.demo.bean.LeaveBean;
 import za.co.fenya.demo.model.Leave;
 
-public interface LeaveDaoInt {
 
-	String leaveRequest(/*LeaveBean leave*/);
-	String updateLeaveRequest(/*LeaveBean leave*/);
+public interface LeaveDaoInt {
+	
+	String leaveRequest(LeaveBean leave);
+	String updateLeaveRequest(LeaveBean leave);
 	List<Leave> leaveRequests(String email);
 	List<Leave> leaveRequests();
 	Leave getLeave(Long leaveID);
@@ -73,5 +75,6 @@ public interface LeaveDaoInt {
 	void scheduledLeaveStatus();
 	String cancelLeave(Long leaveID);
 	String approveLeave(Long leaveID);
-	String declineLeave(Long LeaveID,String reasonDeclined);
+	String declineLeave(Long LeaveID,String reasonDeclined);	
+	
 }

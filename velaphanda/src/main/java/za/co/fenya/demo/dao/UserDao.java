@@ -6,7 +6,7 @@ import za.co.fenya.demo.model.User;
 
 public interface UserDao {
 
-    User findById(int id);
+  /*  User findById(int id);
 	
 	User findBySSO(String sso);
 	
@@ -14,5 +14,5 @@ public interface UserDao {
 	
 	void deleteBySSO(String sso);
 	
-	List<User> findAllUsers();
+	List<User> findAllUsers();*/
 }

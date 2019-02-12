@@ -2,7 +2,6 @@ package za.co.fenya.demo.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -13,17 +12,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import za.co.fenya.demo.model.Customer;
 import za.co.fenya.demo.model.FileBucket;
 import za.co.fenya.demo.model.User;
-import za.co.fenya.demo.model.UserDocument;
+import za.co.fenya.demo.model.CustomerDocument;
+import za.co.fenya.demo.service.CustomerServiceInt;
 import za.co.fenya.demo.service.UserDocumentService;
 import za.co.fenya.demo.service.UserService;
 import za.co.fenya.demo.util.FileValidator;
@@ -36,10 +34,8 @@ import za.co.fenya.demo.util.FileValidator;
 public class AppController {
 
 	
-	
 	@Autowired
-	UserService userService;
-	
+	CustomerServiceInt customerService;
 	@Autowired
 	UserDocumentService userDocumentService;
 	
@@ -60,8 +56,8 @@ public class AppController {
 	//@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
 	public String listUsers(ModelMap model) {
 
-		List<User> users = userService.findAllUsers();
-		model.addAttribute("users", users);
+		/*List<User> users = userService.findAllUsers();
+		model.addAttribute("users", users);*/
 		return "userslist";
 	}
 
@@ -96,13 +92,13 @@ public class AppController {
 		 * framework as well while still using internationalized messages.
 		 * 
 		 */
-		if(!userService.isUserSSOUnique(user.getId(), user.getSsoId())){
+		/*if(!userService.isUserSSOUnique(user.getId(), user.getSsoId())){
 			FieldError ssoError =new FieldError("user","ssoId",messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
 		    result.addError(ssoError);
 			return "registration";
-		}
+		}*/
 		
-		userService.saveUser(user);
+		/*userService.saveUser(user);*/
 		
 		model.addAttribute("user", user);
 		model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " registered successfully");
@@ -116,9 +112,9 @@ public class AppController {
 	 */
 	//@RequestMapping(value = { "/edit-user-{ssoId}" }, method = RequestMethod.GET)
 	public String editUser(@PathVariable String ssoId, ModelMap model) {
-		User user = userService.findBySSO(ssoId);
+		/*User user = userService.findBySSO(ssoId);
 		model.addAttribute("user", user);
-		model.addAttribute("edit", true);
+		model.addAttribute("edit", true);*/
 		return "registration";
 	}
 	
@@ -134,8 +130,8 @@ public class AppController {
 			return "registration";
 		}
 
-		userService.updateUser(user);
-
+		/*userService.updateUser(user);
+*/
 		model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " updated successfully");
 		return "registrationsuccess";
 	}
@@ -146,21 +142,21 @@ public class AppController {
 	 */
 //	@RequestMapping(value = { "/delete-user-{ssoId}" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable String ssoId) {
-		userService.deleteUserBySSO(ssoId);
+		/*userService.deleteUserBySSO(ssoId);*/
 		return "redirect:/list";
 	}
 	
 
 	
 //	@RequestMapping(value = { "/add-document-{userId}" }, method = RequestMethod.GET)
-	public String addDocuments(@PathVariable int userId, ModelMap model) {
-		User user = userService.findById(userId);
-		model.addAttribute("user", user);
+	public String addDocuments(@PathVariable String customerName, ModelMap model) {
+		Customer customer = customerService.getClientByClientName(customerName);
+		model.addAttribute("customer", customer);
 
 		FileBucket fileModel = new FileBucket();
 		model.addAttribute("fileBucket", fileModel);
 
-		List<UserDocument> documents = userDocumentService.findAllByUserId(userId);
+		List<CustomerDocument> documents = userDocumentService.findAllByUserId(customerName);
 		model.addAttribute("documents", documents);
 		
 		return "managedocuments";
@@ -169,7 +165,7 @@ public class AppController {
 
 	//@RequestMapping(value = { "/download-document-{userId}-{docId}" }, method = RequestMethod.GET)
 	public String downloadDocument(@PathVariable int userId, @PathVariable int docId, HttpServletResponse response) throws IOException {
-		UserDocument document = userDocumentService.findById(docId);
+		CustomerDocument document = userDocumentService.findById(docId);
 		response.setContentType(document.getType());
         response.setContentLength(document.getContent().length);
         response.setHeader("Content-Disposition","attachment; filename=\"" + document.getName() +"\"");
@@ -186,14 +182,14 @@ public class AppController {
 	}
 
 //	@RequestMapping(value = { "/add-document-{userId}" }, method = RequestMethod.POST)
-	public String uploadDocument(@Valid FileBucket fileBucket, BindingResult result, ModelMap model, @PathVariable int userId) throws IOException{
+	public String uploadDocument(@Valid FileBucket fileBucket, BindingResult result, ModelMap model, @PathVariable String customerName) throws IOException{
 		
 		if (result.hasErrors()) {
 			System.out.println("validation errors");
-			User user = userService.findById(userId);
-			model.addAttribute("user", user);
+			Customer customer = customerService.getClientByClientName(customerName);;
+			model.addAttribute("user", customerName);
 
-			List<UserDocument> documents = userDocumentService.findAllByUserId(userId);
+			List<CustomerDocument> documents = userDocumentService.findAllByUserId(customerName);
 			model.addAttribute("documents", documents);
 			
 			return "managedocuments";
@@ -201,18 +197,18 @@ public class AppController {
 			
 			System.out.println("Fetching file");
 			
-			User user = userService.findById(userId);
-			model.addAttribute("user", user);
+			Customer customer = customerService.getClientByClientName(customerName);
+			model.addAttribute("user", customer);
 
-			saveDocument(fileBucket, user);
+			saveDocument(fileBucket, customer);
 
-			return "redirect:/add-document-"+userId;
+			return "redirect:/add-document-"+customerName;
 		}
 	}
 	
-	private void saveDocument(FileBucket fileBucket, User user) throws IOException{
+	private void saveDocument(FileBucket fileBucket, Customer customer) throws IOException{
 		
-		UserDocument document = new UserDocument();
+		CustomerDocument document = new CustomerDocument();
 		
 		MultipartFile multipartFile = fileBucket.getFile();
 		
@@ -220,7 +216,7 @@ public class AppController {
 		document.setDescription(fileBucket.getDescription());
 		document.setType(multipartFile.getContentType());
 		document.setContent(multipartFile.getBytes());
-		document.setUser(user);
+		document.setCustomer(customer);
 		userDocumentService.saveDocument(document);
 	}
 }

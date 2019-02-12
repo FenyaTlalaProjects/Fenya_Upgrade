@@ -1,6 +1,6 @@
 package za.co.fenya.demo.model;
 
-
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Set;
 
@@ -31,8 +31,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Tickets {
+public class Tickets implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GenericGenerator(name="gen",strategy="increment")
 	@GeneratedValue(generator="gen")
@@ -103,5 +108,6 @@ public class Tickets {
 	private OrderHeader orderHeader;
 	
 	@OneToMany(mappedBy= "tickets",cascade= CascadeType.ALL,fetch=FetchType.LAZY)
-	private Set<TicketHistory> ticketHistory;
+	private Set<TicketHistory> ticketHistory; 
+	
 }

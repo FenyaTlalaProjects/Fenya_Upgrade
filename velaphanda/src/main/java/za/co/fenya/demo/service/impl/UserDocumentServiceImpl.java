@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import za.co.fenya.demo.dao.UserDocumentDao;
-import za.co.fenya.demo.model.UserDocument;
+import za.co.fenya.demo.model.CustomerDocument;
 import za.co.fenya.demo.service.UserDocumentService;
 
 
@@ -19,25 +19,25 @@ public class UserDocumentServiceImpl implements UserDocumentService{
 	UserDocumentDao dao;
 	
 	@Override
-	public UserDocument findById(int id) {
+	public CustomerDocument findById(int id) {
 		
 		return dao.findById(id);
 	}
 
 	@Override
-	public List<UserDocument> findAll() {
+	public List<CustomerDocument> findAll() {
 		
 		return dao.findAll();
 	}
 
 	@Override
-	public List<UserDocument> findAllByUserId(int userId) {
+	public List<CustomerDocument> findAllByUserId(String customerName) {
 		
-		return dao.findAllByUserId(userId);
+		return dao.findAllByUserId(customerName);
 	}
 
 	@Override
-	public void saveDocument(UserDocument document) {
+	public void saveDocument(CustomerDocument document) {
 		dao.save(document);
 		
 	}

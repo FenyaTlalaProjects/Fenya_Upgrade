@@ -1,7 +1,7 @@
 package za.co.fenya.demo.model;
 
-
-import java.util.Date;
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,8 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,8 +26,12 @@ import lombok.experimental.Builder;
 @Getter
 @Setter
 @Builder
-public class Customer {
+public class Customer implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name="Customer_Name")
 	private String customerName;
@@ -66,6 +68,14 @@ public class Customer {
 	@OneToMany(mappedBy ="customerDevice", cascade= CascadeType.ALL,fetch=FetchType.LAZY)
 	private Set<Device> customerDevice;
 	
-	/*@OneToMany(mappedBy="customer")
-	private Set<TechnicianSite> technicianSites;*/
+	@OneToMany(mappedBy="customer")
+	private Set<TechnicianSite> technicianSites;
+	
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Set<CustomerDocument> userDocuments = new HashSet<CustomerDocument>();
+	
+	/*@OneToMany(mappedBy= "customers",cascade= CascadeType.ALL,fetch=FetchType.LAZY)
+	private Set<CustomerHistory> customerHistory; 
+*/
+
 }

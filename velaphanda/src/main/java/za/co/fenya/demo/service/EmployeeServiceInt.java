@@ -4,9 +4,8 @@ import java.util.List;
 
 import za.co.fenya.demo.model.Employee;
 
+
 public interface EmployeeServiceInt {
-	
-	
 	String saveEmployee(Employee employee);
 	Employee getEmployeeByEmpNumber(String empUsername);
 	List<Employee> getAllTechnicians();
@@ -18,6 +17,7 @@ public interface EmployeeServiceInt {
 	String changePassword(String email, String password);
 	String changePassword(String email);
 	String deactivateEmployee(String email);
+	Integer count();
 	List<Employee> getAllManagers();
 	List<Employee> reassignTechnicianList(String technicianName);
 

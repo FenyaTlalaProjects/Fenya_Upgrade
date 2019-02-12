@@ -1,6 +1,6 @@
 package za.co.fenya.demo.model;
 
-
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -21,6 +21,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+
+
+
 @Entity
 @Table(name="EMPLOYEE")
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)  
@@ -30,12 +33,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Employee{
-
-
+public class Employee implements Serializable{
+	
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name="EMAIL")
 	private String email;
@@ -80,4 +83,6 @@ public class Employee{
 	@OneToMany(mappedBy="employee")
 	private Set<Leave> leave;
 	
+	@OneToMany(mappedBy="employee")
+	private Set<TechnicianSite> technicianSites;
 }

@@ -4,8 +4,9 @@ import java.util.List;
 
 import za.co.fenya.demo.model.Employee;
 
-public interface EmployeeDaoInt {
 
+public interface EmployeeDaoInt {
+	
 	String saveEmployee(Employee employee);
 	Employee getEmployeeByEmpNum(String empUsername);
 	List<Employee> getAllTechnicians();
@@ -18,8 +19,10 @@ public interface EmployeeDaoInt {
 	String changePassword(String email,String password);
 	String changePassword(String email);
 	String deactivateEmployee(String email);
+	Integer count();
 	List<Employee> getAllManagers();
 	String returnManagerEmail();
 	String[] managersEmails();
 	List<Employee> reassignTechnicianList(String technicianName);
+
 }

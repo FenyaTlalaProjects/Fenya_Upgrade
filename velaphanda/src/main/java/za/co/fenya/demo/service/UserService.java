@@ -6,7 +6,7 @@ import za.co.fenya.demo.model.User;
 
 public interface UserService {
 
-    User findById(int id);
+  /*  User findById(int id);
 	
 	User findBySSO(String sso);
 	
@@ -18,5 +18,5 @@ public interface UserService {
 
 	List<User> findAllUsers(); 
 	
-	boolean isUserSSOUnique(Integer id, String sso);
+	boolean isUserSSOUnique(Integer id, String sso);*/
 }

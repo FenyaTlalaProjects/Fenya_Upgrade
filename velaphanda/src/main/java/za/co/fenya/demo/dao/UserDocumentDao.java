@@ -2,17 +2,17 @@ package za.co.fenya.demo.dao;
 
 import java.util.List;
 
-import za.co.fenya.demo.model.UserDocument;
+import za.co.fenya.demo.model.CustomerDocument;
 
 public interface UserDocumentDao {
 
-    List<UserDocument> findAll();
+    List<CustomerDocument> findAll();
 	
-	UserDocument findById(int id);
+	CustomerDocument findById(int id);
 	
-	void save(UserDocument document);
+	void save(CustomerDocument document);
 	
-	List<UserDocument> findAllByUserId(int userId);
+	List<CustomerDocument> findAllByUserId(String customerName);
 	
 	void deleteById(int id);
 }

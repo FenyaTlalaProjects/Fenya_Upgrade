@@ -1,6 +1,6 @@
 package za.co.fenya.demo.model;
 
-
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -18,13 +18,15 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name="DeviceContactPerson")
+@Table(name="DeviceContactPersonDao")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class DeviceContactPerson {
-
+public class DeviceContactPerson implements Serializable{/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name="Email")
 	private String email;
@@ -39,4 +41,5 @@ public class DeviceContactPerson {
 	
 	@OneToMany(mappedBy ="contactPerson", cascade= CascadeType.ALL,fetch=FetchType.LAZY)
 	private Set<Device> devices;
+
 }

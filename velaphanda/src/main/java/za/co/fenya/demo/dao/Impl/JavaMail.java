@@ -1,6 +1,5 @@
 package za.co.fenya.demo.dao.Impl;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,11 +17,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import za.co.fenya.demo.model.Employee;
+import za.co.fenya.demo.model.OrderHeader;
 import za.co.fenya.demo.model.Tickets;
+
 
 public class JavaMail {
 
-	
 	private static String emailFrom = "helpdesk@velaphanda.co.za";
 	private static String password = "@Vela1357";
 	
@@ -34,7 +35,7 @@ public class JavaMail {
 	
 	//Email message details to technician
 	public static void sendEmailMessageDetailsToTechnician(Tickets ticket) {
-		/*String[] to = { ticket.getEmployee().getEmail() };
+		String[] to = { ticket.getEmployee().getEmail() };
 		String from = emailFrom;
 		String pass = password;
 		String body = "Hi " + ticket.getEmployee().getFirstName() + " " + ticket.getEmployee().getLastName() + " please attend to the following service call:"
@@ -764,7 +765,7 @@ public class JavaMail {
 				+ "\n\nTicket Ref No " + newTicketNum+ticket.getRecordID() + " has been resolved:" +"\n\n"
 			
 				+ "Device Fault: " + ticket.getDescription() + "\n"
-				+ "Action Taken: " + ticket.getComments()+ "\n"
+				/*+ "Action Taken: " + ticket.getComments()+ "\n"*/
 				+ "Time Call Closed: " + timeCallClosed +"\n\n"
 					
 				+ "Technician Contact Details:\n\n"
@@ -831,6 +832,7 @@ public class JavaMail {
 		cal.add(Calendar.HOUR, +4);
 		String slaFourHour = format.format(cal.getTime());
 		return ""+slaFourHour;
-		*/
 	}
+	
+
 }

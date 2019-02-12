@@ -1,5 +1,6 @@
 package za.co.fenya.demo.model;
 
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,8 +21,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CustomerContactDetails {
+public class CustomerContactDetails implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
 	@Id
 	// ContactKey = Customer Name + Contact Type
 	@Column(name = "Contact_Key", nullable = false) 
@@ -42,4 +49,5 @@ public class CustomerContactDetails {
 	@ManyToOne
 	@JoinColumn(name="Customer")
 	private Customer customerContactDetails;
+
 }

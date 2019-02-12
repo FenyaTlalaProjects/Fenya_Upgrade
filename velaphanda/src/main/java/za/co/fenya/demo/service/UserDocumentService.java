@@ -2,17 +2,17 @@ package za.co.fenya.demo.service;
 
 import java.util.List;
 
-import za.co.fenya.demo.model.UserDocument;
+import za.co.fenya.demo.model.CustomerDocument;
 
 public interface UserDocumentService {
 
-	UserDocument findById(int id);
+	CustomerDocument findById(int id);
 
-	List<UserDocument> findAll();
+	List<CustomerDocument> findAll();
 	
-	List<UserDocument> findAllByUserId(int id);
+	List<CustomerDocument> findAllByUserId(String customerName);
 	
-	void saveDocument(UserDocument document);
+	void saveDocument(CustomerDocument document);
 	
 	void deleteById(int id);
 }

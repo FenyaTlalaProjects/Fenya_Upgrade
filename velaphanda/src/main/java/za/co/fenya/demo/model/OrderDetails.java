@@ -1,5 +1,6 @@
 package za.co.fenya.demo.model;
 
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,8 +24,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class OrderDetails {
-
+public class OrderDetails implements Serializable{/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE)
 	@Column(name="Order_DetailNumber")
@@ -56,4 +60,6 @@ public class OrderDetails {
 	@ManyToOne
 	@JoinColumn(name="Order_Number")
 	private OrderHeader orderHeader;
+	
+
 }

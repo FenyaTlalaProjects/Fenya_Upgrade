@@ -1,4 +1,7 @@
+
 package za.co.fenya.demo.model;
+
+import java.io.Serializable;
 
 
 import java.util.Set;
@@ -18,18 +21,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Entity
 @Table(name="DEVICES")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Device{
+public class Device implements Serializable{
 
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name="Serial_Number")
@@ -82,4 +85,7 @@ public class Device{
     
 	@OneToMany(mappedBy ="device", cascade= CascadeType.ALL,fetch=FetchType.LAZY)
 	private Set<Accessories> accessories;
+	
+	
+	
 }

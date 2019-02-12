@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import za.co.fenya.demo.bean.LeaveBean;
 import za.co.fenya.demo.dao.EmployeeDaoInt;
 import za.co.fenya.demo.dao.LeaveDaoInt;
 import za.co.fenya.demo.model.Employee;
@@ -27,8 +28,7 @@ import za.co.fenya.demo.model.Leave;
 
 @Repository("leaveDAO")
 @Transactional(propagation = Propagation.REQUIRED)
-
-public class LeaveDao extends AbstractDao<String, Leave> implements LeaveDaoInt{
+public class LeaveDao implements LeaveDaoInt {
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -44,7 +44,6 @@ public class LeaveDao extends AbstractDao<String, Leave> implements LeaveDaoInt{
 	private String retMessage = null;
 	private Date currentDate, secondDate = null;
 	private SimpleDateFormat myFormat = null;
-	private int recordID = 0;
 	private Employee emp = null;
 	Leave temp = null;
 
@@ -899,8 +898,8 @@ public class LeaveDao extends AbstractDao<String, Leave> implements LeaveDaoInt{
 	}
 
 	@Override
-	public String leaveRequest(/*LeaveBean leave*/) {
-		/*Employee employee = (Employee) session.getAttribute("loggedInUser");
+	public String leaveRequest(LeaveBean leave) {
+		Employee employee = (Employee) session.getAttribute("loggedInUser");
 		globalLeave = new Leave();
 		String userName = null;
 		
@@ -948,13 +947,13 @@ public class LeaveDao extends AbstractDao<String, Leave> implements LeaveDaoInt{
 
 		} catch (Exception e) {
 			retMessage = "Leave not submitted " + e.getMessage() + ".";
-		}*/
+		}
 		return retMessage;
 	}
 
 	@Override
-	public String updateLeaveRequest(/*LeaveBean leave*/) {
-		/*globalLeave = new Leave();
+	public String updateLeaveRequest(LeaveBean leave) {
+		globalLeave = new Leave();
 		Employee employee = (Employee) session.getAttribute("loggedInUser");
 		try {
 			
@@ -977,7 +976,6 @@ public class LeaveDao extends AbstractDao<String, Leave> implements LeaveDaoInt{
 		} catch (Exception e) {
 			retMessage = "Leave not updated " + e.getMessage() + ".";
 		}
-		*/
 		return retMessage;
 	}
 
@@ -2082,4 +2080,5 @@ public class LeaveDao extends AbstractDao<String, Leave> implements LeaveDaoInt{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 }

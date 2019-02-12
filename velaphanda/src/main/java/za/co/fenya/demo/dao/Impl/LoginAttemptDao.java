@@ -14,7 +14,7 @@ import za.co.fenya.demo.model.LoginAttempt;
 
 @Repository("loginAttemptDAO")
 @Transactional(propagation = Propagation.REQUIRED)
-public class LoginAttemptDao extends AbstractDao<String, LoginAttempt> implements LoginAttemptDaoInt{
+public class LoginAttemptDao implements LoginAttemptDaoInt{
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -54,7 +54,7 @@ public class LoginAttemptDao extends AbstractDao<String, LoginAttempt> implement
 					 employee.setStatus("BLOCKED");
 					 sessionFactory.getCurrentSession().update(employee);
 					 managerEmail = employeeDaoInt.returnManagerEmail();
-					// JavaMail.accountLocked(employee, managerEmail);
+					 JavaMail.accountLocked(employee, managerEmail);
 					 
 				 }
 			 }else{
@@ -80,4 +80,5 @@ public class LoginAttemptDao extends AbstractDao<String, LoginAttempt> implement
 		}
 		
 	}
+
 }

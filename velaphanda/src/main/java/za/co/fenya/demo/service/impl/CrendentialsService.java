@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import za.co.fenya.demo.dao.CredentialsDaoInt;
 import za.co.fenya.demo.service.CredentialsServiceInt;
 
+
+
 @Service("credentialsService")
 public class CrendentialsService implements CredentialsServiceInt{
-
+	
 	@Autowired
 	private CredentialsDaoInt credentialsDaoInt;
 
@@ -17,4 +19,5 @@ public class CrendentialsService implements CredentialsServiceInt{
 		
 		return credentialsDaoInt.passwordDateDifference(userName);
 	}
+
 }
