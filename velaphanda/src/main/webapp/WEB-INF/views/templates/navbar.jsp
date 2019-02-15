@@ -49,7 +49,7 @@
 		
 	<div id="sidebar-collapse" class="col-sm-2 col-md-2 sidebar">
 		<form role="search">
-			<a href="home.html"><img src="resources/images/mainlogo_small.jpg" style="margin-left:22%;margin-right:22%;"></a>
+			<a href='<c:url value="/home"/>'><img src="resources/images/mainlogo_small.jpg" style="margin-left:22%;margin-right:22%;"></a>
 		</form>
 		<ul class="nav menu">
 			<li class="parent ">
@@ -64,12 +64,12 @@
 						<ul class="children collapse" id="sub-item-3">
 							<ul style="list-style:none;">
 								<li>
-									<a class="" href='<c:url value="addClient.html"/>'>
+									<a class="" href='<c:url value="/addClient"/>'>
 										Add Customer
 									</a>
 								</li>	
 								<li>
-									<a class=""  href='<c:url value="displayCustomers.html"/>'>
+									<a class=""  href='<c:url value="/displayCustomers"/>'>
 										View Customer
 									</a>
 								</li>	
@@ -83,7 +83,7 @@
 						<ul class="children collapse" id="sub-item-4">
 							<ul style="list-style:none;">
 								<li>
-									<a class="" href='<c:url value="searchDevice.html"/>'>
+									<a class="" href='<c:url value="/searchDevice"/>'>
 										View Device
 									</a>
 								</li>
@@ -110,11 +110,11 @@
 					</li>					
 				</ul>
 			</li>
-			<li><a href='<c:url value="leavemanagement.html"/>'><span class="glyphicon glyphicon-pencil"></span> Leave Management </a></li>
-			<li><a href='<c:url value="ordermanagement.html"/>'><span class="glyphicon glyphicon-shopping-cart"></span> Order Management</a></li>
-			<li><a href='<c:url value="sparemanagement.html"/>'><span class="glyphicon glyphicon-wrench"></span> Spares Management</a></li>
-			<li><a href='<c:url value="ticketmanagement.html"/>'><span class="glyphicon glyphicon-text-width"></span> Tickets Management</a></li>
-			<li><a href='<c:url value="servicemanualmanager.html"/>'><span class="glyphicon glyphicon-book"></span> Service Manuals </a></li>
+			<li><a href='<c:url value="/leavemanagement"/>'><span class="glyphicon glyphicon-pencil"></span> Leave Management </a></li>
+			<li><a href='<c:url value="/ordermanagement"/>'><span class="glyphicon glyphicon-shopping-cart"></span> Order Management</a></li>
+			<li><a href='<c:url value="/sparemanagement"/>'><span class="glyphicon glyphicon-wrench"></span> Spares Management</a></li>
+			<li><a href='<c:url value="/ticketmanagement"/>'><span class="glyphicon glyphicon-text-width"></span> Tickets Management</a></li>
+			<li><a href='<c:url value="/servicemanualmanager"/>'><span class="glyphicon glyphicon-book"></span> Service Manuals </a></li>
 				
 			<li role="presentation" class="divider"></li>
 		 </ul>		

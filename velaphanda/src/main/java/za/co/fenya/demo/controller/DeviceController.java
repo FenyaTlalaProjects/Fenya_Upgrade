@@ -34,10 +34,10 @@ import za.co.fenya.demo.service.TicketHistoryInt;
 import za.co.fenya.demo.service.TicketsServiceInt;
 
 
-//@Controller
+@Controller
 public class DeviceController {
 	
-	/*@Autowired
+	@Autowired
 	private CustomerDeviceHistoryServiceInt deviceHistoryServiceInt;
 	@Autowired
 	private SpareMasterServiceInt spareMasterServiceInt;
@@ -514,5 +514,5 @@ public class DeviceController {
 			model.setViewName("login");
 		}
 		return model;
-	}*/
+	}
 }

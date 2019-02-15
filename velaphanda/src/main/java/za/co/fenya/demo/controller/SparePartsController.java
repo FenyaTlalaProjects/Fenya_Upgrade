@@ -35,9 +35,10 @@ import za.co.fenya.demo.service.SpareQuantityInt;
 import za.co.fenya.demo.service.TicketsServiceInt;
 
 
-//@Controller
+@Controller
 public class SparePartsController {
-	/*@Autowired
+	
+	@Autowired
 	private CustomerServiceInt customerServiceInt;
 	@Autowired
 	private EmployeeServiceInt employeeService;
@@ -816,6 +817,6 @@ public class SparePartsController {
 				model.setViewName("login");
 			}
 			return model;
-		}	*/
+		}	
 		
 }

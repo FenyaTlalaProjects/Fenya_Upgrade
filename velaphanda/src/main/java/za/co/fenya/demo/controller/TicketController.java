@@ -34,10 +34,10 @@ import za.co.fenya.demo.service.TicketHistoryInt;
 import za.co.fenya.demo.service.TicketsServiceInt;
 
 
-//@Controller
+@Controller
 public class TicketController {
 
-	/*@Autowired
+	@Autowired
 	private TicketsServiceInt logTicketService;
 	@Autowired
 	private CustomerServiceInt customerServiceInt;
@@ -3631,7 +3631,7 @@ public class TicketController {
 		return model;
 	}
 
-	@RequestMapping(value = "viewCustomerDetails")
+	/*@RequestMapping(value = "viewCustomerDetails")
 	public ModelAndView viewCustomerDetails(
 			@RequestParam("customerName") String customerName,
 			@ModelAttribute Customer customer) {
@@ -3655,7 +3655,7 @@ public class TicketController {
 
 		return model;
 	}
-
+*/
 	@RequestMapping("updateTicketUser")
 	public ModelAndView userUpdateTicket(
 			@ModelAttribute("updateTicket") TicketsBean updateTicket) {
@@ -4761,5 +4761,4 @@ public class TicketController {
 		}
 		return model;
 	}
-*/
 }

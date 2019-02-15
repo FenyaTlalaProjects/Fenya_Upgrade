@@ -29,10 +29,10 @@ import za.co.fenya.demo.service.TicketsServiceInt;
 
 
 
-//@Controller
+@Controller
 public class CustomerController {
 	
-	/*@Autowired
+	@Autowired
 	private CustomerServiceInt customerServiceInt;
 	@Autowired
 	private CustomerDeviceHistoryServiceInt customerHistoryServiceInt;
@@ -44,7 +44,7 @@ public class CustomerController {
 	private TicketsServiceInt ticketsServiceInt;
 	@Autowired
 	private ModelNumbersMasterServiceInt modelNumbersMasterServiceInt;
-	Order inbox count on every page
+	//Order inbox count on every page
 	@Autowired
 	private OrdersServiceInt ordersServiceInt;		
 	@Autowired
@@ -326,5 +326,5 @@ public class CustomerController {
 		}
 		
 		return model;
-	}*/
+	}
 }

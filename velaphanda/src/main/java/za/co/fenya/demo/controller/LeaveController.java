@@ -19,9 +19,9 @@ import za.co.fenya.demo.service.OrdersServiceInt;
 import za.co.fenya.demo.service.TicketsServiceInt;
 
 
-//@Controller
+@Controller
 public class LeaveController {
-/*
+
 	@Autowired
 	private OrdersServiceInt ordersServiceInt;
 	@Autowired
@@ -1082,7 +1082,6 @@ public class LeaveController {
 		}
 
 		return model;
-	}*/
-	
+	}
 	
 }
