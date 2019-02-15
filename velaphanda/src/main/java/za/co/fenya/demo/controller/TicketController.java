@@ -34,10 +34,10 @@ import za.co.fenya.demo.service.TicketHistoryInt;
 import za.co.fenya.demo.service.TicketsServiceInt;
 
 
-@Controller
+//@Controller
 public class TicketController {
 
-	@Autowired
+	/*@Autowired
 	private TicketsServiceInt logTicketService;
 	@Autowired
 	private CustomerServiceInt customerServiceInt;
@@ -4761,5 +4761,5 @@ public class TicketController {
 		}
 		return model;
 	}
-
+*/
 }

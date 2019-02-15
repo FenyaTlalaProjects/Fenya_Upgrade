@@ -99,12 +99,12 @@
 				</a>
 				<ul class="children collapse" id="sub-item-1">
 					<li>
-						<a class="" href='<c:url value="registerEmployee.html"/>'>
+						<a class="" href='<c:url value="/registerEmployee"/>'>
 							Add Employee
 						</a>
 					</li>
 					<li>
-						<a class="" href='<c:url value="displayEmployees.html"/>'>
+						<a class="" href='<c:url value="/displayEmployees"/>'>
 							View Employees
 						</a>
 					</li>					

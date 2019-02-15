@@ -11,10 +11,10 @@ import za.co.fenya.demo.model.Employee;
 
 
 
-@Controller
+//@Controller
 public class ConfirmationController {
 	
-	@Autowired
+	/*@Autowired
 	private HttpSession session;
 	
 	Employee userName = null;
@@ -51,5 +51,5 @@ public class ConfirmationController {
 			}
 			
 			return model;
-		}
+		}*/
 }

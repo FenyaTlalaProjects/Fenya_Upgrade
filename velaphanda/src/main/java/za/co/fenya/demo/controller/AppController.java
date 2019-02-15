@@ -29,12 +29,12 @@ import za.co.fenya.demo.util.FileValidator;
 
 
 
-@Controller
+//@Controller
 /*@RequestMapping("/")*/
 public class AppController {
 
 	
-	@Autowired
+	/*@Autowired
 	CustomerServiceInt customerService;
 	@Autowired
 	UserDocumentService userDocumentService;
@@ -50,20 +50,20 @@ public class AppController {
 	   binder.setValidator(fileValidator);
 	}
 	
-	/**
+	*//**
 	 * This method will list all existing users.
-	 */
+	 *//*
 	//@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
 	public String listUsers(ModelMap model) {
 
-		/*List<User> users = userService.findAllUsers();
-		model.addAttribute("users", users);*/
+		List<User> users = userService.findAllUsers();
+		model.addAttribute("users", users);
 		return "userslist";
 	}
 
-	/**
+	*//**
 	 * This method will provide the medium to add a new user.
-	 */
+	 *//*
 	//@RequestMapping(value = { "/newuser" }, method = RequestMethod.GET)
 	public String newUser(ModelMap model) {
 		User user = new User();
@@ -72,10 +72,10 @@ public class AppController {
 		return "registration";
 	}
 
-	/**
+	*//**
 	 * This method will be called on form submission, handling POST request for
 	 * saving user in database. It also validates the user input
-	 */
+	 *//*
 	//@RequestMapping(value = { "/newuser" }, method = RequestMethod.POST)
 	public String saveUser(@Valid User user, BindingResult result,
 			ModelMap model) {
@@ -84,21 +84,21 @@ public class AppController {
 			return "registration";
 		}
 
-		/*
+		
 		 * Preferred way to achieve uniqueness of field [sso] should be implementing custom @Unique annotation 
 		 * and applying it on field [sso] of Model class [User].
 		 * 
 		 * Below mentioned peace of code [if block] is to demonstrate that you can fill custom errors outside the validation
 		 * framework as well while still using internationalized messages.
 		 * 
-		 */
-		/*if(!userService.isUserSSOUnique(user.getId(), user.getSsoId())){
+		 
+		if(!userService.isUserSSOUnique(user.getId(), user.getSsoId())){
 			FieldError ssoError =new FieldError("user","ssoId",messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
 		    result.addError(ssoError);
 			return "registration";
-		}*/
+		}
 		
-		/*userService.saveUser(user);*/
+		userService.saveUser(user);
 		
 		model.addAttribute("user", user);
 		model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " registered successfully");
@@ -107,21 +107,21 @@ public class AppController {
 	}
 
 
-	/**
+	*//**
 	 * This method will provide the medium to update an existing user.
-	 */
+	 *//*
 	//@RequestMapping(value = { "/edit-user-{ssoId}" }, method = RequestMethod.GET)
 	public String editUser(@PathVariable String ssoId, ModelMap model) {
-		/*User user = userService.findBySSO(ssoId);
+		User user = userService.findBySSO(ssoId);
 		model.addAttribute("user", user);
-		model.addAttribute("edit", true);*/
+		model.addAttribute("edit", true);
 		return "registration";
 	}
 	
-	/**
+	*//**
 	 * This method will be called on form submission, handling POST request for
 	 * updating user in database. It also validates the user input
-	 */
+	 *//*
 	//@RequestMapping(value = { "/edit-user-{ssoId}" }, method = RequestMethod.POST)
 	public String updateUser(@Valid User user, BindingResult result,
 			ModelMap model, @PathVariable String ssoId) {
@@ -130,19 +130,19 @@ public class AppController {
 			return "registration";
 		}
 
-		/*userService.updateUser(user);
-*/
+		userService.updateUser(user);
+
 		model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " updated successfully");
 		return "registrationsuccess";
 	}
 
 	
-	/**
+	*//**
 	 * This method will delete an user by it's SSOID value.
-	 */
+	 *//*
 //	@RequestMapping(value = { "/delete-user-{ssoId}" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable String ssoId) {
-		/*userService.deleteUserBySSO(ssoId);*/
+		userService.deleteUserBySSO(ssoId);
 		return "redirect:/list";
 	}
 	
@@ -218,5 +218,5 @@ public class AppController {
 		document.setContent(multipartFile.getBytes());
 		document.setCustomer(customer);
 		userDocumentService.saveDocument(document);
-	}
+	}*/
 }

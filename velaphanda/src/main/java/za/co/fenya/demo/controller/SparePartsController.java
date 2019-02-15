@@ -35,9 +35,9 @@ import za.co.fenya.demo.service.SpareQuantityInt;
 import za.co.fenya.demo.service.TicketsServiceInt;
 
 
-@Controller
+//@Controller
 public class SparePartsController {
-	@Autowired
+	/*@Autowired
 	private CustomerServiceInt customerServiceInt;
 	@Autowired
 	private EmployeeServiceInt employeeService;
@@ -190,9 +190,9 @@ public class SparePartsController {
 					//Boot Count
 					model.addObject("bootCount", bootStock.countBootStock(userName.getFirstName()+" "+ userName.getLastName()));
 					//Load Data of HO 
-					/*model.addObject("firstName", userName.getFirstName());
+					model.addObject("firstName", userName.getFirstName());
 					model.addObject("lastName", userName.getLastName());
-					model.addObject("email", userName.getEmail());*/
+					model.addObject("email", userName.getEmail());
 					//Load Data Boot Site
 					model.addObject("employees",spareInt.spareQuantityForTechnician(userName.getFirstName()+" "+ userName.getLastName()));
 					//Load Data of bootSite
@@ -816,6 +816,6 @@ public class SparePartsController {
 				model.setViewName("login");
 			}
 			return model;
-		}	
+		}	*/
 		
 }

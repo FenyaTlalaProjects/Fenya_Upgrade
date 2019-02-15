@@ -34,10 +34,10 @@ import za.co.fenya.demo.service.TicketsServiceInt;
 import za.co.fenya.demo.service.VelaphandaInt;
 
 
-@Controller
+//@Controller
 public class OrdersController {
 
-	@Autowired
+	/*@Autowired
 	private OrdersServiceInt ordersServiceInt;
 	@Autowired
 	private HOStockServeceInt spareParts;
@@ -1662,5 +1662,5 @@ public class OrdersController {
  
         model.addObject("exception","Could not execute JDBC batch update");
         return model;
-    }
+    }*/
 }

@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 
-@Controller
+//@Controller
 public class ErrorController {
 	
-	@RequestMapping(value="error",method=RequestMethod.GET)
+	/*@RequestMapping(value="error",method=RequestMethod.GET)
 	public ModelAndView logTicket(){
 		
 		ModelAndView model = new ModelAndView();
@@ -33,6 +33,6 @@ public class ErrorController {
         model.addObject("exception", ex.getMessage()+ ". Please create a folder 'VelaphandaReports' on C drive to save the report");
         return model;
         
-    }
+    }*/
 
 }
