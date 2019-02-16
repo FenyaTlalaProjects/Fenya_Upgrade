@@ -16,7 +16,7 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href="home.html"><svg class="glyph stroked home">
+				<li><a href='<c:url value="/home"/>'><svg class="glyph stroked home">
 						<use xlink:href="#stroked-home"></use></svg></a></li>
 				<div class="nav navbar-nav navbar-right" style="margin-top: -1%;">
 					<a href="#" onclick="history.go(-1);"><span
@@ -45,9 +45,9 @@
 									<c:choose>
 										<c:when test="${addEmployee =='addEmployee' }">
 											<c:out value="${retMessage}"></c:out> Click<a
-												href="displayEmployees.html" class="confirmtions"><b>
+												href='<c:url value="/displayEmployees"/>'  class="confirmtions"><b>
 													here</b></a> to view list of employees or 
-                            Click <a href="registerEmployee.html"
+                            Click <a href='<c:url value="/registerEmployee"/>'
 												class="confirmtions"> <b> here</b></a> to add another Employee.
                         </c:when>
 									</c:choose>
@@ -55,7 +55,7 @@
 									<c:choose>
 										<c:when test="${updateEmployee =='updateEmployee' }">
 											<c:out value="${retMessage}"></c:out>
-                              Click <a href="displayEmployees.html"
+                              Click <a href='<c:url value="/displayEmployees"/>'
 												class="confirmtions"> <b> here</b></a> to view list of Employees 
 				 	    </c:when>
 									</c:choose>
@@ -63,7 +63,7 @@
 									<c:choose>
 										<c:when test="${changePassword =='changePassword' }">
 											<c:out value="${retMessage}"></c:out>  Click <a
-												href="displayEmployees.html" class="confirmtions"> <b>
+												href='<c:url value="/displayEmployees"/>' class="confirmtions"> <b>
 													here</b></a>  to view list of Employees.       
                            </c:when>
 									</c:choose>
@@ -71,7 +71,7 @@
 									<c:choose>
 										<c:when test="${resetPassword =='resetPassword' }">
 											<c:out value="${retMessage}"></c:out> Click <a
-												href="displayEmployees.html" class="confirmtions"> <b>
+												href='<c:url value="/displayEmployees"/>' class="confirmtions"> <b>
 													here</b></a> to view list of Employees.   
                            </c:when>
 									</c:choose>
@@ -79,7 +79,7 @@
 									<c:choose>
 										<c:when test="${deactivateEmployee =='deactivateEmployee' }">
 											<c:out value="${retMessage}"></c:out> Click<a
-												href="displayEmployees.html" class="confirmtions"><b>
+												href='<c:url value="/displayEmployees"/>' class="confirmtions"><b>
 													here</b></a> to view list of Employees.
 				 	    </c:when>
 									</c:choose>
@@ -87,16 +87,16 @@
 									<c:choose>
 										<c:when test="${addCustomer =='addCustomer' }">
 											<c:out value="${retMessage}"></c:out> Click<a
-												href="displayCustomers.html" class="confirmtions"><b>
+												href='<c:url value="/displayEmployees"/>' class="confirmtions"><b>
 													here</b></a> to view list of Customers. or click <a
-												href="addClient.html" class="confirmtions"><b> here</b></a> to add another Customer.
+												href='<c:url value="/addClient"/>' href="" class="confirmtions"><b> here</b></a> to add another Customer.
 				 	    </c:when>
 									</c:choose>
 									<!-- update Customer -->
 									<c:choose>
 										<c:when test="${updateCustomer =='updateCustomer' }">
 											<c:out value="${retMessage}"></c:out> Click<a
-												href="displayCustomers.html" class="confirmtions"><b>
+												href='<c:url value="/displayEmployees"/>' class="confirmtions"><b>
 													here</b></a> to view list of Customers.
 				 	    </c:when>
 									</c:choose>
@@ -104,9 +104,9 @@
 									<c:choose>
 										<c:when test="${addDevice =='addDevice' }">
 											<c:out value="${retMessage}"></c:out>  Click<a
-												href="searchDevice.html" class="confirmtions"><b>
+												href='<c:url value="/searchDevice"/>' class="confirmtions"><b>
 													here</b></a> to view list of Devices or click <a
-												href="searchClientforProduct?customerName=<c:out value='${customerName}'/>"
+												href="searchClientforProduct?customerName=<c:out value='${customerName}'/>
 												class="confirmtions"><b> here</b></a> to add another Device for ${customerName}. Click <a
 												href='addModelNumbers.html'> <b>here</b> </a> to add Model Number.
 				 	    </c:when>

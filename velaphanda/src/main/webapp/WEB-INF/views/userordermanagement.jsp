@@ -18,7 +18,7 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href="userdashboard.html"><svg
+				<li><a href='<c:url value="/userdashboard"/>'><svg
 							class="glyph stroked home"> <use xlink:href="#stroked-home"></use></svg></a></li>
 				<div class="nav navbar-nav navbar-right" style="margin-top: -1%;">
 					<a href="#" onclick="history.go(-1);"><span
@@ -35,10 +35,15 @@
 					<div class="panel-heading" align="center">Orders</div>
 					<div class="panel-body">
 
-						<button type="button" id="userPlaceOrder" class="btn btn-success"
+						<!-- <button type="button" id="userPlaceOrder" class="btn btn-success"
 							name="userPlaceOrder" value="Create Ticket"
 							onclick="window.location.href='userPlaceOrder.html'">Create
-							Order</button>
+							Order</button> -->
+							
+						<a id="userPlaceOrder" class="btn btn-success" name="userPlaceOrder" href='<c:url value="/userPlaceOrder"/>'>
+							Create Order
+						</a>
+						
 						<br /> <br />
 
 						<form:form action="searchOrder" method="post" id="searchOrder"

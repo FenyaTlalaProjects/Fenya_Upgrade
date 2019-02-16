@@ -49,7 +49,7 @@
 										<div class="errorLogin">
 											<h6>
 												Password was changed successfully. Click <a
-													href="login.html">here</a> to login with new password
+													href='<c:url value="/login"/>' >here</a> to login with new password
 											</h6>
 										</div>
 									</form>

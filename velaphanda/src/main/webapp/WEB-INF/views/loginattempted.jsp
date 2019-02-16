@@ -52,7 +52,7 @@
 											</c:out>
 										</div>
 									</c:if>
-									<a href="login.html">Login</a> with correct credentials
+									<a href='<c:url value="/login"/>'>Login</a> with correct credentials
 								</div>
 							</div>
 							<!-- .panel-body -->

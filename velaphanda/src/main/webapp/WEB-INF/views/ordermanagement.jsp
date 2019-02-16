@@ -37,11 +37,15 @@
 					<div class="panel-heading" align="center">Orders</div>
 					<div class="panel-body">
 
-						<button type="button" id="placeOrderForTechnician"
+						<!-- <button type="button" id="placeOrderForTechnician"
 							class="btn btn-success" name="placeOrderForTechnician"
-							value="Create Ticket"
-							onclick="window.location.href='placeOrderForTechnician.html'">Create
-							Order</button>
+							value="Create Ticket" 
+							onclick="window.location.href='/placeOrderForTechnician'">Create
+							Order</button> -->
+							
+						<a id="placeOrderForTechnician" class="btn btn-success" name="placeOrderForTechnician" href='<c:url value="/placeOrderForTechnician"/>'>
+							Create Order
+						</a>
 						<br /> <br />
 
 						<form:form action="searchOrder" method="post" id="searchOrder"

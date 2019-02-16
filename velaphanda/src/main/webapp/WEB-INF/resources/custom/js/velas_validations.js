@@ -4,7 +4,7 @@
  * Author				: Fenya Tlala 
  * Client				: Velaphanda Trading & * Projects BBB-EE Level 1 
  * Date Created 		: 29-06-2017 
- * Last Date Modified	:16-01-2018
+ * Last Date Modified	:20-09-2018
  */
 
 /*-- Validate add and logTicket --*/
@@ -1523,7 +1523,24 @@ function compareQuantity(element, availableQuantity) {
 //End Compare available quantity with entered quantity	
 
 /* --Stock type Selection-- */
-function CheckStockType(val) {
+
+$('#stockType').on('change', function() {
+    if ($(this).val() === "Site") {
+        $("#Site").show();
+        $("#Site").attr("required",true);
+    } else {
+        $("#Site").hide();
+    }if ($(this).val() === "Boot") {
+        $("#Boot").show();
+        $("#Boot").attr("required",true);
+    } else {
+        $("#Boot").hide();
+    }
+    
+});
+
+
+/*function CheckStockType(val) {
 	var element = document.getElementById('Site');
 	if (val == 'select stock type' || val == 'Site')
 		element.style.display = 'block';
@@ -1535,7 +1552,7 @@ function CheckStockType(val) {
 	else
 		element.style.display = 'none';
 
-}/* --Stock type Selection-- */
+}*//* --Stock type Selection-- */
 
 /*--Enable datepicker for start, end and install date --*/
 $(document).ready(function() {

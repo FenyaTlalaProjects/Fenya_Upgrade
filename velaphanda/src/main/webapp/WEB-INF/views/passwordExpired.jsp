@@ -42,7 +42,7 @@
 					<form method="post" action="loginattempted" role="login">
 						<div class="errorLogin">
 							<h2>Your account password has expired.</h2>
-							Click to <a href="changePassword.html"
+							Click to <a  href='<c:url value="/changePassword"/>' 
 								class="btn btn-info" tabindex
 								id="changePassword">Change password</a> or click <a
 								href="login.html"
