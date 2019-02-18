@@ -14,7 +14,7 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href="changePassword.html"><svg class="glyph stroked home">
+				<li><a href='<c:url value="/changePassword"/>'><svg class="glyph stroked home">
 						<use xlink:href="#stroked-home"></use></svg></a></li>
 
 			</ol>

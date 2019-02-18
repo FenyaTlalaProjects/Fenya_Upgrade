@@ -20,7 +20,7 @@ li {
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href="home.html"><svg class="glyph stroked home">
+				<li><a href='<c:url value="/technicianHome"/>'><svg class="glyph stroked home">
 						<use xlink:href="#stroked-home"></use></svg></a></li>
 				<div class="nav navbar-nav navbar-right" style="margin-top: -1%;">
 					<a href="#" onclick="history.go(-1);"><span

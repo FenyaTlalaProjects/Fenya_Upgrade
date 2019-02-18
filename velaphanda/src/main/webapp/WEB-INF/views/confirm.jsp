@@ -47,7 +47,7 @@
 									<c:choose>
 										<c:when test="${tickets =='tickets' }">
 											<c:out value="${retMessage}"></c:out> Click<a
-												href="ticket.html" class="confirmtions"><b> here</b></a> to log another Ticket.
+												href='<c:url value="/ticket"/>' class="confirmtions"><b> here</b></a> to log another Ticket.
 							 	   </c:when>
 									</c:choose>
 									
@@ -56,14 +56,14 @@
 									<c:choose>
 										<c:when test="${replaceToner =='replaceToner' }">
 											<c:out value="${retMessage}"></c:out>. Click<a
-												href="tonerReplacementUser.html" class="confirmtions"><b> here</b></a> to replace another toner.
+												href='<c:url value="/tonerReplacementUser"/>' class="confirmtions"><b> here</b></a> to replace another toner.
 							   </c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${replaceToner =='replaceToner' }">
 											<c:if test="${not empty message}">
 												<c:out value="${message}"></c:out>  Click<a
-													href="tonerReplacementUser.html" class="confirmtions" class="danger"><b>
+													href='<c:url value="/tonerReplacementUser"/>' class="confirmtions" class="danger"><b>
 														here</b></a> to replace another toner.
 							   </c:if>
 										</c:when>
@@ -74,7 +74,7 @@
 									<c:choose>
 										<c:when test="${orders =='orders' }">
 											<c:out value="${retMessage}"></c:out> 
-						 	        Click<a href="userPlaceOrder.html" class="confirmtions"><b>
+						 	        Click<a href='<c:url value="/userPlaceOrder"/>' class="confirmtions"><b>
 													here</b></a> to place another Order.                             
 						 	    </c:when>
 									</c:choose>
@@ -83,7 +83,7 @@
 									<c:choose>
 										<c:when test="${techAddLeave =='techAddLeave' }">
 											<c:out value="${retMessage}"></c:out> 
-							 	           Click<a href="userleavemanagement.html"
+							 	           Click<a href='<c:url value="/userleavemanagement"/>'
 												class="confirmtions"><b> here</b></a> to go to leave management.                         
 							 	    </c:when>
 									</c:choose>
@@ -93,7 +93,7 @@
 
 										<c:when test="${performTicketAction =='performTicketAction' }">
 											<c:out value="${retMessage}"></c:out> 
-							 	          Click<a href="techticketmanagement.html"
+							 	          Click<a href='<c:url value="/userticketmanagement"/>'
 												class="confirmtions"><b> here</b></a> to go to ticket management.	                            
 							 	    </c:when>
 									</c:choose>
@@ -102,7 +102,7 @@
 									<c:choose>
 										<c:when test="${moveSpares =='moveSpares' }">
 											<c:out value="${retMessage}"></c:out> Click<a
-												href="sparemanagement.html" class="confirmtions"><b>
+												href='<c:url value="/usersparemanagement"/>' class="confirmtions"><b>
 													here</b></a> to go to spare management.
 				 	   		     
 				 	   					 </c:when>
@@ -112,7 +112,7 @@
 									<c:choose>
 										<c:when test="${acknowledgeTicketsForTech =='acknowledgeTicketsForTech' }">
 											<c:out value="${retMessage}"></c:out> 
-					 	       			   Click<a href="ticketmanagement.html"
+					 	       			   Click<a href='<c:url value="/userticketmanagement"/>'
 												class="confirmtions"><b> here</b></a> to go to ticket management.	                            
 					 	   			 </c:when>
 									</c:choose>
@@ -121,7 +121,7 @@
 									<c:choose>
 										<c:when test="${takeTicketsForTech =='takeTicketsForTech' }">
 											<c:out value="${retMessage}"></c:out> 
-					 	       			   Click<a href="ticketmanagement.html"
+					 	       			   Click<a href='<c:url value="/userticketmanagement"/>'
 												class="confirmtions"><b> here</b></a> to go to ticket management.	                            
 					 	   			 </c:when>
 									</c:choose>	
@@ -139,7 +139,7 @@
 									<c:choose>
 										<c:when test="${orders =='orders' }">
 											<c:out value="${retErrorMessage}"></c:out> 
-						 	        	Click<a href="userPlaceOrder.html" class="confirmtions">
+						 	        	Click<a href='<c:url value="/userPlaceOrder"/>' class="confirmtions">
 												<b> here</b>
 											</a> to place another Order.
 		                            	
@@ -149,14 +149,14 @@
 									<c:choose>
 										<c:when test="${tickets =='tickets' }">
 											<c:out value="${retErrorMessage}"></c:out> Click<a
-												href="ticket.html" class="confirmtions"><b> here</b></a> to log another Ticket. 
+												href='<c:url value="/ticket"/>' class="confirmtions"><b> here</b></a> to log another Ticket. 
 							 	   </c:when>
 									</c:choose>
 									<!-- create leave -->
 									<c:choose>
 										<c:when test="${techAddLeave =='techAddLeave' }">
 											<c:out value="${retErrorMessage}"></c:out> 
-							 	           Click<a href="userleavemanagement.html"
+							 	           Click<a href='<c:url value="/userleavemanagement"/>' 
 												class="confirmtions"><b> here</b></a> to go to leave management.                         
 							 	    </c:when>
 									</c:choose>
@@ -165,7 +165,7 @@
 									<c:choose>
 										<c:when test="${performTicketAction =='performTicketAction' }">
 											<c:out value="${retErrorMessage}"></c:out> 
-							 	          Click<a href="techticketmanagement.html"
+							 	          Click<a href='<c:url value="/userticketmanagement"/>'
 												class="confirmtions"><b> here</b></a> to go to ticket management.	                            
 							 	    </c:when>
 									</c:choose>
@@ -174,7 +174,7 @@
 									<c:choose>
 										<c:when test="${moveSpares == 'moveSpares'}">
 											<c:out value="${retErrorMessage}"> Click<a
-													href="sparemanagement.html" class="confirmtions"><b>
+											href='<c:url value="/usersparemanagement"/>' class="confirmtions"><b>
 														here</b></a> to go to spare management.</c:out>
 										</c:when>
 									</c:choose>

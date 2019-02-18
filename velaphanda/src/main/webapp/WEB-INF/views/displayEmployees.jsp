@@ -34,11 +34,10 @@
 					<div class="panel-heading" align="center">Display Employees</div>
 					<div class="panel-body">
 					
-						<div class="addEmployee">
-							<button type="button" id="addemployee" class="btn btn-success"
-								name="addemployee" value="Add Employee"
-								onclick="window.location.href='registerEmployee.html'">Add
-								Employee</button>
+						<div class="addEmployee">								
+						<a href='<c:url value="/registerEmployee"/>' id="addemployee" class="btn btn-success"
+								name="addemployee">Add Employee</a>
+						
 						</div>
 						
 						<table data-toggle="table" data-url="${displayEmployees}"

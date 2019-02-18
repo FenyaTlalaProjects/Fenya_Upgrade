@@ -45,7 +45,7 @@
 									<c:choose>
 										<c:when test="${orders =='orders' }">
 											<c:out value="${retMessage}"></c:out> 
-					 	         Click<a href="ordertechmanagement.html"
+					 	         Click<a href='<c:url value="/ordertechmanagement"/>'
 												class="confirmtions"><b> here</b></a> to place another Order.
 					 	                        
 					 	    </c:when>
@@ -54,7 +54,7 @@
 									<c:choose>
 										<c:when test="${receiveOrder =='receiveOrder' }">
 											<c:out value="${retMessage}"></c:out> 
-					 	          or click<a href="ordertechmanagement.html"
+					 	          or click<a href='<c:url value="/ordertechmanagement"/>'
 												class="confirmtions"><b> here</b></a> to receive other orders.	                            
 					 	    </c:when>
 									</c:choose>
@@ -69,7 +69,7 @@
 									<c:choose>
 										<c:when test="${techAddLeave =='techAddLeave' }">
 											<c:out value="${retMessage}"></c:out> 
-					 	           Click<a href="techleavemanagement.html"
+					 	           Click<a href='<c:url value="/techleavemanagement"/>'
 												class="confirmtions"><b> here</b></a> to go to leave management.                         
 					 	    </c:when>
 									</c:choose>
@@ -77,7 +77,7 @@
 									<c:choose>
 										<c:when test="${techUpdateLeave =='techUpdateLeave' }">
 											<c:out value="${retMessage}"></c:out> 
-					 	           Click<a href="techleavemanagement.html"
+					 	           Click<a href='<c:url value="/techleavemanagement"/>'
 												class="confirmtions"><b> here</b></a> to go to leave management.                         
 					 	    </c:when>
 									</c:choose>
@@ -85,14 +85,14 @@
 									<c:choose>
 										<c:when test="${technicianCancel =='technicianCancel' }">
 											<c:out value="${retMessage}"></c:out> 
-					 	           Click<a href="techleavemanagement.html"
+					 	           Click<a href='<c:url value="/techleavemanagement"/>'
 												class="confirmtions"><b> here</b></a> to go to leave management.                         
 					 	    </c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${techOnLeave =='techOnLeave' }">
 											<c:out value="${retMessage}"></c:out> 
-					 	           Click<a href="techleavemanagement.html"
+					 	           Click<a href='<c:url value="/techleavemanagement"/>'
 												class="confirmtions"><b> here</b></a> to go to leave management.                         
 					 	    </c:when>
 									</c:choose>
@@ -102,8 +102,7 @@
 
 										<c:when test="${performTicketAction =='performTicketAction' }">
 											<c:out value="${retMessage}"></c:out> 
-					 	          Click<a href="techticketmanagement.html"
-												class="confirmtions"><b> here</b></a> to go to ticket management.	                            
+					 	          Click<a href='<c:url value="/techticketmanagement"/>' class="confirmtions"><b> here</b></a> to go to ticket management.	                            
 					 	    </c:when>
 									</c:choose>
 									
@@ -112,14 +111,14 @@
 									<c:choose>
 										<c:when test="${replaceToner =='replaceToner' }">
 											<c:out value="${retMessage}"></c:out>. Click<a
-												href="tonerReplacementTech.html" class="confirmtions"><b> here</b></a> to replace another toner.
+												href='<c:url value="/tonerReplacementTech"/>' class="confirmtions"><b> here</b></a> to replace another toner.
 							   </c:when>
 									</c:choose>
 									<c:choose>
 										<c:when test="${replaceToner =='replaceToner' }">
 											<c:if test="${not empty message}">
 												<c:out value="${message}"></c:out>  Click<a
-													href="tonerReplacementTech.html" class="confirmtions" class="danger"><b>
+													href='<c:url value="/tonerReplacementTech"/>' class="confirmtions" class="danger"><b>
 														here</b></a> to replace another toner.
 							   </c:if>
 										</c:when>
@@ -138,7 +137,7 @@
 									<c:choose>
 										<c:when test="${orders =='orders' }">
 											<c:out value="${retErrorMessage}"></c:out> 
-					 	        	  Click<a href="order.html" class="confirmtions"> <b>
+					 	        	  Click<a href='<c:url value="/order"/>' class="confirmtions"> <b>
 													here</b></a> to place another Order.
 	                            	
 					 	    	</c:when>
@@ -147,7 +146,7 @@
 									<c:choose>
 										<c:when test="${receiveOrder =='receiveOrder' }">
 											<c:out value="${retErrorMessage}"></c:out> 
-						 	      	  Click<a href="ordertechmanagement.html"
+						 	      	  Click<a href='<c:url value="/ordertechmanagement"/>'
 												class="confirmtions"><b> here</b></a> to receive other orders.	                            
 						 	    </c:when>
 									</c:choose>
