@@ -18,7 +18,7 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name="DeviceContactPersonDao")
+@Table(name="DeviceContactPerson")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

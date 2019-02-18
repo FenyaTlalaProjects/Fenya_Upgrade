@@ -130,14 +130,14 @@ public class EmployeeController {
 							userLogDetailsServiceInt.getLastUserLogDetails(userEmail);
 							userLogDetailsServiceInt.saveUserLogDetails(details);
 						}
-						/*model.addObject("openTickets", ticketsServiceInt.getTicketCount("Open", "Last 14 Days", "", "", 0L));						
+						model.addObject("openTickets", ticketsServiceInt.getTicketCount("Open", "Last 14 Days", "", "", 0L));						
 						model.addObject("countAcknowledgedTickets", ticketsServiceInt.getTicketCount("Acknowledged", "Last 14 Days", "", "",0L));
 						model.addObject("countTakenTickets", ticketsServiceInt.getTicketCount("Taken", "Last 14 Days", "", "",0L));
 						model.addObject("escalatedTickets", ticketsServiceInt.getTicketCount("Escalated", "Last 14 Days", "", "", 0L));
 						model.addObject("awaitingSparesTickets", ticketsServiceInt.getTicketCount("Awaiting Spares", "Last 14 Days", "", "", 0L));
 						model.addObject("bridgedTickets", ticketsServiceInt.getTicketCount("SLA Bridged", "Last 14 Days", "", "", 0L));
 						model.addObject("resolvedTickets", ticketsServiceInt.getTicketCount("Resolved", "Last 14 Days", "", "", 0L));
-						model.addObject("closedTickets", ticketsServiceInt.getTicketCount("Closed", "Last 14 Days", "", "", 0L));*/
+						model.addObject("closedTickets", ticketsServiceInt.getTicketCount("Closed", "Last 14 Days", "", "", 0L));
 						serviceInt.userLoggeIn(employee);
 						model.setViewName("home");
 					}
@@ -150,14 +150,14 @@ public class EmployeeController {
 						}
 						serviceInt.userLoggeIn(employee);
 													
-						/*model.addObject("openTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Open", "Last 14 Days", employee.getEmail() , "", 0L));
+						model.addObject("openTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Open", "Last 14 Days", employee.getEmail() , "", 0L));
 						model.addObject("countAcknowledgedTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Acknowledged", "Last 14 Days", employee.getEmail(), "",0L));
 						model.addObject("countTakenTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Taken", "Last 14 Days", employee.getEmail() , "",0L));
 						model.addObject("escalatedTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Escalated", "Last 14 Days", employee.getEmail(), "", 0L));
 						model.addObject("awaitingSparesTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Awaiting Spares", "Last 14 Days", employee.getEmail(), "", 0L));
 						model.addObject("bridgedTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("SLA Bridged", "Last 14 Days", employee.getEmail(), "", 0L));
 						model.addObject("resolvedTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Resolved", "Last 14 Days", employee.getEmail(), "", 0L));
-						model.addObject("closedTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Closed", "Last 14 Days", employee.getEmail(), "", 0L));*/
+						model.addObject("closedTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Closed", "Last 14 Days", employee.getEmail(), "", 0L));
 										 
 						model.setViewName("technicianHome");
 												
@@ -171,14 +171,14 @@ public class EmployeeController {
 						}
 						
 						serviceInt.userLoggeIn(employee);
-						/*model.addObject("openTickets", ticketsServiceInt.getTicketCount("Open", "Last 14 Days", "", "", 0L));
+						model.addObject("openTickets", ticketsServiceInt.getTicketCount("Open", "Last 14 Days", "", "", 0L));
 						model.addObject("countAcknowledgedTickets", ticketsServiceInt.getTicketCount("Acknowledged", "Last 14 Days", "", "",0L));
 						model.addObject("countTakenTickets", ticketsServiceInt.getTicketCount("Taken", "Last 14 Days", "", "",0L));
 						model.addObject("escalatedTickets", ticketsServiceInt.getTicketCount("Escalated", "Last 14 Days", "", "", 0L));
 						model.addObject("awaitingSparesTickets", ticketsServiceInt.getTicketCount("Awaiting Spares", "Last 14 Days", "", "", 0L));
 						model.addObject("bridgedTickets", ticketsServiceInt.getTicketCount("SLA Bridged", "Last 14 Days", "", "", 0L));
 						model.addObject("resolvedTickets", ticketsServiceInt.getTicketCount("Resolved", "Last 14 Days", "", "", 0L));
-						model.addObject("closedTickets", ticketsServiceInt.getTicketCount("Closed", "Last 14 Days", "", "", 0L));*/
+						model.addObject("closedTickets", ticketsServiceInt.getTicketCount("Closed", "Last 14 Days", "", "", 0L));
 					
 						model.setViewName("userdashboard");
 					}else{
@@ -226,34 +226,34 @@ public class EmployeeController {
 		userName = (Employee) session.getAttribute("loggedInUser");
 		if(userName !=null){
 			if(userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))){
-				/*model.addObject("openTickets", ticketsServiceInt.getTicketCount("Open", "Last 14 Days", "", "", 0L));
+				model.addObject("openTickets", ticketsServiceInt.getTicketCount("Open", "Last 14 Days", "", "", 0L));
 				model.addObject("countAcknowledgedTickets", ticketsServiceInt.getTicketCount("Acknowledged", "Last 14 Days", "", "",0L));
 				model.addObject("countTakenTickets", ticketsServiceInt.getTicketCount("Taken", "Last 14 Days", "", "",0L));
 				model.addObject("escalatedTickets", ticketsServiceInt.getTicketCount("Escalated", "Last 14 Days", "", "", 0L));
 				model.addObject("awaitingSparesTickets", ticketsServiceInt.getTicketCount("Awaiting Spares", "Last 14 Days", "", "",0L));
 				model.addObject("bridgedTickets", ticketsServiceInt.getTicketCount("SLA Bridged", "Last 14 Days", "", "", 0L));
 				model.addObject("resolvedTickets", ticketsServiceInt.getTicketCount("Resolved", "Last 14 Days", "", "", 0L));
-				model.addObject("closedTickets", ticketsServiceInt.getTicketCount("Closed", "Last 14 Days", "", "", 0L));*/
+				model.addObject("closedTickets", ticketsServiceInt.getTicketCount("Closed", "Last 14 Days", "", "", 0L));
 			    model.setViewName("home");
 			}else if(userName.getRole().equalsIgnoreCase("TECHNICIAN")){
-				/*model.addObject("openTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Open", "Last 14 Days", userName.getEmail(), "",0L));
+				model.addObject("openTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Open", "Last 14 Days", userName.getEmail(), "",0L));
 				model.addObject("countAcknowledgedTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Acknowledged", "Last 14 Days", userName.getEmail(), "",0L));
 				model.addObject("countTakenTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Taken", "Last 14 Days", userName.getEmail(), "",0L));
 				model.addObject("escalatedTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Escalated", "Last 14 Days", userName.getEmail(), "", 0L));
 				model.addObject("awaitingSparesTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Awaiting Spares", "Last 14 Days", userName.getEmail(), "",0L));
 				model.addObject("bridgedTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("SLA Bridged", "Last 14 Days", userName.getEmail(), "",0L));
 				model.addObject("resolvedTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Resolved", "Last 14 Days", userName.getEmail(), "", 0L));
-				model.addObject("closedTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Closed", "Last 14 Days", userName.getEmail(), "", 0L));*/
+				model.addObject("closedTickets", ticketsServiceInt.getTicketCountForTechnicianDashbord("Closed", "Last 14 Days", userName.getEmail(), "", 0L));
 				model.setViewName("technicianHome");				
 			}else if(userName.getRole().equalsIgnoreCase("User")){
-				/*model.addObject("openTickets", ticketsServiceInt.getTicketCount("Open", "Last 14 Days", "", "", 0L));
+				model.addObject("openTickets", ticketsServiceInt.getTicketCount("Open", "Last 14 Days", "", "", 0L));
 				model.addObject("countAcknowledgedTickets", ticketsServiceInt.getTicketCount("Acknowledged", "Last 14 Days", "", "",0L));
 				model.addObject("countTakenTickets", ticketsServiceInt.getTicketCount("Taken", "Last 14 Days", "", "",0L));
 				model.addObject("escalatedTickets", ticketsServiceInt.getTicketCount("Escalated", "Last 14 Days", "", "", 0L));
 				model.addObject("awaitingSparesTickets", ticketsServiceInt.getTicketCount("Awaiting Spares", "Last 14 Days", "", "",0L));
 				model.addObject("bridgedTickets", ticketsServiceInt.getTicketCount("SLA Bridged", "Last 14 Days", "", "", 0L));
 				model.addObject("resolvedTickets", ticketsServiceInt.getTicketCount("Resolved", "Last 14 Days", "", "", 0L));
-				model.addObject("closedTickets", ticketsServiceInt.getTicketCount("Closed", "Last 14 Days", "", "", 0L));*/
+				model.addObject("closedTickets", ticketsServiceInt.getTicketCount("Closed", "Last 14 Days", "", "", 0L));
 				model.setViewName("userdashboard");
 			}
 		}
