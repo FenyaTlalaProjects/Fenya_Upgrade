@@ -47,7 +47,7 @@
 												<h5>&nbsp;&nbsp;</h5>
 												<div class="easypiechart" id="easypiechart-darkgreen"
 													data-percent="">
-													<a href='receiveParts.html'>
+													<a href='<c:url value="/receiveParts"/>'>
 													<span class="percent" style="font-size: 15px;">Receive Parts</span>
 													</a>
 												</div>
