@@ -3258,8 +3258,7 @@ public class TicketController {
 		if (userName != null) {
 			model.addObject("logTicket", new TicketsBean());
 			getSerialNumbers = deviceServiceInt.getSerials();
-			model.addObject("technicians",
-					employeeServiceInt.getAllTechnicians());
+			model.addObject("technicians",employeeServiceInt.getAllTechnicians());
 			model.addObject("serialNumbers", getSerialNumbers);
 			model.addObject("onLeaveTechnicians", leaveInt.techniciansOnLeave());
 			model.setViewName("ticket");

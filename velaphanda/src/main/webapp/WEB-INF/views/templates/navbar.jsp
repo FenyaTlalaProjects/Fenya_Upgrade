@@ -114,7 +114,7 @@
 			<li><a href='<c:url value="/ordermanagement"/>'><span class="glyphicon glyphicon-shopping-cart"></span> Order Management</a></li>
 			<li><a href='<c:url value="/sparemanagement"/>'><span class="glyphicon glyphicon-wrench"></span> Spares Management</a></li>
 			<li><a href='<c:url value="/ticketmanagement"/>'><span class="glyphicon glyphicon-text-width"></span> Tickets Management</a></li>
-			<li><a href='<c:url value="/ticketmanagement"/>'><span class="glyphicon glyphicon-usd"></span> Billing</a></li>
+			<li><a href='<c:url value="/billingmanagement"/>'><span class="glyphicon glyphicon-usd"></span> Billing</a></li>
 			<li><a href='<c:url value="/servicemanualmanager"/>'><span class="glyphicon glyphicon-book"></span> Service Manuals </a></li>
 				
 			<li role="presentation" class="divider"></li>

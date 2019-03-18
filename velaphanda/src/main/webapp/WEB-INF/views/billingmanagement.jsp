@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Ticket Management</title>
+<title>Billing Management</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <c:import url="templates/tableresizefont.jsp"></c:import>
@@ -36,18 +36,9 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading" align="center">Tickets</div>
+					<div class="panel-heading" align="center">Billing</div>
 					<div class="panel-body">
-						<button type="button" id="logTicket" class="btn btn-success"
-							name="logTicket" value="Create Ticket"
-							onclick="window.location.href='logTicket.html'">Create
-							Ticket</button>
-						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<button type="button" id="replaceToner" class="btn btn-success"
-							name="replaceToner" value="Replace Toner"
-							onclick="window.location.href='tonerReplacement.html'">Replace Toner</button>
-						<br /> <br />
-						
+					
 						<form:form action="searchTicket" method="post" id="searchTicket"
 							class="searchTicket" modelAttribute="searchTicket">
 
@@ -88,7 +79,7 @@
 								</div>
 
 								<!-- Select type selectTehnnician-->
-								<div class="form-group ">
+								<%-- <div class="form-group ">
 									<div class="col-md-3 selectContainer">
 										<div class="input-group">
 											<span class="input-group-addon"><i
@@ -108,16 +99,16 @@
 											</select>
 										</div>
 									</div>
-								</div>
+								</div> --%>
 								<div align=right>
 									<!-- Text input Search-->
 									<div class="form-group">
 										<div class="col-md-3 inputGroupContainer">
 											<div class="input-group">
-												<input name="ticketNumber" list="ticketNumbers"
+												<input name="invoiceNumber" list="ticketNumbers"
 													class="form-control" type="text"
 													onkeydown="upperCaseF(this)"
-													placeholder='Enter Ticket Number' /> <span
+													placeholder='Enter Invoice Number' /> <span
 													class="input-group-btn">
 													<button class="btn btn-success" type="submit">
 														<div class="up" style="margin-top: -8%; color: white;">Search</div>
@@ -143,7 +134,7 @@
 									<div class="row">
 										<br />
 										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="openTickets"/>'>
+											<a href='<c:url value="/createInvoice"/>'>
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-danger">
 														<!-- <span class="label label-danger pull-right">${countOpenTickets}</span> -->
@@ -157,7 +148,7 @@
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-success">
 														<span class="label label-success pull-right">${countAcknowledgedTickets}</span>
-														Acknowledged
+														<!-- Acknowledged -->
 													</h5>
 												</div>
 											</a>
@@ -167,7 +158,7 @@
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-primary">
 														<span class="label label-primary pull-right">${countTakenTickets}</span>
-														Taken
+														<!-- Taken -->
 													</h5>
 												</div>
 											</a>
@@ -177,7 +168,7 @@
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-danger">
 														<span class="label label-danger pull-right">${countAwaitingSparesTickets}</span>
-														Awaiting Spares
+														<!-- Awaiting Spares -->
 													</h5>
 												</div>
 											</a>
@@ -191,7 +182,7 @@
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-success">
 														<span class="label label-success pull-right">${countEscalatedTickets}</span>
-														Escalated
+														<!-- Escalated -->
 													</h5>
 												</div>
 											</a>
@@ -201,7 +192,7 @@
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-danger">
 														<span class="label label-danger pull-right">${countBridgedTickets}</span>
-														SLA Bridged
+														<!-- SLA Bridged -->
 													</h5>
 												</div>
 											</a>
@@ -211,7 +202,7 @@
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-success">
 														<span class="label label-success pull-right">${countResolvedTickets}</span>
-														Resolved
+														<!-- Resolved -->
 													</h5>
 												</div>
 											</a>
@@ -221,7 +212,7 @@
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-success">
 														<span class="label label-success pull-right">${countClosedTickets}</span>
-														Closed
+														<!-- Closed -->
 													</h5>
 												</div>
 											</a>
@@ -275,7 +266,7 @@
 								
 							</c:choose>
 
-							<table data-toggle="table" data-url="${lastForteenList}"
+							<%-- <table data-toggle="table" data-url="${lastForteenList}"
 								data-show-refresh="true" data-show-toggle="true"
 								data-search="true" data-select-item-name="toolbar1"
 								data-pagination="true" data-sort-name="ticketdate"
@@ -315,7 +306,9 @@
 									</c:forEach>
 								</tbody>
 							</table>
-							<!-- table ticket -->
+							<!-- table ticket --> --%>
+							
+							
 						</div>
 						<!-- /tab-content -->
 
