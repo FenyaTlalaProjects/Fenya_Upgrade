@@ -37,11 +37,10 @@
 					<div class="panel-heading" align="center">Leave Management</div>
 					<div class="panel-body">
 
-
-						<button type="button" id="createLeave" class="btn btn-success"
-							name="createLeave" value="Create Leave"
-							onclick="window.location.href='requestLeave.html'">Create
-							Leave</button>
+					
+						
+						<a href='<c:url value="/requestLeave"/>' id="createLeave" class="btn btn-success"
+							name="createLeave">Create Leave</a>
 						<br /> <br />
 
 						<form:form action="searchOrderNumber" method="post"

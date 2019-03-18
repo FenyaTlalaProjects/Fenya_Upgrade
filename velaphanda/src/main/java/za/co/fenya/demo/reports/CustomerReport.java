@@ -6,11 +6,13 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRDataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView;
 
 import za.co.fenya.demo.dao.CustomerContactDetailsDaoInt;
 import za.co.fenya.demo.dao.CustomerDaoInt;
@@ -30,63 +32,44 @@ public class CustomerReport {
 	private CustomerContactDetailsServiceInt contactDetailsServiceInt;
 	@Autowired
 	private CustomerContactDetailsDaoInt customerContactDetailsDaoIntDaoInt;
-
+	@Autowired
+	private ApplicationContext appContext;
+	   
     @RequestMapping(value = "/customerListDownloadPDF", method = RequestMethod.GET)
-    public ModelAndView customerListDownloadPDF() 
-		 {
-    	//String customerName = null;
-		ModelAndView modelAndView = null;
-		// Retrieve our data from a custom data provider
-		// Our data comes from a DAO layer
-		
-		// Assign the datasource to an instance of JRDataSource
-		// JRDataSource is the datasource that Jasper understands
-		// This is basically a wrapper to Java's collection classes
-		//JRDataSource customerContactPerson = customerContactDetailsDaoIntDaoInt.getCustomerContactPersonDetailsDataSource();
-		JRDataSource customerList  = custIntDao.getCustomerListDataSource();
-		
-		// In order to use Spring's built-in Jasper support, 
-		// We are required to pass our datasource as a map parameter
-		// parameterMap is the Model of our application
-		Map<String,Object> parameterMap = new HashMap<String,Object>();
-		parameterMap.put("customerListDatasource", customerList);
-		
-		// pdfReport is the View of our application
-		// This is declared inside the /WEB-INF/customerList-views.xml
-		modelAndView = new ModelAndView("customerListPdfReport",  parameterMap);
-		
-		
-		// Return the View and the Model combined
-		return modelAndView;
+    public ModelAndView customerListDownloadPDF(){
+    	
+    	 JasperReportsPdfView view = new JasperReportsPdfView();
+         //get the source
+    	 JRDataSource customerList  = custIntDao.getCustomerListDataSource();
+ 		 //Customer List report path 
+         view.setUrl("classpath:customerList.jrxml");
+         view.setApplicationContext(appContext);
+
+         Map<String, Object> params = new HashMap<>();
+         params.put("datasource", customerList);
+
+         return new ModelAndView(view, params);
+    	
 	}
     
     @RequestMapping(value = "/viewCustomerDownloadPDF", method = RequestMethod.GET)
-    public ModelAndView viewCustomerReportPDF(@RequestParam("customerName") String customerName) 
-		 {
-		ModelAndView modelAndView = null;
-		// Retrieve our data from a custom data provider
-		// Our data comes from a DAO layer
+    public ModelAndView viewCustomerReportPDF(@RequestParam("customerName") String customerName){
 		
-		// Assign the datasource to an instance of JRDataSource
-		// JRDataSource is the datasource that Jasper understands
-		// This is basically a wrapper to Java's collection classes
-		JRDataSource contactList  = contactDetailsServiceInt.getCustomerContactDetailsDataSource(customerName);
-		JRDataSource viewCustomer  = custIntDao.getCustomerDetailsDataSource(customerName);
-		
-		// In order to use Spring's built-in Jasper support, 
-		// We are required to pass our datasource as a map parameter
-		// parameterMap is the Model of our application
-		Map<String,Object> parameterMap = new HashMap<String,Object>();
-		parameterMap.put("viewCustomerDatasource", viewCustomer);
-		parameterMap.put("viewCustomerDatasource", contactList);
-		
-		
-		// pdfReport is the View of our application
-		// This is declared inside the /WEB-INF/viewCustomer-views.xml
-		modelAndView = new ModelAndView("viewCustomerPdfReport", parameterMap);
-		
-		// Return the View and the Model combined
-		return modelAndView;
+    	 JasperReportsPdfView view = new JasperReportsPdfView();
+         //get the source
+    	 JRDataSource contactList  = contactDetailsServiceInt.getCustomerContactDetailsDataSource(customerName);
+ 		 JRDataSource viewCustomer  = custIntDao.getCustomerDetailsDataSource(customerName);
+ 		 //View customer report path 
+         view.setUrl("classpath:viewCustomer.jrxml");
+         view.setApplicationContext(appContext);
+
+         Map<String, Object> params = new HashMap<>();
+         params.put("datasource", viewCustomer);
+         params.put("datasource", contactList);
+
+         return new ModelAndView(view, params);
+    	
+    	
 	}
     
 }

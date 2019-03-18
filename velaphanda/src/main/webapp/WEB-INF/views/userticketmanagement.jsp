@@ -37,14 +37,16 @@
 				<div class="panel panel-default">
 					<div class="panel-heading" align="center">Tickets</div>
 					<div class="panel-body">
+								
+						<a href='<c:url value="/ticket"/>' id="logTicket" class="btn btn-success"
+							name="logTicket">Create
+							Ticket</a>
+							
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								
+						<a href='<c:url value="/tonerReplacementUser"/>' id="replaceToner" class="btn btn-success"
+							name="replaceToner">Replace Toner</a>
 						
-						<button type="button" id="logTicket" class="btn btn-success"
-							name="logTicket" value="Create Ticket"
-							onclick="window.location.href='ticket.html'">Create
-							Ticket</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<button type="button" id="replaceToner" class="btn btn-success"
-							name="replaceToner" value="Replace Toner"
-							onclick="window.location.href='tonerReplacementUser.html'">Replace Toner</button> 
 						<br /> <br />
 						
 						<form:form action="searchTicket" method="post" id="searchTicket"

@@ -39,9 +39,10 @@
 					<div class="panel-body">
 
 
-						<button type="button" id="replaceToner" class="btn btn-success"
-							name="replaceToner" value="Replace Toner"
-							onclick="window.location.href='tonerReplacementTech.html'">Replace Toner</button>
+						
+						<a href='<c:url value="/tonerReplacementTech"/>' id="replaceToner" class="btn btn-success"
+							name="replaceToner">Replace Toner</a>
+						
 						<br /> <br />
 
 						<form:form action="searchTicketForTech" method="post"
