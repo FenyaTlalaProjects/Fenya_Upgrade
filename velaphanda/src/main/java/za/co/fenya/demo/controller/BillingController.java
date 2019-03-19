@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import za.co.fenya.demo.bean.CustomerBean;
+import za.co.fenya.demo.bean.InvoiceBean;
 import za.co.fenya.demo.model.Customer;
 import za.co.fenya.demo.model.Device;
 import za.co.fenya.demo.model.Employee;
@@ -49,8 +50,8 @@ public class BillingController {
 	
 	
 	//create billing management pages
-	@RequestMapping(value={"billingmanagement","billingmanagementuser"},method=RequestMethod.GET)
-	public ModelAndView displayBillingPage(String customerName,Integer offset,Integer maxResults){
+	@RequestMapping(value={"billingmanagement","userbillingmanagement"},method=RequestMethod.GET)
+	public ModelAndView displayBillingPage(String customerName){
 		selectedDateRange = "Select Date";
 		model= new ModelAndView();
 		userName = (Employee) session.getAttribute("loggedInUser");
@@ -68,7 +69,7 @@ public class BillingController {
 				model.addObject("customerName", customerName);
 				model.addObject("customers", customerServiceInt.getClientList());
 				model.addObject("newDate", selectedDateRange);
-			   model.setViewName("billingmanagementuser");			   
+			   model.setViewName("userbillingmanagement");			   
 		   }
 		}
 		else{
@@ -78,8 +79,8 @@ public class BillingController {
 	}
 	
 	//Create invoice page
-	@RequestMapping(value={"createInvoice","userCreateInvoice"},method=RequestMethod.GET)
-	public ModelAndView displayCreateInvoice(String customerName){
+	@RequestMapping(value={"createInvoice","usercreateinvoice"},method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView displayCreateInvoice(@ModelAttribute("createInvoice")String customerName,InvoiceBean invoiceBean){
 		model= new ModelAndView();
 		selectedDateRange = "Select Date";
 		userName = (Employee) session.getAttribute("loggedInUser");
@@ -100,7 +101,7 @@ public class BillingController {
 				model.addObject("customerName", customerName);
 				model.addObject("customers", customerServiceInt.getClientList());
 				model.addObject("newDate", selectedDateRange);
-			   model.setViewName("userCreateInvoice");			   
+			   model.setViewName("usercreateinvoice");			   
 		   }
 		}
 		else{

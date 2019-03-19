@@ -16,13 +16,13 @@
 </head>
 <body>
 
-	<c:import url="templates/navbar.jsp"></c:import>
+		<c:import url="templates/usernavbar.jsp"></c:import>
 
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href='<c:url value="/home"/>'><svg class="glyph stroked home">
-						<use xlink:href="#stroked-home"></use></svg></a></li>
+				<li><a href='<c:url value="/userdashboard"/>'><svg
+							class="glyph stroked home"> <use xlink:href="#stroked-home"></use></svg></a></li>
 				<div class="nav navbar-nav navbar-right" style="margin-top: -1%;">
 					<a href="#" onclick="history.go(-1);"><span
 						class="glyphicon glyphicon-circle-arrow-left btn-lg"
