@@ -14,6 +14,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import za.co.fenya.demo.model.Accessories;
@@ -52,6 +53,7 @@ import za.co.fenya.demo.model.VelaphandaProfile;
 
 @Configuration
 @EnableTransactionManagement
+@EnableScheduling
 @ComponentScan({ "za.co.fenya.demo.config" })
 @PropertySource(value = { "classpath:application.properties" })
 public class HibernateConfiguration {
