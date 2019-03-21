@@ -58,17 +58,15 @@ public class BillingController {
 		if(userName != null){
 		
 			if (userName.getRole().equalsIgnoreCase("Manager") || userName.getRole().equalsIgnoreCase("Admin")) {
-				model.addObject("serialNumbers", getSerialNumbers);
 				model.addObject("customerName", customerName);
 				model.addObject("customers", customerServiceInt.getClientList());
 				model.addObject("newDate", selectedDateRange);
 				model.setViewName("billingmanagement");
 			
 		   }else if(userName.getRole().equalsIgnoreCase("User")){			   
-			   model.addObject("serialNumbers", getSerialNumbers);
-				model.addObject("customerName", customerName);
-				model.addObject("customers", customerServiceInt.getClientList());
-				model.addObject("newDate", selectedDateRange);
+			   model.addObject("customerName", customerName);
+			   model.addObject("customers", customerServiceInt.getClientList());
+			   model.addObject("newDate", selectedDateRange);
 			   model.setViewName("userbillingmanagement");			   
 		   }
 		}
@@ -87,21 +85,16 @@ public class BillingController {
 		if(userName != null){
 		
 			if (userName.getRole().equalsIgnoreCase("Manager") || userName.getRole().equalsIgnoreCase("Admin")) {
-				
-				getSerialNumbers = deviceServiceInt.getSerials();
-				model.addObject("serialNumbers", getSerialNumbers);
 				model.addObject("customerName", customerName);
 				model.addObject("customers", customerServiceInt.getClientList());	
 				model.addObject("newDate", selectedDateRange);
 				model.setViewName("createInvoice");
 			
 		   }else if(userName.getRole().equalsIgnoreCase("User")){
-			   getSerialNumbers = deviceServiceInt.getSerials();
-				model.addObject("serialNumbers", getSerialNumbers);
-				model.addObject("customerName", customerName);
+			    model.addObject("customerName", customerName);
 				model.addObject("customers", customerServiceInt.getClientList());
 				model.addObject("newDate", selectedDateRange);
-			   model.setViewName("usercreateinvoice");			   
+			    model.setViewName("usercreateinvoice");			   
 		   }
 		}
 		else{
@@ -109,5 +102,47 @@ public class BillingController {
 		}
 		return model;
 	}
+	
+	//Create invoice page
+	@RequestMapping(value={"createInvoiceCustomerByDevice","userCreateInvoiceCustomerByDevice"},method={RequestMethod.GET,RequestMethod.POST})
+		public ModelAndView displayDeviceByCusCreateInvoice(@RequestParam("customerName") String customerName,@ModelAttribute InvoiceBean invoiceBean){
+			model= new ModelAndView();
+			selectedDateRange = "Select Date";
+			String selectedName = customerName;
+			
+			userName = (Employee) session.getAttribute("loggedInUser");
+			if(userName != null){
+			
+				if (userName.getRole().equalsIgnoreCase("Manager") || userName.getRole().equalsIgnoreCase("Admin")) {
+					
+					getSerialNumbers = deviceServiceInt.getSerials();
+					model.addObject("serialNumbers", getSerialNumbers);
+					model.addObject("deviceList",deviceServiceInt.getDeviceListByClientName(customerName));				
+					model.addObject("customerName", customerName);
+					model.addObject("selectedName", selectedName);
+					model.addObject("customers", customerServiceInt.getClientList());	
+					model.addObject("newDate", selectedDateRange);
+					model.setViewName("createInvoiceCustomerByDevice");
+				
+			   }else if(userName.getRole().equalsIgnoreCase("User")){
+				   
+				    getSerialNumbers = deviceServiceInt.getSerials();
+					model.addObject("serialNumbers", getSerialNumbers);
+					model.addObject("deviceList",deviceServiceInt.getDeviceListByClientName(customerName));				
+					model.addObject("customerName", customerName);
+					model.addObject("selectedName", selectedName);
+					model.addObject("customers", customerServiceInt.getClientList());
+					model.addObject("newDate", selectedDateRange);
+				   model.setViewName("userCreateInvoiceCustomerByDevice");			   
+			   }
+			}
+			else{
+				model.setViewName("login");
+			}
+			return model;
+		}
+	
+	
+	
 	
 }
