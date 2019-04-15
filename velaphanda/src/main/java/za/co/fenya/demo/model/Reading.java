@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -40,69 +41,24 @@ public class Reading implements Serializable{
 	@GeneratedValue(generator="gen")
 	@Column(name="Record_ID", unique = true, nullable = false, precision = 15, scale = 0)
 	private Long recordID;
-	@Column(name="A3_Mono_P_Start")
-	private String a3MonoPrintStart;
 	
-	@Column(name="A3_Mono_P_Close")
-	private String a3MonoPrintClose;
+	@Column(name="Mono_Reading")
+	private String monoReading;
 	
-	@Column(name="A3_Mono_C_Start")
-	private String a3MonoCopyStart;
-	
-	@Column(name="A3_Mono_C_Close")
-	private String a3MonoCopyClose;
-	
-	@Column(name="A3_Color_P_Start")
-	private String a3ColorPrintStart;
-	
-	@Column(name="A3_Color_P_Close")
-	private String a3ColorPrintClose;
-	
-	@Column(name="A3_Color_C_Start")
-	private String a3ColorCopyStart;
-	
-	@Column(name="A3_Color_C_Close")
-	private String a3ColorCopyClose;
+	@Column(name="Color_Reading")
+	private String colorReading ;
 	
 	
-	@Column(name="A4_Mono_P_Start")
-	private String a4MonoPrintStart;
+	@Column(name="Previous_Color_Reading")
+	private String previousColorReading;
 	
-	@Column(name="A4_Mono_P_Close")
-	private String a4MonoPrintClose;
-	
-	@Column(name="A4_Mono_C_Start")
-	private String a4MonoCopyStart;
-	
-	@Column(name="A4_Mono_C_Close")
-	private String a4MonoCopyClose;
-	
-	@Column(name="A4_Color_P_Start")
-	private String a4ColorPrintStart;
-	
-	@Column(name="A4_Color_P_Close")
-	private String a4ColorPrintClose;
-	
-	@Column(name="A4_Color_C_Start")
-	private String a4ColorCopyStart;
-	
-	@Column(name="A4_Color_C_Close")
-	private String a4ColorCopyClose;
-	
-	@Column(name="Start_Mono_Total")
-	private String startMonoTotal;
-	
-	@Column(name="Close_Mono_Total")
-	private String closeMonoTotal;
-	
-	@Column(name="Start_Color_Total")
-	private String startColorTotal;
-	
-	@Column(name="Close_Color_Total")
-	private String closeColorTotal;
+	@Column(name="Previous_Mono_Reading")
+	private String previousMonoReading;
+	 
 	
 	@Column(name="Reading_Month")
 	private String readingMonth;
+
 	
 	@Column(name="Reading_Year")
 	private String readingYear;
@@ -110,15 +66,28 @@ public class Reading implements Serializable{
 	@Column(name="Insert_Date")
 	private String insertDate;
 	
-	@Column(name="Invoiced_Flag")
-	private String invoicedFlag;
+	@Column(name="Modified_Date")
+	private String modifiedDate;
 	
-	@OneToOne
-	@JoinColumn(name="Invoice")
-	private Invoice invoiceNumber;
-	
+
 	@ManyToOne
 	@JoinColumn(name="Created_By")
-	private Employee employee;
+	private Employee employee; 
+	
+	@ManyToOne
+	@JoinColumn(name="Modify_Approver")
+	private Employee modifyApprover;
+	
+	@ManyToOne
+	@JoinColumn(name="Modified_By")
+	private Employee modifiedBy;
+	
+	@ManyToOne
+	@JoinColumn(name="Serial_Number")
+	private Device serialNumber;
+	
+	@ManyToOne
+	@JoinColumn(name="Customer_Name")
+	private Customer customerName;
 	
 }
