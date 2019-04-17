@@ -1,8 +1,5 @@
 package za.co.fenya.demo.service.impl;
 
-import java.util.List;
-
-import net.sf.jasperreports.engine.JRDataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,13 +15,14 @@ import za.co.fenya.demo.service.ReadingServiceInt;
 public class ReadingService implements ReadingServiceInt {
 	
 	@Autowired
-	private ReadingDaoInt readingDAO1;
+	private ReadingDaoInt readingDAO;
+	
 	private String retMessage = null;
 	
 	@Override
 	public String createReading(ReadingBean reading) {
 		// TODO Auto-generated method stub
-		retMessage = readingDAO1.createReading(reading);
+		retMessage = readingDAO.createReading(reading);
 		return retMessage;
 	}
 		

@@ -2,52 +2,27 @@ package za.co.fenya.demo.dao.Impl;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import za.co.fenya.demo.bean.CustomerDeviceHistoryBean;
-import za.co.fenya.demo.bean.DeviceBean;
-import za.co.fenya.demo.bean.LeaveBean;
 import za.co.fenya.demo.bean.ReadingBean;
-import za.co.fenya.demo.dao.AccessoriesDaoInt;
 import za.co.fenya.demo.dao.CustomerDaoInt;
-import za.co.fenya.demo.dao.CustomerDeviceHistoryDaoInt;
-import za.co.fenya.demo.dao.DeviceContactPersonDaoInt;
 import za.co.fenya.demo.dao.DeviceDaoInt;
 import za.co.fenya.demo.dao.EmployeeDaoInt;
-import za.co.fenya.demo.dao.ModelNumbersMasterDaoInt;
 import za.co.fenya.demo.dao.ReadingDaoInt;
-import za.co.fenya.demo.dao.SiteStocDaoInt;
-import za.co.fenya.demo.dao.TicketsDaoInt;
-import za.co.fenya.demo.model.Accessories;
 import za.co.fenya.demo.model.Customer;
 import za.co.fenya.demo.model.Device;
-import za.co.fenya.demo.model.DeviceContactPerson;
 import za.co.fenya.demo.model.Employee;
-import za.co.fenya.demo.model.Leave;
-import za.co.fenya.demo.model.ModelNumbers;
 import za.co.fenya.demo.model.Reading;
-import za.co.fenya.demo.model.SiteStock;
-import za.co.fenya.demo.model.TicketHistory;
-import za.co.fenya.demo.model.Tickets;
-import za.co.fenya.demo.reports.initializer.DeviceReportBean;
-import za.co.fenya.demo.service.TicketHistoryInt;
+
 
 @Repository("readingDAO")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -59,11 +34,9 @@ public class ReadingDao implements ReadingDaoInt {
 	private EmployeeDaoInt employeeDao;
 	@Autowired
 	private HttpSession session = null;
-	@Autowired
+	
 	private Reading globalReading;
-	@Autowired
 	private Customer customer;
-	@Autowired
 	private Device device;
 	@Autowired
 	private CustomerDaoInt customerDaoInt;
@@ -81,10 +54,13 @@ public class ReadingDao implements ReadingDaoInt {
 	SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Date now = new Date();
 	String timeDeviceAdded = sdfDate.format(now);
-
+	
+	
+	
+	
 	@Override
 	public String createReading(ReadingBean reading) {
-
+		
 		Employee employee = (Employee) session.getAttribute("loggedInUser");
 		globalReading = new Reading();
 		customer = new Customer();
@@ -130,5 +106,4 @@ public class ReadingDao implements ReadingDaoInt {
 		return retMessage;
 
 	}
-
 }
