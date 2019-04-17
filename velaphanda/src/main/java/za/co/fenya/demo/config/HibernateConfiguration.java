@@ -39,6 +39,7 @@ import za.co.fenya.demo.model.ModelNumbers;
 import za.co.fenya.demo.model.OrderDetails;
 import za.co.fenya.demo.model.OrderHeader;
 import za.co.fenya.demo.model.OrderHistory;
+import za.co.fenya.demo.model.Reading;
 import za.co.fenya.demo.model.SiteStock;
 import za.co.fenya.demo.model.SpareMaster;
 import za.co.fenya.demo.model.SpareReports;
@@ -71,7 +72,7 @@ public class HibernateConfiguration {
         		Device.class,DeviceContactPerson.class,Employee.class,History.class,HistoryMovement.class,HOStock.class,Leave.class,LeaveStatus.class,
         		LoginAttempt.class,ModelNumbers.class,OrderDetails.class,OrderHeader.class,OrderHistory.class,SiteStock.class,
         		SpareMaster.class,SpareReports.class,TicketHistory.class,Tickets.class,CustomerDocument.class,UserLogDetails.class,
-        		VelaphandaProfile.class);
+        		VelaphandaProfile.class,Reading.class);
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
      }
