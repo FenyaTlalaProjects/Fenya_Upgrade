@@ -22,8 +22,22 @@ public class InvoiceBean {
 	private String invoiceNumber;
 	private String invoiceDate;
 	private String invoiceDueDate;
-	private String invoicePayed;
-	private String paymentDate;
+	private String invoicePeriod; // example April 2019
+	
+	//role = "Bill To" , role = "Bill From" role = "Remit To" role = "Sold To"
+	private String []contactRole;
+	private String [] contactName;
+	private String [] street;
+	private String [] city;
+	private String [] state;
+	private String [] postalCode;
+	
+	
+	
+	private boolean invoicePayed;
+	
+	
+	
 	private String insertDate;
 	private String serialNUmber;
 	private String customerName;

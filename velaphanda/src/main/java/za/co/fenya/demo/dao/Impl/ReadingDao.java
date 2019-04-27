@@ -2,11 +2,14 @@ package za.co.fenya.demo.dao.Impl;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,6 +24,7 @@ import za.co.fenya.demo.dao.ReadingDaoInt;
 import za.co.fenya.demo.model.Customer;
 import za.co.fenya.demo.model.Device;
 import za.co.fenya.demo.model.Employee;
+import za.co.fenya.demo.model.Reading;
 import za.co.fenya.demo.model.Reading;
 
 
@@ -106,4 +110,300 @@ public class ReadingDao implements ReadingDaoInt {
 		return retMessage;
 
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Reading> getAllReadings() {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
+				Reading.class);
+		return (List<Reading>) criteria.list();
+	}
+  
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Reading> getReadingsByMonthOfYear (String month, String year) {
+		List<Reading> aList = getAllReadings();
+		ArrayList<Reading> readingList = new ArrayList<Reading>();
+		
+
+		for (Reading reading : aList) {
+			if( reading.getReadingMonth().equalsIgnoreCase(month) && reading.getReadingYear().equalsIgnoreCase(year) )
+			{
+				readingList.add(reading);
+			}
+		}
+		return readingList;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Reading> getReadingsByUser (String user) {
+		List<Reading> aList = getAllReadings();
+		ArrayList<Reading> readingList = new ArrayList<Reading>();
+		
+
+		for (Reading reading : aList) {
+			if( reading.getEmployee().getEmail().equalsIgnoreCase(user) )
+			{
+				readingList.add(reading);
+			}
+		}
+		return readingList;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Reading> getReadingsByModifyApprover (String approver) {
+		List<Reading> aList = getAllReadings();
+		ArrayList<Reading> readingList = new ArrayList<Reading>();
+		
+		for (Reading reading : aList) {
+			if( reading.getModifyApprover().getEmail().equalsIgnoreCase(approver) )
+			{
+				readingList.add(reading);
+			}
+		}
+		return readingList;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Reading> getReadingsByModifyUser (String user) {
+		List<Reading> aList = getAllReadings();
+		ArrayList<Reading> readingList = new ArrayList<Reading>();
+		
+		for (Reading reading : aList) {
+			if( reading.getModifiedBy().getEmail().equalsIgnoreCase(user) )
+			{
+				readingList.add(reading);
+			}
+		}
+		return readingList;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Reading> getReadingsBySerialNumber (String serialNumber) {
+		List<Reading> aList = getAllReadings();
+		ArrayList<Reading> readingList = new ArrayList<Reading>();
+		
+		for (Reading reading : aList) {
+			if( reading.getSerialNumber().getSerialNumber().equalsIgnoreCase(serialNumber) )
+			{
+				readingList.add(reading);
+			}
+		}
+		return readingList;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Reading> getReadingsByCustomerName (String customerName) {
+		List<Reading> aList = getAllReadings();
+		ArrayList<Reading> readingList = new ArrayList<Reading>();
+		
+		for (Reading reading : aList) {
+			if( reading.getCustomerName().getCustomerName().equalsIgnoreCase(customerName) )
+			{
+				readingList.add(reading);
+			}
+		}
+		return readingList;
+	}
+	
+	@Override
+	public List<Reading> selectReadingsForManager(String customer,
+			String dateRange, String user, String serialNumber) {
+		
+		boolean allCustomers = false;
+		boolean allUsers = false;
+		boolean dateNotSelected = false;
+
+		List<Reading> readingList = null;
+		List<Reading> aList = new ArrayList<Reading>();
+
+		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date myStart = new Date();
+		Date myEnd = new Date();
+		Date dateData = new Date();
+		String convDate = "";
+		String normalDate = "";
+
+		try {
+
+			allCustomers = customer.equalsIgnoreCase("All Customers");
+			allUsers = user.equalsIgnoreCase("All Users");
+			dateNotSelected = dateRange.equalsIgnoreCase("Select Date");
+			String startDate = "";
+			String endDate = "";
+			if (dateNotSelected != true) {
+				startDate = dateRange.substring(0, 10);
+				endDate = dateRange.substring(13);
+
+				myStart = new Date();
+				myEnd = new Date();
+				dateData = new Date();
+
+				myStart = myFormat.parse(startDate);
+				myEnd = myFormat.parse(endDate);
+
+			}
+
+			if (serialNumber != null) {
+				readingList = getReadingsBySerialNumber(serialNumber);				
+				}
+			else if (serialNumber == null) {
+		
+				if (allCustomers == true && allUsers == true) {
+					if (dateNotSelected == false) {
+						readingList = getAllReadings();
+						for (Reading reading : readingList) {
+
+							
+							convDate = reading.getInsertDate().substring(0, 10);
+							normalDate = convDate.replace("/", "-");
+							dateData = myFormat.parse(normalDate);
+							boolean withinRange = false;
+							if (myStart.compareTo(dateData) <= 0
+									&& myEnd.compareTo(dateData) >= 0) {
+								// withinRange = true;
+								aList.add(reading);
+							}
+						}
+					} else if (dateNotSelected == true) {
+						readingList = getAllReadings();
+						for (Reading reading : readingList) {
+							aList.add(reading);
+						}
+					}
+
+				}
+
+				else if (allCustomers == true && allUsers == false) {
+					if (dateNotSelected == false) {
+						readingList = getAllReadings();
+						for (Reading reading : readingList) {
+
+							convDate = reading.getInsertDate().substring(0, 10);
+							normalDate = convDate.replace("/", "-");
+							dateData = myFormat.parse(normalDate);
+							boolean withinRange = false;
+							if (myStart.compareTo(dateData) <= 0
+									&& myEnd.compareTo(dateData) >= 0) {
+								withinRange = true;
+							}
+							if (reading.getEmployee().getEmail()
+									.equalsIgnoreCase(user)
+									&& withinRange == true) {
+								aList.add(reading);
+							}
+
+						}
+					} else if (dateNotSelected == true) {
+						readingList = getAllReadings();
+						for (Reading reading : readingList) {
+							if (reading.getEmployee().getEmail()
+									.equalsIgnoreCase(user)) {
+								aList.add(reading);
+							}
+						}
+					}
+				}
+				else if (allCustomers == false && allUsers == true) {
+					if (dateNotSelected == false) {
+						readingList = getAllReadings();
+						for (Reading reading : readingList) {
+
+							convDate = reading.getInsertDate().substring(0, 10);
+							normalDate = convDate.replace("/", "-");
+							dateData = myFormat.parse(normalDate);
+							boolean withinRange = false;
+							if (myStart.compareTo(dateData) <= 0
+									&& myEnd.compareTo(dateData) >= 0) {
+								withinRange = true;
+							}
+							if (reading.getCustomerName().getCustomerName() != null ) 
+							{
+								if (reading.getCustomerName()
+										.getCustomerName()
+										.equalsIgnoreCase(customer)
+										&& withinRange == true) {
+									aList.add(reading);
+								}
+
+							}
+							
+						}
+					} else if (dateNotSelected == true) {
+						readingList = getAllReadings();
+						for (Reading reading : readingList) {
+							if (reading.getCustomerName() != null )
+							{
+								if (reading.getCustomerName() != null ) 
+								{
+									if (reading.getCustomerName()
+											.getCustomerName()
+											.equalsIgnoreCase(customer)) {
+										aList.add(reading);
+									}
+								}
+								
+							}
+							
+
+						}
+					}
+				}
+
+				else if (allCustomers == false && allUsers == false) {
+					ReadingBean reading = null;
+					if (dateNotSelected == false) {
+						readingList = getAllReadings();
+						for (Reading order : readingList) {
+
+							convDate = reading.getInsertDate().substring(0, 10);
+							normalDate = convDate.replace("/", "-");
+							dateData = myFormat.parse(normalDate);
+							boolean withinRange = false;
+							if (myStart.compareTo(dateData) <= 0
+									&& myEnd.compareTo(dateData) >= 0) {
+								withinRange = true;
+							}
+							if (reading.getCustomerName() != null ) 
+							{
+								if (reading.getCustomerName()							
+										.equalsIgnoreCase(customer)
+										&& order.getEmployee().getEmail()
+												.equalsIgnoreCase(user)
+										&& withinRange == true) {
+									aList.add(order);
+								}
+							}
+							
+						}
+					} else if (dateNotSelected == true) {
+						readingList = getAllReadings();
+						for (Reading order : readingList) {
+							if (reading.getCustomerName() != null ) 
+							{
+								if (reading.getCustomerName()
+										.equalsIgnoreCase(customer)
+										&& order.getEmployee().getEmail()
+												.equalsIgnoreCase(user)) {
+									aList.add(order);
+								}
+
+							}
+							
+						}
+					}
+				}
+			}
+		} catch (Exception exception) {
+			exception.getMessage();
+		}
+
+		return aList;
+	}
+     
 }
