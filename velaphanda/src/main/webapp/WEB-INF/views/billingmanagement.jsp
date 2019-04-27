@@ -36,7 +36,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading" align="center">Billing</div>
+					<div class="panel-heading" align="center">Readings</div>
 					<div class="panel-body">
 					
 						<form:form action="searchTicket" method="post" id="searchTicket"
@@ -65,21 +65,33 @@
 										</div>
 									</div>
 								</div>
-
-								<!-- Select type selectDateRange-->
-								<div class="form-group">
+								
+								
+								<!-- Select type customers-->
+								<div class="form-group ">
 									<div class="col-md-3 selectContainer">
 										<div class="input-group">
-											<input type="text" class="form-control"
-												name="selectDateRange" id="selectDateRange"
-												value="${newDate}"> <span class="input-group-addon"><i
-												class="glyphicon glyphicon-calendar"></i></span>
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-list"></i></span> <select
+												name="deviceName" id="deviceName"
+												class="form-control selectpicker">
+												<c:if test="${not empty selectedName }">
+													<option value="${selectedName}">${ selectedName}</option>
+												</c:if>
+												<option value="<c:out value="All Customers"/>">All
+													Devices</option>
+												<c:forEach items="${deviceName}" var="deviceName">
+													<option value="<c:out value='${customer.customerName}'/>">${customer.customerName}</option>
+												</c:forEach>
+											</select>
+
 										</div>
 									</div>
 								</div>
 
+							
 								<!-- Select type selectTehnnician-->
-								<%-- <div class="form-group ">
+								<div class="form-group ">
 									<div class="col-md-3 selectContainer">
 										<div class="input-group">
 											<span class="input-group-addon"><i
@@ -89,7 +101,7 @@
 												<c:if test="${not empty selectedTechnician }">
 													<option>${ selectedTechnician.firstName}${ selectedTechnician.lastName}</option>
 												</c:if>
-												<option value="All Technicians" />All Technicians
+												<option value="All Technicians" />All Users
 												</option>
 												<c:forEach items="${technicians}" var="technician">
 													<option value="<c:out value='${technician.email}'/>">${technician.firstName}
@@ -99,16 +111,16 @@
 											</select>
 										</div>
 									</div>
-								</div> --%>
+								</div>
 								<div align=right>
 									<!-- Text input Search-->
 									<div class="form-group">
 										<div class="col-md-3 inputGroupContainer">
 											<div class="input-group">
-												<input name="invoiceNumber" list="ticketNumbers"
+												<input name="serialNumber" list="serialNumbers"
 													class="form-control" type="text"
 													onkeydown="upperCaseF(this)"
-													placeholder='Enter Invoice Number' /> <span
+													placeholder='Enter Serial Number' /> <span
 													class="input-group-btn">
 													<button class="btn btn-success" type="submit">
 														<div class="up" style="margin-top: -8%; color: white;">Search</div>
@@ -119,8 +131,8 @@
 										</div>
 
 										<!-- Iterating over the list sent from Controller -->
-										<datalist id="ticketNumbers"> <c:forEach var="list"
-											items="${ticketNumbers}">
+										<datalist id="serialNumbers"> <c:forEach var="list"
+											items="${serialNumbers}">
 											<option value="${list}">
 										</c:forEach> </datalist>
 									</div>
@@ -134,91 +146,49 @@
 									<div class="row">
 										<br />
 										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="/createInvoice"/>'>
+											<a href='<c:url value="/readings"/>'>
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-danger">
-														<!-- <span class="label label-danger pull-right">${countOpenTickets}</span> -->
-														Create Invoice
+														<span class="label label-danger pull-right"><span class="glyphicon">&#xe065;</span></span>
+														Enter Readings
 													</h5>
 												</div>
 											</a>
 										</div>
 										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="acknowledgedTickets"/>'>
+											<a href='<c:url value="#"/>'>
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-success">
-														<span class="label label-success pull-right">${countAcknowledgedTickets}</span>
-														<!-- Acknowledged -->
+														<span class="label label-success pull-right">0<%-- ${countAcknowledgedTickets} --%></span>
+														Captured Readings 
 													</h5>
 												</div>
 											</a>
 										</div>
 										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="takenTickets"/>'>
+											<a href='<c:url value="#"/>'>
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-primary">
-														<span class="label label-primary pull-right">${countTakenTickets}</span>
-														<!-- Taken -->
+														<span class="label label-primary pull-right">0<%-- ${countTakenTickets} --%></span>
+														Pending Readings
 													</h5>
 												</div>
 											</a>
 										</div>
 										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="ticketsAwaitingSpares"/>'>
+											<a href='<c:url value="#"/>'>
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-danger">
-														<span class="label label-danger pull-right">${countAwaitingSparesTickets}</span>
-														<!-- Awaiting Spares -->
+														<span class="label label-danger pull-right">0<%-- ${countAwaitingSparesTickets} --%></span>
+														Deleted Readings
 													</h5>
 												</div>
 											</a>
 										</div>
 									</div>
 									<!--/row-->
-									<div class="row">
-
-										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="escalatedTickets"/>'>
-												<div class="well" style="background-color: #ffffff;">
-													<h5 class="text-success">
-														<span class="label label-success pull-right">${countEscalatedTickets}</span>
-														<!-- Escalated -->
-													</h5>
-												</div>
-											</a>
-										</div>
-										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="sLABridgedTickets"/>'>
-												<div class="well" style="background-color: #ffffff;">
-													<h5 class="text-danger">
-														<span class="label label-danger pull-right">${countBridgedTickets}</span>
-														<!-- SLA Bridged -->
-													</h5>
-												</div>
-											</a>
-										</div>
-										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="resolvedTickets"/>'>
-												<div class="well" style="background-color: #ffffff;">
-													<h5 class="text-success">
-														<span class="label label-success pull-right">${countResolvedTickets}</span>
-														<!-- Resolved -->
-													</h5>
-												</div>
-											</a>
-										</div>
-										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="closedTickets"/>'>
-												<div class="well" style="background-color: #ffffff;">
-													<h5 class="text-success">
-														<span class="label label-success pull-right">${countClosedTickets}</span>
-														<!-- Closed -->
-													</h5>
-												</div>
-											</a>
-										</div>
-									</div>
-									<!--/row-->
+									
+									
 								</div>
 								<!--/col-12-->
 							</ul>

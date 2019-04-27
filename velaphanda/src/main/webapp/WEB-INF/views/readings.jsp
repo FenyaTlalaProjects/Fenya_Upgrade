@@ -6,8 +6,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <c:import url="templates/tableresizefont.jsp"></c:import>
 <c:import url="templates/stylesheetlib.jsp"></c:import>
-<title>Create Invoice </title>
 
+
+<title>Enter Readings</title>
+<style type="text/css">
+/* Tablet and bigger */
+@media ( min-width : 768px ) {
+	.grid-divider {
+		position: relative;
+		padding: 0;
+	}
+	.grid-divider>[class*='col-'] {
+		position: static;
+	}
+	.grid-divider>[class*='col-']:nth-child(n+2):before {
+		content: "";
+		border-left: 1px solid #DDD;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+	}
+	.col-padding {
+		padding: 0 15px;
+	}
+}
+</style>
 </head>
 <body>
 
@@ -16,7 +39,8 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href='<c:url value="/home"/>'><svg class="glyph stroked home">
+				<li><a href='<c:url value="/home"/>'><svg
+							class="glyph stroked home">
 						<use xlink:href="#stroked-home"></use></svg></a></li>
 				<div class="nav navbar-nav navbar-right" style="margin-top: -1%;">
 					<a href="#" onclick="history.go(-1);"><span
@@ -33,43 +57,119 @@
 			<div class="col-lg-12">
 				<div class="panel panel-default">
 					<div class="panel-heading" align="center">
-						<b>Create Invoice</b>
+						<b>Enter Reading</b>
 					</div>
 					<div class="panel-body">
+
+
+						<form:form action="searchTicket" method="post" id="searchTicket"
+							class="searchTicket" modelAttribute="searchTicket">
+
+							<div style="margin-bottom: -3px; margin-left: -1px;" align=left>
+
+								<!-- Select type customers-->
+								<div class="form-group ">
+									<div class="col-md-3 selectContainer">
+										<div class="input-group">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-list"></i></span> <select
+												name="customerName" id="customerName"
+												class="form-control selectpicker"
+												onchange="location = this.value;">
+												<c:if test="${not empty selectedName }">
+													<option value="${selectedName}">${ selectedName}</option>
+												</c:if>
+												<option value="<c:out value="All Customers"/>">All
+													Customers</option>
+												<c:forEach items="${customers}" var="customer">
+													<option
+														value="readingsCustomerByDevice?customerName=<c:out value='${customer.customerName}'/>">${customer.customerName}</option>
+												</c:forEach>
+											</select>
+
+										</div>
+									</div>
+								</div>
+
+
+								<!-- Text input Search-->
+								<div class="form-group">
+									<div class="col-md-3 inputGroupContainer">
+										<div class="input-group">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-hdd"></i></span> <input
+												name="serialNumber" list="deviceList" class="form-control"
+												type="text" onkeydown="upperCaseF(this)"
+												placeholder='Enter Serial Number' />
+										</div>
+									</div>
+									<!-- Iterating over the list sent from Controller -->
+									<datalist id="deviceList">
+										<c:forEach var="list" items="${deviceList}">
+											<option value="${list.serialNumber}">
+										</c:forEach>
+									</datalist>
+
+								</div>
+
+
+								<!-- Select type selectTehnnician-->
+								<div class="form-group ">
+									<div class="col-md-3 selectContainer">
+										<div class="input-group">
+											<span class="input-group-addon"><i
+												class="glyphicon glyphicon-list"></i></span> <select
+												name="technicianName" id="technicianName"
+												class="form-control selectpicker">
+												<c:if test="${not empty selectedTechnician }">
+													<option>${ selectedTechnician.firstName}${ selectedTechnician.lastName}</option>
+												</c:if>
+												<option value="All Technicians" />All Users
+												</option>
+												<c:forEach items="${technicians}" var="technician">
+													<option value="<c:out value='${technician.email}'/>">${technician.firstName}
+														${technician.lastName}</option>
+												</c:forEach>
+
+											</select>
+										</div>
+									</div>
+								</div>
+								<div align=right>
+									<!-- Text input Search-->
+									<div class="form-group">
+										<div class="col-md-3 inputGroupContainer">
+											<div class="input-group">
+												<input name="serialNumber" list="serialNumbers"
+													class="form-control" type="text"
+													onkeydown="upperCaseF(this)"
+													placeholder='Enter Serial Number' /> <span
+													class="input-group-btn">
+													<button class="btn btn-success" type="submit">
+														<div class="up" style="margin-top: -8%; color: white;">Search</div>
+													</button>
+												</span>
+											</div>
+											<!-- /input-group -->
+										</div>
+
+										<!-- Iterating over the list sent from Controller -->
+										<datalist id="serialNumbers">
+											<c:forEach var="list" items="${serialNumbers}">
+												<option value="${list}">
+											</c:forEach>
+										</datalist>
+									</div>
+								</div>
+							</div>
+						</form:form>
 
 						<form:form class="well form-horizontal" method="post"
 							action="createInvoice" id="createInvoice"
 							modelAttribute="createInvoice">
-							
-							<div class="row">
-							
-							<div class="col-sm-6">
-								<div class="form-group">
-							 		<label class="col-md-3 control-label"></label>
-										<div class="col-md-6 selectContainer">
-											<div class="input-group">
-												<input type="submit" value="Create Invoice"
-														class="btn btn-primary btn-block btn-sm" tabindex="9"
-													id="createInvoice">
-											</div>
-										</div>
-								</div>
-							</div>
-							<div class="col-sm-6">
-								<div class="form-group">
-									<label class="col-md-3 control-label"></label>
-										<div class="col-md-6 selectContainer">
-											<div class="input-group">
-												<input type="submit" value="Validate Invoice"
-														class="btn btn-primary btn-block btn-sm" tabindex="9"
-													id="validateInvoice">
-											</div>
-										</div>
-								</div>
-							</div>		
-							
-							</div>
-							<fieldset>
+
+							<div class="row"></div>
+							<%-- <fieldset>
 								<!-- Customer Device -->
 								<legend>
 									<b style="font-size: 15px;">Customer Device </b>
@@ -161,89 +261,108 @@
 										</div>
 									</div>
 								
-								</fieldset>	
-								
-								<fieldset>
+								</fieldset>	 --%>
+							<br>
+							<fieldset>
 								<!-- Device Readings -->
-								<legend>
+								<br>
+								<legend style="text-align:center;">
 									<b style="font-size: 15px;">Device Readings</b>
 								</legend>
+
 								
-									<%-- <c:if test="${not empty productObject.monoReading }"> --%>
-											<!-- Text input Mono-->
-											<div class="form-group">
-												<label class="col-md-3 control-label">Previous Mono Reading</label>
-												<div class="col-md-6 inputGroupContainer">
-													<div class="input-group">
-														<span class="input-group-addon"><i
-															class="glyphicon glyphicon-barcode"></i></span> <input
-															id="monoReading" name="monoReading"
-															placeholder="Mono Reading" class="form-control"
-															type="text">
-													</div>
-												</div>
-											</div>
-										<%-- 	</c:if>
-											<c:if test="${empty productObject.monoReading }">
-											</c:if>
-											<c:if test="${not empty productObject.colourReading}">
-											 --%><!-- Text input Color-->
-											<div class="form-group">
-												<label class="col-md-3 control-label">Previous Colour Reading</label>
-												<div class="col-md-6 inputGroupContainer">
-													<div class="input-group">
-														<span class="input-group-addon"><i
-															class="glyphicon glyphicon-barcode"></i></span> <input
-															id="ColourReading" name="ColourReading"
-															placeholder="Color Reading" class="form-control"
-															type="text">
-													</div>
-												</div>
-											</div>
-											<%-- </c:if>											
-											<c:if test="${empty productObject.colourReading }">
-											</c:if>
-											
+
+
+								<div class="row grid-divider">
+									<div class="col-sm-6">
+										<div class="col-padding">
+											<legend>
+											<b style="font-size: 15px;"> Mono Reading</b>
+										</legend>
+
 											<%-- <c:if test="${not empty productObject.monoReading }"> --%>
+										<!-- Text input Mono-->
+										<div class="form-group">
+
+											<div class="col-md-6 inputGroupContainer">
+												<div class="input-group">
+													<span class="input-group-addon"><i
+														class="glyphicon glyphicon-barcode"></i></span> <input
+														id="previousmonoReading" name="previousmonoReading"
+														placeholder="Enter Previous Mono Reading"
+														class="form-control" type="text">
+												</div>
+											</div>
+										</div>
+										<%--</c:if>
+											
+											<c:if test="${empty productObject.monoReading }"></c:if>
+											<c:if test="${not empty productObject.colourReading}"> --%>
+
+										<!-- Text input Color-->
+										<div class="form-group">
+
+											<div class="col-md-6 inputGroupContainer">
+												<div class="input-group">
+													<span class="input-group-addon"><i
+														class="glyphicon glyphicon-barcode"></i></span> <input
+														id="ColourReading" name="ColourReading"
+														placeholder="Enter Current Mono Reading"
+														class="form-control" type="text">
+												</div>
+											</div>
+										</div>
+										<%-- </c:if>
+																					
+											<c:if test="${empty productObject.colourReading }"></c:if>
+											<%-- <c:if test="${not empty productObject.monoReading }"> --%>
+											
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="col-padding">
+											<legend>
+											<b style="font-size: 15px;"> Colour Reading</b>
+											</legend>
 											<!-- Text input Mono-->
-											<div class="form-group">
-												<label class="col-md-3 control-label">Current Mono Reading</label>
-												<div class="col-md-6 inputGroupContainer">
-													<div class="input-group">
-														<span class="input-group-addon"><i
-															class="glyphicon glyphicon-barcode"></i></span> <input
-															id="currentMonoReading" name="currentMonoReading"
-															placeholder="Enter Current Mono Reading" class="form-control"
-															type="text">
-													</div>
+										<div class="form-group">
+
+											<div class="col-md-6 inputGroupContainer">
+												<div class="input-group">
+													<span class="input-group-addon"><i
+														class="glyphicon glyphicon-barcode"></i></span> <input
+														id="currentMonoReading" name="currentMonoReading"
+														placeholder="Enter Previous Colour Reading"
+														class="form-control" type="text">
 												</div>
 											</div>
-										<%-- 	</c:if>
-											<c:if test="${empty productObject.monoReading }">
-											</c:if>
-											<c:if test="${not empty productObject.colourReading}">
-											 --%><!-- Text input Color-->
-											<div class="form-group">
-												<label class="col-md-3 control-label">Current Colour Reading</label>
-												<div class="col-md-6 inputGroupContainer">
-													<div class="input-group">
-														<span class="input-group-addon"><i
-															class="glyphicon glyphicon-barcode"></i></span> <input
-															id="currentColourReading" name="currentColourReading"
-															placeholder="Enter Current Color Reading" class="form-control"
-															type="text">
-													</div>
+										</div>
+										<%--</c:if>
+								          
+											<c:if test="${empty productObject.monoReading }"></c:if>
+											<c:if test="${not empty productObject.colourReading}">--%>
+
+										<!-- Text input Color-->
+										<div class="form-group">
+
+											<div class="col-md-6 inputGroupContainer">
+												<div class="input-group">
+													<span class="input-group-addon"><i
+														class="glyphicon glyphicon-barcode"></i></span> <input
+														id="currentColourReading" name="currentColourReading"
+														placeholder="Enter Current Color Reading"
+														class="form-control" type="text">
 												</div>
 											</div>
-											<%-- </c:if>											
-											<c:if test="${empty productObject.colourReading }">
-											</c:if>
+										</div>
+										<%-- </c:if>											
+											<c:if test="${empty productObject.colourReading }"></c:if>
 											
 											
 								
 											<c:if test="${not empty productObject.monoReading }"> --%>
-											<!-- Text input Mono-->
-											<!-- <div class="form-group">
+										<!-- Text input Mono-->
+										<!-- <div class="form-group">
 												<label class="col-md-3 control-label">Mono Copy Cost</label>
 												<div class="col-md-6 inputGroupContainer">
 													<div class="input-group">
@@ -255,12 +374,12 @@
 													</div>
 												</div>
 											</div> -->
-											<%-- </c:if>
+										<%-- </c:if>
 											<c:if test="${empty productObject.monoReading }">
 											</c:if>
 											<c:if test="${not empty productObject.colourReading}"> --%>
-											<!-- Text input Color-->
-											<!-- <div class="form-group">
+										<!-- Text input Color-->
+										<!-- <div class="form-group">
 												<label class="col-md-3 control-label">Colour Copy Cost</label>
 												<div class="col-md-6 inputGroupContainer">
 													<div class="input-group">
@@ -272,14 +391,33 @@
 													</div>
 												</div>
 											</div> -->
-											<%-- </c:if>											
+										<%-- </c:if>											
 											<c:if test="${empty productObject.colourReading }">
-											</c:if>
-								 --%>
-													
-								
-								</fieldset>
-						
+											</c:if>--%>
+
+										</div>
+									</div>
+								</div>
+								<br/>
+								 <div class="row">
+								  <div class="col-sm-4">
+								  </div>
+								   <div class="col-sm-4">
+								    <div class="col text-center">
+								     <input type="submit" value="Capture Readings"
+											class="btn btn-primary btn-block btn-md" tabindex="9"
+											id="captureReadings">
+								    </div>
+								  </div>
+								  <div class="col-sm-4">
+								  </div>
+								  
+								 </div>
+
+							</fieldset>
+
+
+
 						</form:form>
 
 						<!-- .panel-body -->
@@ -322,7 +460,6 @@
 				}
 			});
 		});
-		
 
 		/*---Create datalist to populate search---*/
 
@@ -367,11 +504,12 @@
 		console.log("Mine : ", input);
 
 		//Set up and make the request.
-		request.open('GET',
-				'https://s3-us-west-2.amazonaws.com/s.cdpn.io/4621/html-elements.json',
-				true);
+		request
+				.open(
+						'GET',
+						'https://s3-us-west-2.amazonaws.com/s.cdpn.io/4621/html-elements.json',
+						true);
 		request.send();
-		
 	</script>
 	<c:import url="templates/sidebar-collapse.jsp"></c:import>
 	<!-- /Scripts -->

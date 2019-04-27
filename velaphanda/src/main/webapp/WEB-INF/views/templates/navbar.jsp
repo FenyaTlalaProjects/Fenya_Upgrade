@@ -54,6 +54,36 @@
 		<ul class="nav menu">
 			<li class="parent ">
 				<a href="#">
+					<span data-toggle="collapse" href="#sub-item-5"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg> Billing </span> 
+				<%-- </a><li><a href='<c:url value="/billingmanagement"/>'><span class="glyphicon glyphicon-usd"></span> </a></li> --%>
+				</a>
+				
+				<ul class="children collapse" id="sub-item-5">
+					<li>
+						<a class="" href='<c:url value="/billingmanagement"/>'>
+							Readings
+						</a>
+					</li>
+					<li>
+						<a class="" href='<c:url value="/invoice"/>'>
+							Invoices
+						</a>
+					</li>
+					<li>
+						<a class="" href='<c:url value="/statements"/>'>
+							Statements
+						</a>
+					</li>
+					<li>
+						<a class="" href='<c:url value="/SLA"/>'>
+							SLA
+						</a>
+					</li>				
+				</ul>
+				
+			</li>
+			<li class="parent ">
+				<a href="#">
 					<span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg> Customers </span>
 				</a>
 				<ul class="children collapse" id="sub-item-2">
@@ -114,7 +144,6 @@
 			<li><a href='<c:url value="/ordermanagement"/>'><span class="glyphicon glyphicon-shopping-cart"></span> Order Management</a></li>
 			<li><a href='<c:url value="/sparemanagement"/>'><span class="glyphicon glyphicon-wrench"></span> Spares Management</a></li>
 			<li><a href='<c:url value="/ticketmanagement"/>'><span class="glyphicon glyphicon-text-width"></span> Tickets Management</a></li>
-			<li><a href='<c:url value="/billingmanagement"/>'><span class="glyphicon glyphicon-usd"></span> Billing</a></li>
 			<li><a href='<c:url value="/servicemanualmanager"/>'><span class="glyphicon glyphicon-book"></span> Service Manuals </a></li>
 				
 			<li role="presentation" class="divider"></li>
