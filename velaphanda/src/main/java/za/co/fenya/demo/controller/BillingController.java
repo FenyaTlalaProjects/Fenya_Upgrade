@@ -17,6 +17,7 @@ import za.co.fenya.demo.bean.InvoiceBean;
 import za.co.fenya.demo.model.Customer;
 import za.co.fenya.demo.model.Device;
 import za.co.fenya.demo.model.Employee;
+import za.co.fenya.demo.model.Reading;
 import za.co.fenya.demo.service.AccessoriesInt;
 import za.co.fenya.demo.service.CustomerContactDetailsServiceInt;
 import za.co.fenya.demo.service.CustomerDeviceHistoryServiceInt;
@@ -42,6 +43,7 @@ public class BillingController {
 	Employee userName = null;
 	private String customerName, technicianName, technicianEmail, selectedDateRange, heading, machineType = null;
 	public String[] getSerialNumbers = null;
+	Reading readings = null;
 
 	// create billing management pages
 	@RequestMapping(value = { "billingmanagement", "userbillingmanagement" }, method = RequestMethod.GET)
@@ -146,7 +148,7 @@ public class BillingController {
 			return model;
 	}
 	
-		
+	//search reading for a client 
 	@RequestMapping(value={"searchCustomerName","userSearchCustomerName"})
 	public ModelAndView searchCustomer(@RequestParam("customerName") String customerName) {
 		String selectedName = customerName;
@@ -186,7 +188,55 @@ public class BillingController {
 		}		
 		return model;
 	}
+	
+	//read current readings
+	@RequestMapping(value={"readReadings","userReadReadings"})
+	public ModelAndView readReadings(@RequestParam("customerName") String customerName, @RequestParam("serialNumber")String serialNumber) {
+		String selectedName = customerName;
+		String selectedSerialNumber = serialNumber;
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if(userName != null){
+			if(userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))){
+			getSerialNumbers = deviceServiceInt.getSerials();
+			model.addObject("serialNumbers", getSerialNumbers);
+			model.addObject("customerName", customerName);
+			model.addObject("selectedName", selectedName);
+			model.addObject("serialNo", serialNumber);
+			model.addObject("selectedSerialNumber", selectedSerialNumber);
+			model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+			if(customerName !=null){
+				model.addObject("customers", customerServiceInt.getClientList());
+				model.addObject("custName", customerName);
+				model.addObject("serialNo", serialNumber);
+				model.addObject("selectedSerialNumber", selectedSerialNumber);
+							
+			}else{
+				model.addObject("errorRetMessage", "Customer name does not exist.");
+			}
+			model.setViewName("customerReadings");
+		}else if(userName.getRole().equalsIgnoreCase("User")){
+			getSerialNumbers = deviceServiceInt.getSerials();
+			model.addObject("serialNumbers", getSerialNumbers);
+			model.addObject("customerName", customerName);
+			model.addObject("selectedName", selectedName);
+			model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+			if(customerName !=null){
+				model.addObject("custName", customerName);
+			}else{
+				model.addObject("errorRetMessage", "Customer name does not exist.");
+			}
+			model.setViewName("userCustomerReadings");
+		  }
+		}
+		else{
+			model.setViewName("login");
+		}		
+		return model;
+	}
 
+	
+	
 	// create invoice page
 	@RequestMapping(value = { "SLA", "userSLA" }, method = RequestMethod.GET)
 	public ModelAndView displaySLAPage(String customerName) {
