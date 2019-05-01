@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import za.co.fenya.demo.bean.CustomerDeviceHistoryBean;
 import za.co.fenya.demo.bean.DeviceBean;
+import za.co.fenya.demo.bean.ReadingBean;
 import za.co.fenya.demo.dao.AccessoriesDaoInt;
 import za.co.fenya.demo.dao.CustomerDaoInt;
 import za.co.fenya.demo.dao.CustomerDeviceHistoryDaoInt;
@@ -30,6 +31,7 @@ import za.co.fenya.demo.dao.DeviceContactPersonDaoInt;
 import za.co.fenya.demo.dao.DeviceDaoInt;
 import za.co.fenya.demo.dao.EmployeeDaoInt;
 import za.co.fenya.demo.dao.ModelNumbersMasterDaoInt;
+import za.co.fenya.demo.dao.ReadingDaoInt;
 import za.co.fenya.demo.dao.SiteStocDaoInt;
 import za.co.fenya.demo.dao.TicketsDaoInt;
 import za.co.fenya.demo.model.Accessories;
@@ -38,6 +40,7 @@ import za.co.fenya.demo.model.Device;
 import za.co.fenya.demo.model.DeviceContactPerson;
 import za.co.fenya.demo.model.Employee;
 import za.co.fenya.demo.model.ModelNumbers;
+import za.co.fenya.demo.model.Reading;
 import za.co.fenya.demo.model.SiteStock;
 import za.co.fenya.demo.model.TicketHistory;
 import za.co.fenya.demo.model.Tickets;
@@ -58,6 +61,8 @@ public class DeviceDao implements DeviceDaoInt {
 	private AccessoriesDaoInt accessoriesDaoInt;
 	@Autowired
 	DeviceContactPersonDaoInt contactPersonDaoInt;
+	@Autowired
+	ReadingDaoInt readingDaoInt;
 	@Autowired
 	private EmployeeDaoInt employeeDao;
 	@Autowired
@@ -87,6 +92,7 @@ public class DeviceDao implements DeviceDaoInt {
 	private ModelNumbers modelNum = null;
 	List<Accessories> accessoryList = null;
 	private DeviceBean deviceBean = null;
+	private ReadingBean readingBean = null;
 	private DeviceContactPerson contactPerson;
 	Device localdevice = null;
 	Accessories accesories = null;
@@ -195,6 +201,7 @@ public class DeviceDao implements DeviceDaoInt {
 		device = new Device();
 		String oldSerial =null;
 		historyBean = new CustomerDeviceHistoryBean();
+		readingBean = new ReadingBean();
 		emp = (Employee) session.getAttribute("loggedInUser");
 		try {
 
@@ -238,7 +245,26 @@ public class DeviceDao implements DeviceDaoInt {
 				historyBean.setDescription(deviceBean.getDescription());
 				
 				customer = customerDaoInt.getClientByClientName(deviceBean.getCustomerName());
-
+				
+				
+				//Default Readings
+				if (deviceBean != null)
+				{
+					
+					readingBean.setCustomerName(deviceBean.getCustomerName());
+					readingBean.setSerialNumber(deviceBean.getSerialNumber());
+					readingBean.setColorReading(deviceBean.getColourReading());
+					readingBean.setMonoReading(deviceBean.getMonoReading());
+					readingBean.setPreviousColorReading(deviceBean.getColourReading());
+					readingBean.setPreviousMonoReading(deviceBean.getMonoReading());
+					readingBean.setEmployee(emp.getEmail());
+					
+					readingBean.setEmployee(emp.getEmail());
+					
+					
+					retMessage = readingDaoInt.createReading(readingBean);
+				}
+				
 				if (customer != null) {
 					device.setCustomerDevice(customer);
 

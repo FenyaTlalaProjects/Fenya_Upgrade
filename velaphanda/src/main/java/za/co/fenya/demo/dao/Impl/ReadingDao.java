@@ -25,6 +25,7 @@ import za.co.fenya.demo.model.Customer;
 import za.co.fenya.demo.model.Device;
 import za.co.fenya.demo.model.Employee;
 import za.co.fenya.demo.model.Reading;
+import za.co.fenya.demo.model.Tickets;
 import za.co.fenya.demo.model.Reading;
 
 
@@ -58,7 +59,8 @@ public class ReadingDao implements ReadingDaoInt {
 	SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Date now = new Date();
 	String timeDeviceAdded = sdfDate.format(now);
-	
+	ArrayList<?> aList = null;
+	ArrayList<Reading> readingList = null;
 	
 	
 	
@@ -89,6 +91,7 @@ public class ReadingDao implements ReadingDaoInt {
 			if (customer != null && device != null && employee != null) {
 				globalReading.setColorReading(reading.getColorReading());
 				globalReading.setCustomerName(customer);
+				globalReading.setSerialNumber(device);
 				globalReading.setEmployee(employee);
 				globalReading.setMonoReading(reading.getMonoReading());
 				globalReading.setPreviousColorReading(reading.getPreviousColorReading());
@@ -210,6 +213,49 @@ public class ReadingDao implements ReadingDaoInt {
 		}
 		return readingList;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Reading> getPreviousReadingForDevice(String serialNumber) {
+		//String name = serialNumber;
+		
+		List<Reading> aList = new ArrayList<Reading>();
+		List<Reading> readingList = null;
+		Reading currentReading =  new Reading();
+		try {
+
+			readingList = getAllReadings();
+			int i = 0;
+			for (Reading reading : readingList) {
+				if (reading.getSerialNumber().getSerialNumber().equalsIgnoreCase(serialNumber))
+				{
+				  if (i == 0)
+				  {
+					 currentReading = reading; 
+				  }
+				  else 
+				  {
+					if (currentReading.getRecordID() < reading.getRecordID() )
+					{
+						currentReading = reading;
+					}
+				  }
+				  i++;
+				}
+							
+			}
+			
+		if (currentReading.getSerialNumber().getSerialNumber() != null || currentReading.getSerialNumber().getSerialNumber() != "")
+			{
+				aList.add(currentReading);
+			}
+		
+		} catch (Exception e) {
+			return null;
+		}
+		return aList;
+	}
+
 	
 	@Override
 	public List<Reading> selectReadingsForManager(String customer,

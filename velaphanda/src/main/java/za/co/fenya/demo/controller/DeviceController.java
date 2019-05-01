@@ -102,6 +102,7 @@ public class DeviceController {
 	public ModelAndView saveProduct(@ModelAttribute("saveProduct")DeviceBean deviceBean){
 		String addDevice ="addDevice";
 		String customerName = deviceBean.getCustomerName();
+		String serialNumber = deviceBean.getSerialNumber();
 		model = new ModelAndView();
 		 userName = (Employee) session.getAttribute("loggedInUser");
 			if(userName != null){

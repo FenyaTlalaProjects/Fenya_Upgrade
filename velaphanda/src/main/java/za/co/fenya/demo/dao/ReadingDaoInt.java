@@ -26,9 +26,7 @@ public interface ReadingDaoInt {
 
 	List<Reading> selectReadingsForManager(String customer, String dateRange, String user, String serialNumber);
 
-	
-
-	
+	List<Reading> getPreviousReadingForDevice(String serialNumber);	
 
 
 }
