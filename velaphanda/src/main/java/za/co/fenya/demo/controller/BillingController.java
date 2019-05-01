@@ -120,6 +120,72 @@ public class BillingController {
 		}
 		return model;
 	}
+	
+	//select customer reading page
+	@RequestMapping(value = { "customerReadings", "userCustomerReadings" }, method = RequestMethod.GET)
+	public ModelAndView displayCustomersPage(String customerName) {
+	    	selectedDateRange = "Select Date";
+			model = new ModelAndView();
+			userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+
+			if(userName.getRole().equalsIgnoreCase("Manager") || userName.getRole().equalsIgnoreCase("Admin")) {
+					model.addObject("customerName", customerName);
+					model.addObject("customers", customerServiceInt.getClientList());
+					model.addObject("newDate", selectedDateRange);
+					model.setViewName("customerReadings");
+			}else if (userName.getRole().equalsIgnoreCase("User")) {
+					model.addObject("customerName", customerName);
+					model.addObject("customers", customerServiceInt.getClientList());
+					model.addObject("newDate", selectedDateRange);
+					model.setViewName("userCustomerReadings");
+			   }
+			}else{
+			   model.setViewName("login");
+			}
+			return model;
+	}
+	
+		
+	@RequestMapping(value={"searchCustomerName","userSearchCustomerName"})
+	public ModelAndView searchCustomer(@RequestParam("customerName") String customerName) {
+		String selectedName = customerName;
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if(userName != null){
+			if(userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))){
+			getSerialNumbers = deviceServiceInt.getSerials();
+			model.addObject("serialNumbers", getSerialNumbers);
+			model.addObject("customerName", customerName);
+			model.addObject("selectedName", selectedName);
+			model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+			if(customerName !=null){
+				model.addObject("customers", customerServiceInt.getClientList());
+				model.addObject("custName", customerName);
+							
+			}else{
+				model.addObject("errorRetMessage", "Customer name does not exist.");
+			}
+			model.setViewName("customerReadings");
+		}else if(userName.getRole().equalsIgnoreCase("User")){
+			getSerialNumbers = deviceServiceInt.getSerials();
+			model.addObject("serialNumbers", getSerialNumbers);
+			model.addObject("customerName", customerName);
+			model.addObject("selectedName", selectedName);
+			model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+			if(customerName !=null){
+				model.addObject("custName", customerName);
+			}else{
+				model.addObject("errorRetMessage", "Customer name does not exist.");
+			}
+			model.setViewName("userCustomerReadings");
+		  }
+		}
+		else{
+			model.setViewName("login");
+		}		
+		return model;
+	}
 
 	// create invoice page
 	@RequestMapping(value = { "SLA", "userSLA" }, method = RequestMethod.GET)

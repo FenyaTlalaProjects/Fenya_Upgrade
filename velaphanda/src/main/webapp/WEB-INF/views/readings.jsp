@@ -415,9 +415,7 @@
 								 </div>
 
 							</fieldset>
-
-
-
+							
 						</form:form>
 
 						<!-- .panel-body -->

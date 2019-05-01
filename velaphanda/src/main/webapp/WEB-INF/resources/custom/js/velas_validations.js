@@ -1581,6 +1581,14 @@ $(document).ready(function() {
 		autoclose : true
 	});
 });
+
+$(document).ready(function() {
+	$('#startDatePeriodPicker').datepicker({
+		format: "mm-yyyy",
+	    viewMode: "months", 
+	    minViewMode: "months"
+	});
+});
 /*--//End Enable datepicker for start, end and install date --*/
 
 /*--  Check if checkboxes are checked for adding machine accessories, if checked enable input text --*/

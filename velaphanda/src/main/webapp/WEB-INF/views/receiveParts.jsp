@@ -96,10 +96,11 @@
 												</div>
 											</div>
 											<!-- Iterating over the list sent from Controller -->
-											<datalist id="spareParts"> <c:forEach var="list"
-												items="${spareParts}">
+											<datalist id="spareParts"> 
+												<c:forEach var="list" items="${spareParts}">
 												<option value="${list}">
-											</c:forEach> </datalist>
+												</c:forEach> 
+											</datalist>
 
 											<div class="col-md-2">
 												<input class="btn btn-success" type='submit' value='Search' />

@@ -146,7 +146,7 @@
 									<div class="row">
 										<br />
 										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="/readings"/>'>
+											<a href='<c:url value="/customerReadings"/>'>
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-danger">
 														<span class="label label-danger pull-right"><span class="glyphicon">&#xe065;</span></span>
