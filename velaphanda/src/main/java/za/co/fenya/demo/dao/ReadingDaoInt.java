@@ -28,5 +28,4 @@ public interface ReadingDaoInt {
 
 	List<Reading> getPreviousReadingForDevice(String serialNumber);	
 
-
 }

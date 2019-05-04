@@ -73,11 +73,11 @@ public class ReadingDao implements ReadingDaoInt {
 		device = new Device();
 		emp = new Employee();
 
-		String userName = null;
+		//String userName = null;
 
 		// Get Current Time Stamp
 		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:s");
+		//SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:s");
 		Date currentDate = new Date();
 		cal.setTime(new Date());
 

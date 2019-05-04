@@ -125,11 +125,20 @@
 												class="confirmtions"><b> here</b></a> to go to ticket management.	                            
 					 	   			 </c:when>
 									</c:choose>	
+									
+									<!-- Capture Readings -->
+									<c:choose>
+										<c:when test="${captureReadings =='captureReadings' }">
+											<c:out value="${retMessage}"></c:out> 
+					 	       			   Click<a href='<c:url value="/userbillingmanagement"/>'
+												class="confirmtions"><b> here</b></a> to go to billing management.	                            
+					 	   			 </c:when>
+									</c:choose>	
 
 								</div>
 
 							</c:if>
-							<!-- Successful message -->
+							<!-- //Successful message -->
 
 							<!-- On failure returned message -->
 							<c:if test="${not empty retErrorMessage}">
@@ -178,6 +187,15 @@
 														here</b></a> to go to spare management.</c:out>
 										</c:when>
 									</c:choose>
+									
+									<!-- Capture Readings -->
+									<c:choose>
+										<c:when test="${captureReadings =='captureReadings' }">
+											<c:out value="${retErrorMessage}"></c:out> 
+					 	       			   Click<a href='<c:url value="/userbillingmanagement"/>'
+												class="confirmtions"><b> here</b></a> to go to billing management.	                            
+					 	   			 </c:when>
+									</c:choose>	
 
 								</div>
 							</c:if>

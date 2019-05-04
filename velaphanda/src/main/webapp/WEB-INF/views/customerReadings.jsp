@@ -5,7 +5,6 @@
 <title>Device Readings | Velaphanda Trading & Projects</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
 
 /* Tablet and bigger */
@@ -32,7 +31,7 @@
 
 <c:import url="templates/stylesheetlib.jsp"></c:import>
 </head>
-<body onload="SelectedItemType()">
+<body onload="SelectedItemType()" >
 	<c:import url="templates/navbar.jsp"></c:import>
 
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
@@ -115,10 +114,10 @@
 							<c:if test="${not empty custName}">
 
 								<form:form class="well form-horizontal" action="readReadings"
-									modelAttribute="readReadings" method="post" id="readReadings">
+									method="post" id="readReadings">
 
 									<div class="row"></div>
-									<fieldset>
+									<fieldset id="customerDevice">
 										<!-- Customer Device -->
 										<legend>
 											<b style="font-size: 15px;">Customer Device </b>
@@ -153,18 +152,19 @@
 												<div class="input-group">
 													<span class="input-group-addon"><i
 														class="glyphicon glyphicon-hdd"></i></span> <input
-														name="serialNumber" list="deviceList" class="form-control"
+														name="serialNumber" list="deviceList" id="serialNumber" class="form-control"
 														type="text" onkeydown="upperCaseF(this)"
-														placeholder='Enter Serial Number' />
+														placeholder='Enter Serial Number'
+														value="${selectedSerialNumber}" />
 												</div>
 											</div>
 											<!-- Iterating over the list sent from Controller -->
 											<datalist id="deviceList"> <c:forEach var="list"
 												items="${deviceList}">
 												<option value="${list.serialNumber}">
-												<c:if test="${not empty serialNumber }">
-													<option value="${serialNumber}">${ serialNumber}</option>
-											  </c:if>
+													<c:if test="${not empty selectedSerialNumber }">
+														<option value="${selectedSerialNumber}">${selectedSerialNumber}</option>
+													</c:if>
 											</c:forEach> </datalist>
 
 										</div>
@@ -186,9 +186,9 @@
 												<div class="input-group input-append date"
 													id="startDatePeriodPicker">
 													<input type="text" class="form-control" name="period"
-														id="period" placeholder="MM-YYYY"> <span
+														id="period" placeholder="MM-YYYY" value="${selectedPeriod}"> <span
 														class="input-group-addon"> <span
-														class="glyphicon glyphicon-calendar"></span>
+														class="glyphicon glyphicon-calendar" ></span>
 													</span>
 												</div>
 											</div>
@@ -196,17 +196,17 @@
 
 									</fieldset>
 									<br>
-									
+
 									<div class="row">
-											<div class="col-sm-9"></div>
-											<div class="col-sm-3">
-												<div class="col text-center">
-													<input type="submit" value="Check Readings"
-														class="btn btn-primary btn-block btn-md" tabindex="9"
-														id="captureReadings">
-												</div>
+										<div class="col-sm-4"></div>
+										<div class="col-sm-4">
+											<div class="col text-center">
+												<input type="submit" value="Check Readings"
+													class="btn btn-primary btn-block btn-md" tabindex="9"
+													id="checkReadings" onclick="disabledCustomerDevice()">
 											</div>
-											<div class="col-sm-4"></div>
+										</div>
+										<div class="col-sm-4"></div>
 
 									</div>
 								</form:form>
@@ -214,18 +214,17 @@
 							</c:if>
 
 							<c:if test="${empty custName }"></c:if>
-														
-							
-							
+
+
+
 							<!-- Read Readings -->
-							<c:if test="${not empty serialNo }"></c:if>
 
 							<c:if test="${not empty serialNo}">
-							
-							<form:form class="well form-horizontal" action="captureReadings"
-									modelAttribute="captureReadings" method="post" id="captureReadings">
-									
-									
+
+								<form:form class="well form-horizontal" action="captureReadings"
+									modelAttribute="captureReadings" method="post"
+									id="captureReadings">
+
 									<fieldset>
 										<!-- Device Readings -->
 										<br>
@@ -233,8 +232,15 @@
 											<b style="font-size: 15px;">Device Readings</b>
 										</legend>
 
+										<c:if test="${not empty selectedName }">
+											<input type="hidden" name="customerName" id="customerName"
+												class="form-control selectpicker" value="${selectedName}" />
+										</c:if>
+										<input name="serialNumber" list="deviceList"
+											class="form-control" type="hidden"
+											onkeydown="upperCaseF(this)" value="${selectedSerialNumber}" />
 
-
+									<c:forEach items="${deviceReading}" var="reading">
 
 										<div class="row grid-divider">
 											<div class="col-sm-6">
@@ -243,49 +249,41 @@
 														<b style="font-size: 15px;"> Mono Reading</b>
 													</legend>
 
-													<%-- <c:if test="${not empty productObject.monoReading }"> --%>
 													<!-- Text input Mono-->
 													<div class="form-group">
 														<!-- <label class="col-xs-3 control-label">Previous Mono Reading</label>
-														 --><div class="col-md-6 inputGroupContainer">
+														 -->
+														<div class="col-md-6 inputGroupContainer">
 															<div class="input-group">
 																<span class="input-group-addon"><i
 																	class="glyphicon glyphicon-barcode"></i></span> <input
 																	id="previousMonoReading" name="previousMonoReading"
-																	value="${deviceReading.previousMonoReading}"
-																	class="form-control" type="text" >
+																	readonly class="form-control" type="text"
+																	value="<c:out value="${reading.previousMonoReading}"/>" >
 															</div>
 														</div>
 													</div>
-													<%--</c:if>
-											
-											<c:if test="${empty productObject.monoReading }"></c:if>
-											<c:if test="${not empty productObject.colourReading}"> --%>
 
 													<!-- Text input Color-->
 													<div class="form-group">
-													<!-- <label class="col-xs-3 control-label">Previous Colour Reading</label>
-													 -->	<div class="col-md-6 inputGroupContainer">
+														<!-- <label class="col-xs-3 control-label">Previous Color Reading</label>
+													 -->
+														<div class="col-md-6 inputGroupContainer">
 															<div class="input-group">
 																<span class="input-group-addon"><i
 																	class="glyphicon glyphicon-barcode"></i></span> <input
 																	id="colorReading" name="colorReading"
-																	placeholder="Current Colour Reading"
-																	class="form-control" type="text">
+																	placeholder="Current Mono Reading" class="form-control"
+																	type="text">
 															</div>
 														</div>
 													</div>
-													<%-- </c:if>
-																					
-											<c:if test="${empty productObject.colourReading }"></c:if>
-											<%-- <c:if test="${not empty productObject.monoReading }"> --%>
-
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="col-padding">
 													<legend>
-														<b style="font-size: 15px;"> Colour Reading</b>
+														<b style="font-size: 15px;"> Color Reading</b>
 													</legend>
 													<!-- Text input Mono-->
 													<div class="form-group">
@@ -294,20 +292,16 @@
 															<div class="input-group">
 																<span class="input-group-addon"><i
 																	class="glyphicon glyphicon-barcode"></i></span> <input
-																	id="previousColourReading" name="previousColourReading"
-																	value="${deviceReading.previousColourReading}"
-																	class="form-control" type="text">
+																	id="previousColorReading" readonly
+																	name="previousColorReading" value="<c:out value="${reading.previousColorReading}"/>"
+																	 class="form-control"
+																	type="text">
 															</div>
 														</div>
-													</div>
-													<%--</c:if>
-								          
-											<c:if test="${empty productObject.monoReading }"></c:if>
-											<c:if test="${not empty productObject.colourReading}">--%>
-
+													</div>													
+											
 													<!-- Text input Color-->
 													<div class="form-group">
-
 														<div class="col-md-6 inputGroupContainer">
 															<div class="input-group">
 																<span class="input-group-addon"><i
@@ -318,49 +312,13 @@
 															</div>
 														</div>
 													</div>
-													<%-- </c:if>											
-											<c:if test="${empty productObject.colourReading }"></c:if>
-											
-											
-								
-											<c:if test="${not empty productObject.monoReading }"> --%>
-													<!-- Text input Mono-->
-													<!-- <div class="form-group">
-												<label class="col-md-3 control-label">Mono Copy Cost</label>
-												<div class="col-md-6 inputGroupContainer">
-													<div class="input-group">
-														<span class="input-group-addon"><i
-															class="glyphicon glyphicon-barcode"></i></span> <input
-															id="monoCopyCost" name="monoCopyCost"
-															placeholder="Mono Copy Cost" class="form-control"
-															type="text">
-													</div>
-												</div>
-											</div> -->
-													<%-- </c:if>
-											<c:if test="${empty productObject.monoReading }">
-											</c:if>
-											<c:if test="${not empty productObject.colourReading}"> --%>
-													<!-- Text input Color-->
-													<!-- <div class="form-group">
-												<label class="col-md-3 control-label">Colour Copy Cost</label>
-												<div class="col-md-6 inputGroupContainer">
-													<div class="input-group">
-														<span class="input-group-addon"><i
-															class="glyphicon glyphicon-barcode"></i></span> <input
-															id="colourCopyCost" name="colourCopyCost"
-															placeholder="Colour Copy Cost" class="form-control"
-															type="text">
-													</div>
-												</div>
-											</div> -->
-													<%-- </c:if>											
-											<c:if test="${empty productObject.colourReading }">
-											</c:if>--%>
 
 												</div>
 											</div>
 										</div>
+										
+									</c:forEach>
+									
 										<br />
 										<div class="row">
 											<div class="col-sm-4"></div>
@@ -375,13 +333,13 @@
 
 										</div>
 									</fieldset>
-									
-							</form:form>
-							
+
+								</form:form>
+
 							</c:if>
 
 							<c:if test="${empty serialNo }"></c:if>
-							
+
 
 						</div>
 						<!-- .panel-body -->
@@ -399,6 +357,13 @@
 		</div>
 		<!--/.main-->
 		<c:import url="templates/javascriptslib.jsp"></c:import>
+		<script type="text/javascript">
+		
+		function disabledCustomerDevice() {
+			  document.getElementById("customerDevice").readonly = true;
+		}
+		
+		</script>
 		<c:import url="templates/sidebar-collapse.jsp"></c:import>
 
 		<!-- /Scripts -->

@@ -10,5 +10,5 @@ public interface ReadingServiceInt {
 	
 
 	String createReading(ReadingBean reading);
-	List<Reading> getPreviousReadingForDevice(String serialNumber);	
+	List<Reading> getPreviousReadingForDevice(String serialNumber);
 }
