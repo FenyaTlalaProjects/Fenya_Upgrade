@@ -156,30 +156,30 @@
 											</a>
 										</div>
 										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="#"/>'>
+											<a href='<c:url value="/capturedReadings"/>'>
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-success">
-														<span class="label label-success pull-right">0<%-- ${countAcknowledgedTickets} --%></span>
+														<span class="label label-success pull-right">${countCapturedReadings}</span>
 														Captured Readings 
 													</h5>
 												</div>
 											</a>
 										</div>
 										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="#"/>'>
+											<a href='<c:url value="/pendingReadings"/>'>
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-primary">
-														<span class="label label-primary pull-right">0<%-- ${countTakenTickets} --%></span>
+														<span class="label label-primary pull-right">${countPendingReadings}</span>
 														Pending Readings
 													</h5>
 												</div>
 											</a>
 										</div>
 										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="#"/>'>
+											<a href='<c:url value="/deletedReadings"/>'>
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-danger">
-														<span class="label label-danger pull-right">0<%-- ${countAwaitingSparesTickets} --%></span>
+														<span class="label label-danger pull-right">${countDeletedReadings}</span>
 														Deleted Readings
 													</h5>
 												</div>
@@ -200,12 +200,12 @@
 						<div class="tab-content">
 
 							<c:choose>
-								<c:when test="${heading=='Open' }">
-									<div class="panel-heading" align="center">Open Tickets</div>
+								<c:when test="${heading=='Captured' }">
+									<div class="panel-heading" align="center">Captured Readings</div>
 								</c:when>
-								<c:when test="${heading=='Acknowledged' }">
-									<div class="panel-heading" align="center">Acknowledged
-										Tickets</div>
+								<c:when test="${heading=='Pending' }">
+									<div class="panel-heading" align="center">Pending
+										Readings</div>
 								</c:when>
 								<c:when test="${heading=='Taken' }">
 									<div class="panel-heading" align="center">Taken Tickets</div>
