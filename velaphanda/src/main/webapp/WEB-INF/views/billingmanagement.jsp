@@ -244,7 +244,7 @@
 											<td>${list.customerName.customerName}</td>
 											<td>${list.serialNumber.serialNumber}</td>
 											<td>${list.employee.firstName} ${list.employee.lastName}</td>
-											<td>${list.modifiedBy.firstName} ${list.modifiedBy.firstName}</td>
+											<td>${list.modifiedBy.firstName} ${list.modifiedBy.lastName}</td>
 											<td>${list.insertDate}</td>
 											<td>${list.previousColorReading}</td>
 											<td>${list.previousMonoReading}</td>
