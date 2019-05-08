@@ -200,6 +200,10 @@
 						<div class="tab-content">
 
 							<c:choose>
+								
+								<c:when test="${heading=='All Readings' }">
+									<div class="panel-heading" align="center">All Readings</div>
+								</c:when>	
 								<c:when test="${heading=='Captured' }">
 									<div class="panel-heading" align="center">Captured Readings</div>
 								</c:when>
@@ -207,76 +211,50 @@
 									<div class="panel-heading" align="center">Pending
 										Readings</div>
 								</c:when>
-								<c:when test="${heading=='Taken' }">
-									<div class="panel-heading" align="center">Taken Tickets</div>
-								</c:when>
-								<c:when test="${heading=='Awaiting Spares' }">
-									<div class="panel-heading" align="center">Awaiting Spares
-										Tickets</div>
-								</c:when>
-								<c:when test="${heading=='Escalated' }">
-									<div class="panel-heading" align="center">Escalated
-										Tickets</div>
-								</c:when>
-								<c:when test="${heading=='SLA Bridged' }">
-									<div class="panel-heading" align="center">SLA Bridged
-										Tickets</div>
-								</c:when>
-								<c:when test="${heading=='Resolved' }">
-									<div class="panel-heading" align="center">Resolved
-										Tickets</div>
-								</c:when>
-								<c:when test="${heading=='Closed' }">
-									<div class="panel-heading" align="center">Closed Tickets</div>
-
-								</c:when>
-								<c:when test="${heading=='All Tickets' }">
-									<div class="panel-heading" align="center">All Tickets</div>
-								</c:when>								
+								<c:when test="${heading=='Deleted' }">
+									<div class="panel-heading" align="center">Deleted Readings</div>
+								</c:when>					
 								
 							</c:choose>
 
-							<%-- <table data-toggle="table" data-url="${lastForteenList}"
+							<table data-toggle="table" data-url="${deviceReadingList}"
 								data-show-refresh="true" data-show-toggle="true"
 								data-search="true" data-select-item-name="toolbar1"
 								data-pagination="true" data-sort-name="ticketdate"
 								data-sort-order="desc">
 								<thead>
 									<tr>
-										<th data-field="ticketnumber" data-sortable="true">Ticket
-											Number</th>
-										<th data-field="ticketdate" data-sortable="true">Ticket
-											Date</th>
-										<th data-field="status" data-sortable="true">Status</th>
-										<th data-field="description" data-sortable="true">Description</th>
-										<th data-field="customername" data-sortable="true">Customer
-											Name</th>
-										<th data-field="serialnumber" data-sortable="true">Serial
-											Number</th>
-										<th data-field="model" data-sortable="true">Model</th>
-										<th data-field="assignedTo" data-sortable="true">Assigned
-											To</th>
+										<th data-field="customername" data-sortable="true">Customer Name</th>
+										<th data-field="serialnumber" data-sortable="true">Serial Number</th>
+										<th data-field="capturedBy" data-sortable="true">Captured By</th>
+										<th data-field="modifiedBy" data-sortable="true">Modified By</th>
+										<th data-field="dateInserted" data-sortable="true">Date Inserted</th>
+										<th data-field="previousColorReading" data-sortable="true">Previous Color Reading</th>
+										<th data-field="previousMonoReading" data-sortable="true">Previous Mono Reading</th>
+										<th data-field="colorReading" data-sortable="true">Current Color Reading</th>										
+										<th data-field="monoReading" data-sortable="true">Current Mono Reading</th>
+										
 									</tr>
 								</thead>
 
 								<tbody>
 									<!-- Iterating over the list sent from Controller -->
-									<c:forEach var="list" items="${lastForteenList}">
+									<c:forEach var="list" items="${deviceReadingList}">
 										<tr>
-											<td><a
-												href="ticketItemDetailsM?recordID=<c:out value='${list.recordID}'/>">VTC000${list.recordID}</a></td>
-											<td>${list.dateTime}</td>
-											<td>${list.status}</td>
-											<td>${list.description}</td>
-											<td>${list.device.customerDevice.customerName}</td>
-											<td>${list.device.serialNumber}</td>
-											<td>${list.device.modelNumber}</td>
+											<td>${list.customerName.customerName}</td>
+											<td>${list.serialNumber.serialNumber}</td>
 											<td>${list.employee.firstName} ${list.employee.lastName}</td>
+											<td>${list.modifiedBy.firstName} ${list.modifiedBy.firstName}</td>
+											<td>${list.insertDate}</td>
+											<td>${list.previousColorReading}</td>
+											<td>${list.previousMonoReading}</td>
+											<td>${list.colorReading}</td>
+											<td>${list.monoReading}</td>											
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
-							<!-- table ticket --> --%>
+							<!-- table ticket --> 
 							
 							
 						</div>

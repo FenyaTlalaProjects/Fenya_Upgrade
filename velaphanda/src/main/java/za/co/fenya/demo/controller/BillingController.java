@@ -55,15 +55,18 @@ public class BillingController {
 	// create billing management pages
 	@RequestMapping(value = { "billingmanagement", "userbillingmanagement" }, method = RequestMethod.GET)
 	public ModelAndView displayBillingPage() {
+		heading ="All Readings";
 		model = new ModelAndView();
 		userName = (Employee) session.getAttribute("loggedInUser");
 		if (userName != null) {
 			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
-
+				model.addObject("heading", heading);
+				model.addObject("deviceReadingList", deviceReadingServiceInt.getAllReadings());
 				model.setViewName("billingmanagement");
 
 			} else if (userName.getRole().equalsIgnoreCase("User")) {
-
+				model.addObject("heading", heading);
+				model.addObject("deviceReadingList", deviceReadingServiceInt.getAllReadings());
 				model.setViewName("userbillingmanagement");
 			}
 		} else {
@@ -249,8 +252,8 @@ public class BillingController {
 	}
 
 	// read and display list of captured readings
-	@RequestMapping(value = { "capturedReadings" })
-	public ModelAndView displayCapturedReading() {
+	@RequestMapping(value = { "capturedReadings" },method=RequestMethod.GET)
+	public ModelAndView displayCapturedReading(String serialNumber) {
 		String selectedName = customerName;
 		heading = "Captured";
 		model = new ModelAndView();
@@ -261,8 +264,9 @@ public class BillingController {
 				model.addObject("serialNumbers", getSerialNumbers);
 				model.addObject("customerName", customerName);
 				model.addObject("selectedName", selectedName);
-				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReadingList", deviceReadingServiceInt.getAllReadings());
 				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
 				model.setViewName("billingmanagement");
 			} else if (userName.getRole().equalsIgnoreCase("User")) {
 				getSerialNumbers = deviceServiceInt.getSerials();
@@ -271,6 +275,7 @@ public class BillingController {
 				model.addObject("selectedName", selectedName);
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
 				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
 				model.setViewName("userBillingmanagement");
 
 			}
@@ -281,8 +286,8 @@ public class BillingController {
 	}
 
 	// read and display list of pending readings
-	@RequestMapping(value = { "pendingReadings" })
-	public ModelAndView displayPendingReadings() {
+	@RequestMapping(value = { "pendingReadings" },method=RequestMethod.GET)
+	public ModelAndView displayPendingReadings(String serialNumber) {
 		String selectedName = customerName;
 		heading = "Pending";
 		model = new ModelAndView();
@@ -295,6 +300,7 @@ public class BillingController {
 				model.addObject("selectedName", selectedName);
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
 				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
 				model.setViewName("billingmanagement");
 			} else if (userName.getRole().equalsIgnoreCase("User")) {
 				getSerialNumbers = deviceServiceInt.getSerials();
@@ -303,6 +309,7 @@ public class BillingController {
 				model.addObject("selectedName", selectedName);
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
 				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
 				model.setViewName("userBillingmanagement");
 
 			}
@@ -313,8 +320,8 @@ public class BillingController {
 	}
 
 	// read and display list of deleted readings
-	@RequestMapping(value = { "deletedReadings" })
-	public ModelAndView displayDeletedReadings() {
+	@RequestMapping(value = { "deletedReadings" },method=RequestMethod.GET)
+	public ModelAndView displayDeletedReadings(String serialNumber) {
 		String selectedName = customerName;
 		heading = "Deleted";
 		model = new ModelAndView();
@@ -327,6 +334,7 @@ public class BillingController {
 				model.addObject("selectedName", selectedName);
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
 				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
 				model.setViewName("billingmanagement");
 			} else if (userName.getRole().equalsIgnoreCase("User")) {
 				getSerialNumbers = deviceServiceInt.getSerials();
@@ -335,6 +343,7 @@ public class BillingController {
 				model.addObject("selectedName", selectedName);
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
 				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
 				model.setViewName("userBillingmanagement");
 
 			}

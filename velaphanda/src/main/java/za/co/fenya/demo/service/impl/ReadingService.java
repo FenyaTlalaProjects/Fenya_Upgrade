@@ -33,6 +33,12 @@ public class ReadingService implements ReadingServiceInt {
 	public List<Reading> getPreviousReadingForDevice(String serialNumber) {
 		// TODO Auto-generated method stub
 		return readingDAO.getPreviousReadingForDevice(serialNumber);
+	}
+
+	@Override
+	public List<Reading> getAllReadings() {
+		// TODO Auto-generated method stub
+		return readingDAO.getAllReadings();
 	}		
 
 }
