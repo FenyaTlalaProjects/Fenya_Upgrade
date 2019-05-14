@@ -17,3 +17,4 @@ public interface AccessoriesDaoInt {
 	List<String> getAccessoriesList(String deviceSerialNumber);
 	JRDataSource getAccessoriesByDeviceSerialDataSource(String serialNumber);
 }
+//
