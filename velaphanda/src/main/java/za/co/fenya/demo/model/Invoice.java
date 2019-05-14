@@ -49,6 +49,11 @@ public class Invoice implements Serializable{
 	private String paymentDate;
 	@Column(name="Insert_Date")
 	private String insertDate;
+	@Column(name="Approval_Required")
+	private boolean approvalRequired;
+	@Column(name="Approval_Date")
+	private String approvalDate;
+	
 	@ManyToOne
 	@JoinColumn(name="Serial_Number")
 	private Device device;
@@ -61,5 +66,8 @@ public class Invoice implements Serializable{
 	@JoinColumn(name="Created_By")
 	private Employee employee;
 	
+	@ManyToOne
+	@JoinColumn(name="Approver")
+	private Employee approver;
 	
 }

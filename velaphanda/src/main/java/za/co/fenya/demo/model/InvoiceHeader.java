@@ -45,6 +45,16 @@ public class InvoiceHeader implements Serializable{
 	private String invoiceDate;
 	@Column(name="Insert_Date")
 	private String insertDate;
+	@Column(name="Period")
+	private String period;
+	@Column(name="Order_Number")
+	private String orderNumber;
+	@Column(name="Status")
+	private String status;
+	@Column(name="Approval_Required")
+	private boolean approvalRequired;
+	@Column(name="Approval_Date")
+	private String approvalDate;
 	
 		
 	@ManyToOne
@@ -59,5 +69,7 @@ public class InvoiceHeader implements Serializable{
 	@JoinColumn(name="Customer_Name")
 	private Customer customerName;
 	
-	
+	@ManyToOne
+	@JoinColumn(name="Approver")
+	private Employee approver;
 }

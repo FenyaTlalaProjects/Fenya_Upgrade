@@ -23,11 +23,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import za.co.fenya.demo.bean.InvoiceBean;
 import za.co.fenya.demo.bean.TicketsBean;
 import za.co.fenya.demo.dao.BootStockDaoInt;
 import za.co.fenya.demo.dao.CustomerDaoInt;
 import za.co.fenya.demo.dao.DeviceDaoInt;
 import za.co.fenya.demo.dao.EmployeeDaoInt;
+import za.co.fenya.demo.dao.InvoiceDaoInt;
 import za.co.fenya.demo.dao.OrdersDaoInt;
 import za.co.fenya.demo.dao.SiteStocDaoInt;
 import za.co.fenya.demo.dao.TicketHistoryDaoInt;
@@ -2167,6 +2169,7 @@ public class TicketsDao implements TicketsDaoInt {
 	@Override
 	public String logTicket(TicketsBean tickets) {
 		synchronized (this) {
+						
 			String ticketNumber = "";
 			Boolean isValied = false;
 			// String userName = employee.getEmail();
@@ -4415,6 +4418,7 @@ public class TicketsDao implements TicketsDaoInt {
 
 	@Override
 	public List<Tickets> getAllTicketsBySerialNumber(String serialNumber) {
+		
 		List<Tickets> ticketList = null;
 		aList = new ArrayList<Tickets>();
 		try {

@@ -68,11 +68,17 @@ public class InvoicePayment implements Serializable{
 	@Column(name="Total")
 	private String total;   // After adding VAT
 	@Column(name="Supplier_Vat_ID")
-	private String supplierVatID;
-	@Column(name="Buyer_Vat_ID")         //Velaphanda VAT ID
+	private String supplierVatID;		  //Velaphanda VAT ID
+	@Column(name="Buyer_Vat_ID")         
 	private String buyerVatID;           //Customer VAT ID
 	
-		
+	@Column(name="Buyer_Company_Number")         
+	private String buyerCompanyNumber;
+	
+	@Column(name="Supplier_Company_Number")         
+	private String SupplierCompanyNumber;
+	
+	
 	@ManyToOne
 	@JoinColumn(name="Invoice_Number")
 	private InvoiceHeader invoiceNumber;

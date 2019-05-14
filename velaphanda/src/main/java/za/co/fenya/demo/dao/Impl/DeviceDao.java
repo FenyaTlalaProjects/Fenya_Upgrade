@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import za.co.fenya.demo.bean.CustomerDeviceHistoryBean;
 import za.co.fenya.demo.bean.DeviceBean;
+import za.co.fenya.demo.bean.InvoiceBean;
 import za.co.fenya.demo.bean.ReadingBean;
 import za.co.fenya.demo.dao.AccessoriesDaoInt;
 import za.co.fenya.demo.dao.CustomerDaoInt;
@@ -30,6 +31,7 @@ import za.co.fenya.demo.dao.CustomerDeviceHistoryDaoInt;
 import za.co.fenya.demo.dao.DeviceContactPersonDaoInt;
 import za.co.fenya.demo.dao.DeviceDaoInt;
 import za.co.fenya.demo.dao.EmployeeDaoInt;
+import za.co.fenya.demo.dao.InvoiceDaoInt;
 import za.co.fenya.demo.dao.ModelNumbersMasterDaoInt;
 import za.co.fenya.demo.dao.ReadingDaoInt;
 import za.co.fenya.demo.dao.SiteStocDaoInt;
@@ -63,6 +65,8 @@ public class DeviceDao implements DeviceDaoInt {
 	DeviceContactPersonDaoInt contactPersonDaoInt;
 	@Autowired
 	ReadingDaoInt readingDaoInt;
+	@Autowired
+	InvoiceDaoInt invoiceDaoInt;
 	@Autowired
 	private EmployeeDaoInt employeeDao;
 	@Autowired
@@ -245,6 +249,17 @@ public class DeviceDao implements DeviceDaoInt {
 				historyBean.setDescription(deviceBean.getDescription());
 				
 				customer = customerDaoInt.getClientByClientName(deviceBean.getCustomerName());
+				
+				InvoiceBean invoiceBean = new InvoiceBean();
+				invoiceBean.setCreatedBy("billy.d.tlaka@googlemail.com");			
+				invoiceBean.setCustomerName("Beam Group");
+				invoiceBean.setSerialNumber("07SUB1AH400003B");
+				invoiceBean.setInvoiceDate("2018-09-13 03:26:39");
+				//globalInvoiceHeader.setOrderNumber(invoice.getOrderNumber());
+				invoiceBean.setPeriod("01-2019");
+				invoiceBean.setStatus("Draft");
+				
+				retMessage = invoiceDaoInt.createInvoiceHeader(invoiceBean);
 				
 				
 				//Default Readings
