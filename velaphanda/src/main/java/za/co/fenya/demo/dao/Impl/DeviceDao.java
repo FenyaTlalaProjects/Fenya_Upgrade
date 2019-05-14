@@ -250,17 +250,6 @@ public class DeviceDao implements DeviceDaoInt {
 				
 				customer = customerDaoInt.getClientByClientName(deviceBean.getCustomerName());
 				
-				InvoiceBean invoiceBean = new InvoiceBean();
-				invoiceBean.setCreatedBy("billy.d.tlaka@googlemail.com");			
-				invoiceBean.setCustomerName("Beam Group");
-				invoiceBean.setSerialNumber("07SUB1AH400003B");
-				invoiceBean.setInvoiceDate("2018-09-13 03:26:39");
-				//globalInvoiceHeader.setOrderNumber(invoice.getOrderNumber());
-				invoiceBean.setPeriod("01-2019");
-				invoiceBean.setStatus("Draft");
-				
-				retMessage = invoiceDaoInt.createInvoiceHeader(invoiceBean);
-				
 				
 				//Default Readings
 				if (deviceBean != null)
