@@ -176,7 +176,7 @@
 
 										<!-- Select type customers-->
 										<div class="form-group">
-											<label class="col-md-3 control-label">Customer</label>
+											<label class="col-md-3 control-label">Selected Customer</label>
 											<div class="col-md-6 inputGroupContainer">
 												<div class="input-group">
 
@@ -197,7 +197,7 @@
 
 										<!-- Text input Search-->
 										<div class="form-group">
-											<label class="col-md-3 control-label">Select Serial
+											<label class="col-md-3 control-label">Selected Serial
 												No</label>
 											<div class="col-md-6 inputGroupContainer">
 												<div class="input-group">
@@ -233,7 +233,7 @@
 
 										<!-- Text input Contract Start Date-->
 										<div class="form-group ">
-											<label class="col-xs-3 control-label">Select Period</label>
+											<label class="col-xs-3 control-label">Selected Period</label>
 											<div class="col-md-6 inputGroupContainer">
 												<div class="input-group input-append date"
 													id="startDatePeriodPicker">
