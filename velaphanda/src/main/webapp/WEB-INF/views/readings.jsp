@@ -67,23 +67,18 @@
 
 							<div style="margin-bottom: -3px; margin-left: -1px;" align=left>
 
-								<!-- Select type customers-->
+								<!-- Select customer-->
 								<div class="form-group ">
 									<div class="col-md-3 selectContainer">
 										<div class="input-group">
-											<span class="input-group-addon"><i
-												class="glyphicon glyphicon-list"></i></span> <select
-												name="customerName" id="customerName"
-												class="form-control selectpicker"
-												onchange="location = this.value;">
+											<span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span> 
+											 <select name="customerName" id="customerName" class="form-control selectpicker" onchange="location = this.value;">
 												<c:if test="${not empty selectedName }">
 													<option value="${selectedName}">${ selectedName}</option>
 												</c:if>
-												<option value="<c:out value="All Customers"/>">All
-													Customers</option>
+												<option value="<c:out value="All Customers"/>">All Customers</option>
 												<c:forEach items="${customers}" var="customer">
-													<option
-														value="readingsCustomerByDevice?customerName=<c:out value='${customer.customerName}'/>">${customer.customerName}</option>
+													<option value="readingsCustomerByDevice?customerName=<c:out value='${customer.customerName}'/>">${customer.customerName}</option>
 												</c:forEach>
 											</select>
 

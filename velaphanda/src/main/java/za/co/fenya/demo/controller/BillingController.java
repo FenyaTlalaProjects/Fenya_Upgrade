@@ -16,10 +16,12 @@ import za.co.fenya.demo.bean.CustomerBean;
 import za.co.fenya.demo.bean.InvoiceBean;
 import za.co.fenya.demo.bean.ReadingBean;
 import za.co.fenya.demo.bean.SparePartsBean;
+import za.co.fenya.demo.model.Accessories;
 import za.co.fenya.demo.model.Customer;
 import za.co.fenya.demo.model.Device;
 import za.co.fenya.demo.model.Employee;
 import za.co.fenya.demo.model.Reading;
+import za.co.fenya.demo.model.Tickets;
 import za.co.fenya.demo.service.AccessoriesInt;
 import za.co.fenya.demo.service.CustomerContactDetailsServiceInt;
 import za.co.fenya.demo.service.CustomerDeviceHistoryServiceInt;
@@ -51,11 +53,12 @@ public class BillingController {
 	public String[] getSerialNumbers = null;
 	List<Reading> getReadings = null;
 	Reading readings = null;
+	private String globalCustomerName = null;
 
 	// create billing management pages
 	@RequestMapping(value = { "billingmanagement", "userbillingmanagement" }, method = RequestMethod.GET)
 	public ModelAndView displayBillingPage() {
-		heading ="All Readings";
+		heading = "All Readings";
 		model = new ModelAndView();
 		userName = (Employee) session.getAttribute("loggedInUser");
 		if (userName != null) {
@@ -77,21 +80,28 @@ public class BillingController {
 
 	// select customer reading page
 	@RequestMapping(value = { "customerReadings", "userCustomerReadings" }, method = RequestMethod.GET)
-	public ModelAndView displayCustomersPage(String customerName) {
+	public ModelAndView displayCheckReadingPage() {
+
 		selectedDateRange = "Select Date";
 		model = new ModelAndView();
 		userName = (Employee) session.getAttribute("loggedInUser");
 		if (userName != null) {
 
 			if (userName.getRole().equalsIgnoreCase("Manager") || userName.getRole().equalsIgnoreCase("Admin")) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
 				model.addObject("customerName", customerName);
 				model.addObject("customers", customerServiceInt.getClientList());
 				model.addObject("newDate", selectedDateRange);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
 				model.setViewName("customerReadings");
 			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
 				model.addObject("customerName", customerName);
 				model.addObject("customers", customerServiceInt.getClientList());
 				model.addObject("newDate", selectedDateRange);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
 				model.setViewName("userCustomerReadings");
 			}
 		} else {
@@ -100,18 +110,62 @@ public class BillingController {
 		return model;
 	}
 
-	// search reading for a client
-	@RequestMapping(value = { "searchCustomerName", "userSearchCustomerName" })
-	public ModelAndView searchCustomer(@RequestParam("customerName") String customerName) {
+	//display searched customer and its serial numbers
+	@RequestMapping(value = { "readingsCustomerByDevice", "userReadingsCustomerByDevice" }, method = RequestMethod.GET)
+	public ModelAndView displaySearchedCustomer(String customerName) {
+		model = new ModelAndView();
 		String selectedName = customerName;
+		userName = (Employee) session.getAttribute("loggedInUser");
+
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || userName.getRole().equalsIgnoreCase("Admin")) {
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customers", customerServiceInt.getClientList());
+				model.addObject("newDate", selectedDateRange);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.setViewName("customerReadings");
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customers", customerServiceInt.getClientList());
+				model.addObject("newDate", selectedDateRange);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.setViewName("userCustomerReadings");
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+
+	}
+
+	// search reading for a client
+	@RequestMapping(value = { "searchCustomerReading", "userSearchCustomerReading" },method=RequestMethod.POST)
+	public ModelAndView searchCustomer(@RequestParam("customerName") String customerName,
+									   @RequestParam("serialNumber") String serialNumber,
+			                           @RequestParam("period")String period) {
+		String selectedName = customerName;
+		String selectedSerialNumber = serialNumber;
+		String selectedPeriod = period;
 		model = new ModelAndView();
 		userName = (Employee) session.getAttribute("loggedInUser");
 		if (userName != null) {
 			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
 				getSerialNumbers = deviceServiceInt.getSerials();
+				getReadings = deviceReadingServiceInt.getPreviousReadingForDevice(serialNumber);
+				if (getReadings != null) {
+					model.addObject("deviceReading", getReadings);
+				}
 				model.addObject("serialNumbers", getSerialNumbers);
 				model.addObject("customerName", customerName);
 				model.addObject("selectedName", selectedName);
+				model.addObject("selectedPeriod", selectedPeriod);
+				model.addObject("selectedSerialNumber", selectedSerialNumber);
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
 				if (customerName != null) {
 					model.addObject("customers", customerServiceInt.getClientList());
@@ -123,9 +177,15 @@ public class BillingController {
 				model.setViewName("customerReadings");
 			} else if (userName.getRole().equalsIgnoreCase("User")) {
 				getSerialNumbers = deviceServiceInt.getSerials();
+				getReadings = deviceReadingServiceInt.getPreviousReadingForDevice(serialNumber);
+				if (getReadings != null) {
+					model.addObject("deviceReading", getReadings);
+				}
 				model.addObject("serialNumbers", getSerialNumbers);
 				model.addObject("customerName", customerName);
 				model.addObject("selectedName", selectedName);
+				model.addObject("selectedPeriod", selectedPeriod);
+				model.addObject("selectedSerialNumber", selectedSerialNumber);
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
 				if (customerName != null) {
 					model.addObject("custName", customerName);
@@ -252,7 +312,7 @@ public class BillingController {
 	}
 
 	// read and display list of captured readings
-	@RequestMapping(value = { "capturedReadings" },method=RequestMethod.GET)
+	@RequestMapping(value = { "capturedReadings" }, method = RequestMethod.GET)
 	public ModelAndView displayCapturedReading(String serialNumber) {
 		String selectedName = customerName;
 		heading = "Captured";
@@ -286,7 +346,7 @@ public class BillingController {
 	}
 
 	// read and display list of pending readings
-	@RequestMapping(value = { "pendingReadings" },method=RequestMethod.GET)
+	@RequestMapping(value = { "pendingReadings" }, method = RequestMethod.GET)
 	public ModelAndView displayPendingReadings(String serialNumber) {
 		String selectedName = customerName;
 		heading = "Pending";
@@ -319,39 +379,7 @@ public class BillingController {
 		return model;
 	}
 
-	// read and display list of deleted readings
-	@RequestMapping(value = { "deletedReadings" },method=RequestMethod.GET)
-	public ModelAndView displayDeletedReadings(String serialNumber) {
-		String selectedName = customerName;
-		heading = "Deleted";
-		model = new ModelAndView();
-		userName = (Employee) session.getAttribute("loggedInUser");
-		if (userName != null) {
-			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
-				getSerialNumbers = deviceServiceInt.getSerials();
-				model.addObject("serialNumbers", getSerialNumbers);
-				model.addObject("customerName", customerName);
-				model.addObject("selectedName", selectedName);
-				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
-				model.addObject("deviceReading", getReadings);
-				model.addObject("heading", heading);
-				model.setViewName("billingmanagement");
-			} else if (userName.getRole().equalsIgnoreCase("User")) {
-				getSerialNumbers = deviceServiceInt.getSerials();
-				model.addObject("serialNumbers", getSerialNumbers);
-				model.addObject("customerName", customerName);
-				model.addObject("selectedName", selectedName);
-				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
-				model.addObject("deviceReading", getReadings);
-				model.addObject("heading", heading);
-				model.setViewName("userBillingmanagement");
-
-			}
-		} else {
-			model.setViewName("login");
-		}
-		return model;
-	}
+	
 
 	// create SLA page
 	@RequestMapping(value = { "SLA", "userSLA" }, method = RequestMethod.GET)

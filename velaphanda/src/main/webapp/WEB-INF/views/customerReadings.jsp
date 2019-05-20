@@ -31,7 +31,7 @@
 
 <c:import url="templates/stylesheetlib.jsp"></c:import>
 </head>
-<body onload="SelectedItemType()" >
+<body onload="SelectedItemType()">
 	<c:import url="templates/navbar.jsp"></c:import>
 
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
@@ -77,35 +77,85 @@
 
 							<c:if test="${empty custName }">
 
-								<form:form action="searchCustomerName" method="post"
-									id="searchCustomerName">
 
-									<div class="row">
-										<!-- Text input Search-->
+								<form:form action="searchCustomerReading" method="post"
+									id="searchCustomerReading" class="searchCustomerReading"
+									modelAttribute="searchCustomerReading">
+
+									<div style="margin-bottom: -3px; margin-left: -1px;" align=left>
+
+										<!-- Select customer-->
+										<div class="form-group ">
+											<div class="col-md-4 selectContainer">
+												<div class="input-group">
+													<span class="input-group-addon"><i
+														class="glyphicon glyphicon-list"></i></span> <select
+														name="customerName" id="customerName"
+														class="form-control selectpicker"
+														onchange="location = this.value;">
+														<c:if test="${not empty selectedName }">
+															<option value="${selectedName}">${ selectedName}</option>
+														</c:if>
+														<option value="<c:out value=""/>">Select Customer</option>
+														<c:forEach items="${customers}" var="customer">
+															<option
+																value="readingsCustomerByDevice?customerName=<c:out value='${customer.customerName}'/>">${customer.customerName}</option>
+														</c:forEach>
+													</select>
+
+												</div>
+											</div>
+										</div>
+
+										<!-- Text input serialNumber-->
 										<div class="form-group">
-											<label class="col-md-3 control-label">Customer Name </label>
-											<div class="col-md-4 inputGroupContainer">
+
+											<div class="col-md-3 inputGroupContainer">
 												<div class="input-group">
 													<span class="input-group-addon"><i
 														class="glyphicon glyphicon-hdd"></i></span> <input
-														name="customerName" list="customers" id="customerName"
+														name="serialNumber" list="deviceList" id="serialNumber"
 														class="form-control" type="text"
-														placeholder='Search By Customer Name'>
+														onkeydown="upperCaseF(this)"
+														placeholder='Enter Serial Number'
+														value="${selectedSerialNumber}" />
 												</div>
 											</div>
-											<!-- Iterating over the list sent from Controller -->
-											<datalist id="customers"> <c:forEach
-												var="customer" items="${customers}">
-												<option value="<c:out value='${customer.customerName}'/>">${customer.customerName}</option>
-											</c:forEach> </datalist>
 
-											<div class="col-md-2">
-												<input class="btn btn-success" type='submit' value='Search' />
+											<!-- Iterating over the list sent from Controller -->
+											<datalist id="deviceList"> <c:forEach var="list"
+												items="${deviceList}">
+												<option value="${list.serialNumber}">
+													<c:if test="${not empty selectedSerialNumber }">
+														<option value="${selectedSerialNumber}">${selectedSerialNumber}</option>
+													</c:if>
+											</c:forEach> </datalist>
+										</div>
+
+										<!-- Text input Contract Start Date-->
+										<div class="form-group ">
+											<div class="col-md-3 inputGroupContainer">
+												<div class="input-group input-append date"
+													id="startDatePeriodPicker">
+													<input type="text" class="form-control" name="period"
+														id="period" placeholder="MM-YYYY"
+														value="${selectedPeriod}"> <span
+														class="input-group-addon"> <span
+														class="glyphicon glyphicon-calendar"></span>
+													</span>
+												</div>
 											</div>
 										</div>
+
+
+										<div class="col-md-2">
+											<input class="btn btn-success" type='submit' value='Search' />
+										</div>
+
+
 									</div>
-									<hr>
 								</form:form>
+
 								<!--Search-->
 							</c:if>
 
@@ -113,11 +163,12 @@
 
 							<c:if test="${not empty custName}">
 
-								<form:form class="well form-horizontal" action="readReadings"
-									method="post" id="readReadings">
+							<form:form class="well form-horizontal" action="captureReadings"
+									modelAttribute="captureReadings" method="post"
+									id="captureReadings">
 
 									<div class="row"></div>
-									<fieldset id="customerDevice">
+									<fieldset>
 										<!-- Customer Device -->
 										<legend>
 											<b style="font-size: 15px;">Customer Device </b>
@@ -147,17 +198,19 @@
 										<!-- Text input Search-->
 										<div class="form-group">
 											<label class="col-md-3 control-label">Select Serial
-												No </label>
+												No</label>
 											<div class="col-md-6 inputGroupContainer">
 												<div class="input-group">
 													<span class="input-group-addon"><i
 														class="glyphicon glyphicon-hdd"></i></span> <input
-														name="serialNumber" list="deviceList" id="serialNumber" class="form-control"
-														type="text" onkeydown="upperCaseF(this)"
+														name="serialNumber" list="deviceList" readonly="readonly" id="serialNumber"
+														class="form-control" type="text"
+														onkeydown="upperCaseF(this)"
 														placeholder='Enter Serial Number'
 														value="${selectedSerialNumber}" />
 												</div>
 											</div>
+
 											<!-- Iterating over the list sent from Controller -->
 											<datalist id="deviceList"> <c:forEach var="list"
 												items="${deviceList}">
@@ -166,7 +219,6 @@
 														<option value="${selectedSerialNumber}">${selectedSerialNumber}</option>
 													</c:if>
 											</c:forEach> </datalist>
-
 										</div>
 
 									</fieldset>
@@ -185,10 +237,11 @@
 											<div class="col-md-6 inputGroupContainer">
 												<div class="input-group input-append date"
 													id="startDatePeriodPicker">
-													<input type="text" class="form-control" name="period"
-														id="period" placeholder="MM-YYYY" value="${selectedPeriod}"> <span
+													<input type="text" class="form-control" readonly="readonly" name="period"
+														id="period" placeholder="MM-YYYY"
+														value="${selectedPeriod}"> <span
 														class="input-group-addon"> <span
-														class="glyphicon glyphicon-calendar" ></span>
+														class="glyphicon glyphicon-calendar"></span>
 													</span>
 												</div>
 											</div>
@@ -196,19 +249,112 @@
 
 									</fieldset>
 									<br>
+									
+									<fieldset>
+										<!-- Device Readings -->
+										<br>
+										<legend>
+											<b style="font-size: 15px;">Device Readings</b>
+										</legend>
 
-									<div class="row">
-										<div class="col-sm-4"></div>
-										<div class="col-sm-4">
-											<div class="col text-center">
-												<input type="submit" value="Check Readings"
-													class="btn btn-primary btn-block btn-md" tabindex="9"
-													id="checkReadings" onclick="disabledCustomerDevice()">
+										
+										<c:forEach items="${deviceReading}" var="reading">
+
+											<div class="row grid-divider">
+												<div class="col-sm-6">
+													<div class="col-padding">
+														<legend>
+															<b style="font-size: 15px;"> Mono Reading</b>
+														</legend>
+
+														<!-- Text input Mono-->
+														<div class="form-group">
+															 <label class="col-xs-3 control-label">Previous</label>
+														
+															<div class="col-md-6 inputGroupContainer">
+																<div class="input-group">
+																	<span class="input-group-addon"><i
+																		class="glyphicon glyphicon-barcode"></i></span> <input
+																		id="previousMonoReading" name="previousMonoReading"
+																		readonly class="form-control" type="text"
+																		value="<c:out value="${reading.previousMonoReading}"/>">
+																</div>
+															</div>
+														</div>
+
+														<!-- Text input Color-->
+														<div class="form-group">
+														 <label class="col-xs-3 control-label">Current</label>
+														
+															<div class="col-md-6 inputGroupContainer">
+																<div class="input-group">
+																	<span class="input-group-addon"><i
+																		class="glyphicon glyphicon-barcode"></i></span> <input
+																		id="colorReading" name="colorReading"
+																		placeholder="Current Mono Reading"
+																		class="form-control" type="text">
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-6">
+													<div class="col-padding">
+														<legend>
+															<b style="font-size: 15px;"> Color Reading</b>
+														</legend>
+														<!-- Text input Mono-->
+														<div class="form-group">
+														<label class="col-xs-3 control-label">Previous </label>
+														 <div class="col-md-6 inputGroupContainer">
+																	<div class="input-group">
+																	<span class="input-group-addon"><i
+																		class="glyphicon glyphicon-barcode"></i></span> <input
+																		id="previousColorReading" readonly
+																		name="previousColorReading"
+																		value="<c:out value="${reading.previousColorReading}"/>"
+																		class="form-control" type="text">
+																</div>
+															</div>
+														</div>
+
+														<!-- Text input Color-->
+														<div class="form-group">
+														 <label class="col-xs-3 control-label">Current</label>
+														
+															<div class="col-md-6 inputGroupContainer">
+																<div class="input-group">
+																	<span class="input-group-addon"><i
+																		class="glyphicon glyphicon-barcode"></i></span> <input
+																		id="colourReading" name="colourReading"
+																		placeholder="Current Colour Reading"
+																		class="form-control" type="text">
+																</div>
+															</div>
+														</div>
+
+													</div>
+												</div>
 											</div>
-										</div>
-										<div class="col-sm-4"></div>
 
-									</div>
+										</c:forEach>
+
+										<br />
+										<div class="row">
+											<div class="col-sm-4"></div>
+											<div class="col-sm-4">
+												<div class="col text-center">
+													<input type="submit" value="Capture Readings"
+														class="btn btn-primary btn-block btn-md" tabindex="9"
+														id="captureReadings">
+												</div>
+											</div>
+											<div class="col-sm-4"></div>
+
+										</div>
+									</fieldset>
+									
+									
 								</form:form>
 
 							</c:if>
@@ -224,115 +370,6 @@
 								<form:form class="well form-horizontal" action="captureReadings"
 									modelAttribute="captureReadings" method="post"
 									id="captureReadings">
-
-									<fieldset>
-										<!-- Device Readings -->
-										<br>
-										<legend>
-											<b style="font-size: 15px;">Device Readings</b>
-										</legend>
-
-										<c:if test="${not empty selectedName }">
-											<input type="hidden" name="customerName" id="customerName"
-												class="form-control selectpicker" value="${selectedName}" />
-										</c:if>
-										<input name="serialNumber" list="deviceList"
-											class="form-control" type="hidden"
-											onkeydown="upperCaseF(this)" value="${selectedSerialNumber}" />
-
-									<c:forEach items="${deviceReading}" var="reading">
-
-										<div class="row grid-divider">
-											<div class="col-sm-6">
-												<div class="col-padding">
-													<legend>
-														<b style="font-size: 15px;"> Mono Reading</b>
-													</legend>
-
-													<!-- Text input Mono-->
-													<div class="form-group">
-														<!-- <label class="col-xs-3 control-label">Previous Mono Reading</label>
-														 -->
-														<div class="col-md-6 inputGroupContainer">
-															<div class="input-group">
-																<span class="input-group-addon"><i
-																	class="glyphicon glyphicon-barcode"></i></span> <input
-																	id="previousMonoReading" name="previousMonoReading"
-																	readonly class="form-control" type="text"
-																	value="<c:out value="${reading.previousMonoReading}"/>" >
-															</div>
-														</div>
-													</div>
-
-													<!-- Text input Color-->
-													<div class="form-group">
-														<!-- <label class="col-xs-3 control-label">Previous Color Reading</label>
-													 -->
-														<div class="col-md-6 inputGroupContainer">
-															<div class="input-group">
-																<span class="input-group-addon"><i
-																	class="glyphicon glyphicon-barcode"></i></span> <input
-																	id="colorReading" name="colorReading"
-																	placeholder="Current Mono Reading" class="form-control"
-																	type="text">
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="col-padding">
-													<legend>
-														<b style="font-size: 15px;"> Color Reading</b>
-													</legend>
-													<!-- Text input Mono-->
-													<div class="form-group">
-
-														<div class="col-md-6 inputGroupContainer">
-															<div class="input-group">
-																<span class="input-group-addon"><i
-																	class="glyphicon glyphicon-barcode"></i></span> <input
-																	id="previousColorReading" readonly
-																	name="previousColorReading" value="<c:out value="${reading.previousColorReading}"/>"
-																	 class="form-control"
-																	type="text">
-															</div>
-														</div>
-													</div>													
-											
-													<!-- Text input Color-->
-													<div class="form-group">
-														<div class="col-md-6 inputGroupContainer">
-															<div class="input-group">
-																<span class="input-group-addon"><i
-																	class="glyphicon glyphicon-barcode"></i></span> <input
-																	id="colourReading" name="colourReading"
-																	placeholder="Current Colour Reading"
-																	class="form-control" type="text">
-															</div>
-														</div>
-													</div>
-
-												</div>
-											</div>
-										</div>
-										
-									</c:forEach>
-									
-										<br />
-										<div class="row">
-											<div class="col-sm-4"></div>
-											<div class="col-sm-4">
-												<div class="col text-center">
-													<input type="submit" value="Capture Readings"
-														class="btn btn-primary btn-block btn-md" tabindex="9"
-														id="captureReadings">
-												</div>
-											</div>
-											<div class="col-sm-4"></div>
-
-										</div>
-									</fieldset>
 
 								</form:form>
 
@@ -357,13 +394,7 @@
 		</div>
 		<!--/.main-->
 		<c:import url="templates/javascriptslib.jsp"></c:import>
-		<script type="text/javascript">
 		
-		function disabledCustomerDevice() {
-			  document.getElementById("customerDevice").readonly = true;
-		}
-		
-		</script>
 		<c:import url="templates/sidebar-collapse.jsp"></c:import>
 
 		<!-- /Scripts -->

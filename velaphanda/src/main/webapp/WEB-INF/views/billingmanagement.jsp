@@ -175,16 +175,7 @@
 												</div>
 											</a>
 										</div>
-										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="/deletedReadings"/>'>
-												<div class="well" style="background-color: #ffffff;">
-													<h5 class="text-danger">
-														<span class="label label-danger pull-right">${countDeletedReadings}</span>
-														Deleted Readings
-													</h5>
-												</div>
-											</a>
-										</div>
+										
 									</div>
 									<!--/row-->
 									
@@ -211,9 +202,7 @@
 									<div class="panel-heading" align="center">Pending
 										Readings</div>
 								</c:when>
-								<c:when test="${heading=='Deleted' }">
-									<div class="panel-heading" align="center">Deleted Readings</div>
-								</c:when>					
+												
 								
 							</c:choose>
 

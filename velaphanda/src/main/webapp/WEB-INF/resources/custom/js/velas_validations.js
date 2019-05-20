@@ -182,6 +182,55 @@ $(document)
 							});
 		});
 //end search for serial number
+
+//searchCustomerReading
+$(document)
+.ready(
+		function() {
+			$('#searchCustomerReading')
+					.bootstrapValidator(
+							{
+								feedbackIcons : {
+									valid : 'glyphicon glyphicon-ok',
+									invalid : 'glyphicon glyphicon-remove',
+									validating : 'glyphicon glyphicon-refresh'
+								},
+								fields : {
+									customerName : {
+										validators : {
+											stringLength : {
+												min : 3,
+											},
+											notEmpty : {
+												message : 'Customer name is required to search and cannot be empty'
+											}
+										}
+									},
+									serialNumber : {
+										validators : {
+											stringLength : {
+												min : 3,
+											},
+											notEmpty : {
+												message : 'Serial Number is required to search and cannot be empty'
+											}
+										}
+									},
+									period : {
+										validators : {
+											stringLength : {
+												min : 3,
+											},
+											notEmpty : {
+												message : 'Period is required to search and cannot be empty'
+											}
+										}
+									},
+								}
+							});
+		});
+//end search for searchCustomerReading
+
 $(document)
 		.ready(
 				function() {
