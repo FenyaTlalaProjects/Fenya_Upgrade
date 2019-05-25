@@ -258,8 +258,7 @@
 										</legend>
 
 										
-										<c:forEach items="${deviceReading}" var="reading">
-										
+										<%-- <c:forEach items="${deviceReading}" var="reading">										 --%>
 											<div class="row grid-divider">
 												<div class="col-sm-6">
 													<div class="col-padding">
@@ -277,7 +276,7 @@
 																		class="glyphicon glyphicon-barcode"></i></span> <input
 																		id="previousMonoReading" name="previousMonoReading"
 																		readonly class="form-control" type="text"
-																		value="<c:out value="${reading.previousMonoReading}"/>">
+																		value="<c:out value="${readingBean.previousMonoReading}"/>">
 																</div>
 															</div>
 														</div>
@@ -312,7 +311,7 @@
 																		class="glyphicon glyphicon-barcode"></i></span> <input
 																		id="previousColorReading" readonly
 																		name="previousColorReading"
-																		value="<c:out value="${reading.previousColorReading}"/>"
+																		value="<c:out value="${readingBean.previousColorReading}"/>"
 																		class="form-control" type="text">
 																</div>
 															</div>
@@ -337,7 +336,7 @@
 												</div>
 											</div>
 
-										</c:forEach> 
+										<%-- </c:forEach>  --%>
 
 										<br />
 										<div class="row">

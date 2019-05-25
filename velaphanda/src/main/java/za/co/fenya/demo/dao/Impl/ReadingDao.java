@@ -402,7 +402,7 @@ public class ReadingDao implements ReadingDaoInt {
 							currentReading = reading;
 						}
 					}
-					i++;
+					i++;				
 				}
 
 			}

@@ -148,7 +148,7 @@ public class BillingController {
 	@RequestMapping(value = { "searchCustomerReading", "userSearchCustomerReading" },method=RequestMethod.POST)
 	public ModelAndView searchCustomer(@RequestParam("customerName") String customerName,
 									   @RequestParam("serialNumber") String serialNumber,
-			                           @RequestParam("period")String period) {
+			                           @RequestParam("period")String period, ReadingBean reading) {
 		String selectedName = customerName;
 		String selectedSerialNumber = serialNumber;
 		String selectedPeriod = period;
@@ -165,6 +165,7 @@ public class BillingController {
 				model.addObject("customerName", customerName);
 				model.addObject("selectedName", selectedName);
 				model.addObject("selectedPeriod", selectedPeriod);
+				model.addObject("readingBean", reading);
 				model.addObject("selectedSerialNumber", selectedSerialNumber);
 				//model.addObject("retMessage", deviceReadingServiceInt.createDefaultReading(reading));
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
@@ -187,6 +188,7 @@ public class BillingController {
 				model.addObject("selectedName", selectedName);
 				model.addObject("selectedPeriod", selectedPeriod);
 				model.addObject("selectedSerialNumber", selectedSerialNumber);
+				model.addObject("readingBean", reading);
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
 				//model.addObject("retMessage", deviceReadingServiceInt.createDefaultReading(reading));
 				if (customerName != null) {
