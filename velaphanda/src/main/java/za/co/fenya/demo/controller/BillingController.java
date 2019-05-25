@@ -51,7 +51,7 @@ public class BillingController {
 	Employee userName = null;
 	private String customerName, technicianName, technicianEmail, selectedDateRange, heading, machineType = null;
 	public String[] getSerialNumbers = null;
-	Reading getReadings = null;
+	List<Reading> getReadings = null;
 	Reading readings = null;
 	private String globalCustomerName = null;
 
@@ -157,7 +157,7 @@ public class BillingController {
 		if (userName != null) {
 			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
 				getSerialNumbers = deviceServiceInt.getSerials();
-				getReadings = deviceReadingServiceInt.getPreviousReadingForDevice(serialNumber);
+				getReadings = deviceReadingServiceInt.createReading(reading);
 				if (getReadings != null) {
 					model.addObject("deviceReading", getReadings);
 				}
@@ -165,21 +165,21 @@ public class BillingController {
 				model.addObject("customerName", customerName);
 				model.addObject("selectedName", selectedName);
 				model.addObject("selectedPeriod", selectedPeriod);
-				model.addObject("readingBean", reading);
+				model.addObject("readingBean", getReadings);
 				model.addObject("selectedSerialNumber", selectedSerialNumber);
 				//model.addObject("retMessage", deviceReadingServiceInt.createDefaultReading(reading));
-				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
-				if (customerName != null) {
+				//model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				/*if (customerName != null) {
 					model.addObject("customers", customerServiceInt.getClientList());
 					model.addObject("custName", customerName);
 
 				} else {
 					model.addObject("errorRetMessage", "Customer name does not exist.");
-				}
+				}*/
 				model.setViewName("customerReadings");
 			} else if (userName.getRole().equalsIgnoreCase("User")) {
 				getSerialNumbers = deviceServiceInt.getSerials();
-				getReadings = deviceReadingServiceInt.getPreviousReadingForDevice(serialNumber);
+				getReadings = deviceReadingServiceInt.createReading(reading);
 				if (getReadings != null) {
 					model.addObject("deviceReading", getReadings);
 				}
@@ -225,7 +225,7 @@ public class BillingController {
 				model.addObject("serialNo", serialNumber);
 				model.addObject("selectedSerialNumber", selectedSerialNumber);
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
-				getReadings = deviceReadingServiceInt.getPreviousReadingForDevice(serialNumber);
+				//getReadings = deviceReadingServiceInt.createReading(reading);
 				if (getReadings != null) {
 					model.addObject("deviceReading", getReadings);
 				}
@@ -249,7 +249,7 @@ public class BillingController {
 				model.addObject("serialNo", serialNumber);
 				model.addObject("selectedSerialNumber", selectedSerialNumber);
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
-				getReadings = deviceReadingServiceInt.getPreviousReadingForDevice(serialNumber);
+				///getReadings = deviceReadingServiceInt.getPreviousReadingForDevice(serialNumber);
 				if (getReadings != null) {
 					model.addObject("deviceReading", getReadings);
 				}
