@@ -8,7 +8,7 @@ import za.co.fenya.demo.model.Reading;
 public interface ReadingDaoInt {
 
 	
-	String createReading(ReadingBean reading);
+	List<Reading> createReading(ReadingBean reading);
 
 	List<Reading> getAllReadings();
 	
@@ -26,6 +26,13 @@ public interface ReadingDaoInt {
 
 	List<Reading> selectReadingsForManager(String customer, String dateRange, String user, String serialNumber);
 
-	List<Reading> getPreviousReadingForDevice(String serialNumber);	
+	Reading getPreviousReadingForDevice(String serialNumber);
+
+	List<Reading> confirmReadingExist(String serialNumber, String period);
+
+	String createDefaultReading(ReadingBean reading);	
+	String saveReading(ReadingBean reading);
+	String submitReading(ReadingBean reading);
+	
 
 }

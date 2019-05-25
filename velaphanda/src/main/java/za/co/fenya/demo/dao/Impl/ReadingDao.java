@@ -28,7 +28,6 @@ import za.co.fenya.demo.model.Reading;
 import za.co.fenya.demo.model.Tickets;
 import za.co.fenya.demo.model.Reading;
 
-
 @Repository("readingDAO")
 @Transactional(propagation = Propagation.REQUIRED)
 public class ReadingDao implements ReadingDaoInt {
@@ -39,7 +38,7 @@ public class ReadingDao implements ReadingDaoInt {
 	private EmployeeDaoInt employeeDao;
 	@Autowired
 	private HttpSession session = null;
-	
+
 	private Reading globalReading;
 	private Customer customer;
 	private Device device;
@@ -61,23 +60,94 @@ public class ReadingDao implements ReadingDaoInt {
 	String timeDeviceAdded = sdfDate.format(now);
 	ArrayList<?> aList = null;
 	ArrayList<Reading> readingList = null;
-	
-	
-	
+
 	@Override
-	public String createReading(ReadingBean reading) {
-		
+	public List<Reading> createReading(ReadingBean reading) {
+
 		Employee employee = (Employee) session.getAttribute("loggedInUser");
 		globalReading = new Reading();
 		customer = new Customer();
 		device = new Device();
 		emp = new Employee();
+		List<Reading> aList = getAllReadings();
+		ArrayList<Reading> readingList = new ArrayList<Reading>();
+		Reading previousReading = new Reading();
 
-		//String userName = null;
 
 		// Get Current Time Stamp
 		Calendar cal = Calendar.getInstance();
-		//SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:s");
+		// SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:s");
+		Date currentDate = new Date();
+		cal.setTime(new Date());
+
+		currentDate = cal.getTime();
+		customer = customerDaoInt.getClientByClientName(reading.getCustomerName());
+		emp = employeeDaoInt.getEmployeeByEmpNum(reading.getEmployee());
+		device = deviceDaoInt.getDeviceBySerialNumbuer(reading.getSerialNumber());
+
+		boolean readingExist = false;
+
+		try {
+			if (device != null && reading.getReadingPeriod() != null) {
+				for (Reading readingValue : aList) {
+					if (readingValue.getSerialNumber().getSerialNumber().equalsIgnoreCase(reading.getSerialNumber())
+							&& readingValue.getReadingPeriod().equalsIgnoreCase(reading.getReadingPeriod())) {
+						readingList.add(readingValue);
+						readingExist = true;
+					}
+				}
+			} else if (readingExist == false) {
+				previousReading = getPreviousReadingForDevice(reading.getSerialNumber());
+				String previousMono = "0";
+				String previousColor = "0";
+
+				if (previousReading != null) {
+					previousMono = previousReading.getPreviousMonoReading();
+					previousColor = previousReading.getPreviousColorReading();
+				}
+
+			//	globalReading.setColorReading(reading.getColorReading());
+				globalReading.setCustomerName(customer);
+				globalReading.setSerialNumber(device);
+				globalReading.setEmployee(employee);
+			//	globalReading.setMonoReading(reading.getMonoReading());
+				globalReading.setPreviousColorReading(previousColor);
+				globalReading.setPreviousMonoReading(previousMono);
+				globalReading.setReadingPeriod(reading.getReadingPeriod());
+				globalReading.setInsertDate(currentDate.toString());
+				globalReading.setReadingStatus("Draft");
+				sessionFactory.getCurrentSession().save(globalReading);
+				retMessage = "Reading successfully submited";
+				
+				readingList.add(globalReading);
+			}
+		}
+
+		catch (
+
+		Exception e) {
+			retMessage = "Reading for " + device.getSerialNumber() + " not added\n" + e.getMessage() + ".";
+		}
+
+		return readingList;
+
+	}
+	
+	public String saveReading (ReadingBean reading)
+	{
+		Employee employee = (Employee) session.getAttribute("loggedInUser");
+		globalReading = new Reading();
+		customer = new Customer();
+		device = new Device();
+		emp = new Employee();
+		List<Reading> aList = getAllReadings();
+		ArrayList<Reading> readingList = new ArrayList<Reading>();
+		Reading previousReading = new Reading();
+
+
+		// Get Current Time Stamp
+		Calendar cal = Calendar.getInstance();
+		// SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:s");
 		Date currentDate = new Date();
 		cal.setTime(new Date());
 
@@ -87,8 +157,7 @@ public class ReadingDao implements ReadingDaoInt {
 		device = deviceDaoInt.getDeviceBySerialNumbuer(reading.getSerialNumber());
 
 		try {
-
-			if (customer != null && device != null && employee != null) {
+				globalReading.setRecordID(reading.getRecordID());
 				globalReading.setColorReading(reading.getColorReading());
 				globalReading.setCustomerName(customer);
 				globalReading.setSerialNumber(device);
@@ -96,42 +165,146 @@ public class ReadingDao implements ReadingDaoInt {
 				globalReading.setMonoReading(reading.getMonoReading());
 				globalReading.setPreviousColorReading(reading.getPreviousColorReading());
 				globalReading.setPreviousMonoReading(reading.getPreviousMonoReading());
-				globalReading.setReadingMonth(reading.getReadingMonth());
-				globalReading.setReadingYear(reading.getReadingYear());
+				globalReading.setReadingPeriod(reading.getReadingPeriod());
 				globalReading.setInsertDate(currentDate.toString());
-
-				sessionFactory.getCurrentSession().save(globalReading);
-				retMessage = "Reading successfully submited";
-
-			}
+				globalReading.setReadingStatus("inprogress");
+				sessionFactory.getCurrentSession().update(globalReading);
+				retMessage = "Reading successfully updated";
+				
+				readingList.add(globalReading);
+			
 		}
 
-		catch (Exception e) {
+		catch (
+
+		Exception e) {
+			retMessage = "Reading for " + device.getSerialNumber() + " not added\n" + e.getMessage() + ".";
+		}
+		
+		return retMessage;
+	}
+	
+	
+
+	public String submitReading (ReadingBean reading)
+	{
+		Employee employee = (Employee) session.getAttribute("loggedInUser");
+		globalReading = new Reading();
+		customer = new Customer();
+		device = new Device();
+		emp = new Employee();
+		List<Reading> aList = getAllReadings();
+		ArrayList<Reading> readingList = new ArrayList<Reading>();
+		Reading previousReading = new Reading();
+
+
+		// Get Current Time Stamp
+		Calendar cal = Calendar.getInstance();
+		// SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:s");
+		Date currentDate = new Date();
+		cal.setTime(new Date());
+
+		currentDate = cal.getTime();
+		customer = customerDaoInt.getClientByClientName(reading.getCustomerName());
+		emp = employeeDaoInt.getEmployeeByEmpNum(reading.getEmployee());
+		device = deviceDaoInt.getDeviceBySerialNumbuer(reading.getSerialNumber());
+
+		try {
+				globalReading.setRecordID(reading.getRecordID());
+				globalReading.setColorReading(reading.getColorReading());
+				globalReading.setCustomerName(customer);
+				globalReading.setSerialNumber(device);
+				globalReading.setEmployee(employee);
+				globalReading.setMonoReading(reading.getMonoReading());
+				globalReading.setPreviousColorReading(reading.getPreviousColorReading());
+				globalReading.setPreviousMonoReading(reading.getPreviousMonoReading());
+				globalReading.setReadingPeriod(reading.getReadingPeriod());
+				globalReading.setInsertDate(currentDate.toString());
+				globalReading.setReadingStatus("Active");
+				sessionFactory.getCurrentSession().update(globalReading);
+				retMessage = "Reading successfully submitted";
+				
+				readingList.add(globalReading);
+			
+		}
+
+		catch (
+
+		Exception e) {
+			retMessage = "Reading for " + device.getSerialNumber() + " not added\n" + e.getMessage() + ".";
+		}
+		
+		return retMessage;
+	}
+	
+	
+	
+	@Override
+	public String createDefaultReading (ReadingBean reading) {
+
+		Employee employee = (Employee) session.getAttribute("loggedInUser");
+		globalReading = new Reading();
+		customer = new Customer();
+		device = new Device();
+		emp = new Employee();
+		List<Reading> aList = getAllReadings();
+		ArrayList<Reading> readingList = new ArrayList<Reading>();
+		Reading previousReading = new Reading();
+
+
+		// Get Current Time Stamp
+		Calendar cal = Calendar.getInstance();
+		// SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:s");
+		Date currentDate = new Date();
+		cal.setTime(new Date());
+
+		currentDate = cal.getTime();
+		customer = customerDaoInt.getClientByClientName(reading.getCustomerName());
+		emp = employeeDaoInt.getEmployeeByEmpNum(reading.getEmployee());
+		device = deviceDaoInt.getDeviceBySerialNumbuer(reading.getSerialNumber());
+
+		try {
+				globalReading.setColorReading(reading.getColorReading());
+				globalReading.setCustomerName(customer);
+				globalReading.setSerialNumber(device);
+				globalReading.setEmployee(employee);
+				globalReading.setMonoReading(reading.getMonoReading());
+				globalReading.setReadingPeriod(reading.getReadingPeriod());
+				globalReading.setInsertDate(currentDate.toString());
+				globalReading.setReadingStatus("Defalt");
+				sessionFactory.getCurrentSession().save(globalReading);
+				retMessage = "Reading successfully submited";
+				
+				readingList.add(globalReading);
+		}
+
+		catch (
+
+		Exception e) {
 			retMessage = "Reading for " + device.getSerialNumber() + " not added\n" + e.getMessage() + ".";
 		}
 
 		return retMessage;
 
 	}
+
 	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Reading> getAllReadings() {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
-				Reading.class);
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Reading.class);
 		return (List<Reading>) criteria.list();
 	}
-  
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Reading> getReadingsByMonthOfYear (String month, String year) {
+	public List<Reading> getReadingsByMonthOfYear(String month, String year) {
 		List<Reading> aList = getAllReadings();
 		ArrayList<Reading> readingList = new ArrayList<Reading>();
-		
 
 		for (Reading reading : aList) {
-			if( reading.getReadingMonth().equalsIgnoreCase(month) && reading.getReadingYear().equalsIgnoreCase(year) )
-			{
+			if (reading.getReadingMonth().equalsIgnoreCase(month) && reading.getReadingYear().equalsIgnoreCase(year)) {
 				readingList.add(reading);
 			}
 		}
@@ -140,127 +313,114 @@ public class ReadingDao implements ReadingDaoInt {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Reading> getReadingsByUser (String user) {
+	public List<Reading> getReadingsByUser(String user) {
 		List<Reading> aList = getAllReadings();
 		ArrayList<Reading> readingList = new ArrayList<Reading>();
-		
 
 		for (Reading reading : aList) {
-			if( reading.getEmployee().getEmail().equalsIgnoreCase(user) )
-			{
+			if (reading.getEmployee().getEmail().equalsIgnoreCase(user)) {
 				readingList.add(reading);
 			}
 		}
 		return readingList;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Reading> getReadingsByModifyApprover (String approver) {
+	public List<Reading> getReadingsByModifyApprover(String approver) {
 		List<Reading> aList = getAllReadings();
 		ArrayList<Reading> readingList = new ArrayList<Reading>();
-		
+
 		for (Reading reading : aList) {
-			if( reading.getModifyApprover().getEmail().equalsIgnoreCase(approver) )
-			{
+			if (reading.getModifyApprover().getEmail().equalsIgnoreCase(approver)) {
 				readingList.add(reading);
 			}
 		}
 		return readingList;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Reading> getReadingsByModifyUser (String user) {
+	public List<Reading> getReadingsByModifyUser(String user) {
 		List<Reading> aList = getAllReadings();
 		ArrayList<Reading> readingList = new ArrayList<Reading>();
-		
+
 		for (Reading reading : aList) {
-			if( reading.getModifiedBy().getEmail().equalsIgnoreCase(user) )
-			{
+			if (reading.getModifiedBy().getEmail().equalsIgnoreCase(user)) {
 				readingList.add(reading);
 			}
 		}
 		return readingList;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Reading> getReadingsBySerialNumber (String serialNumber) {
+	public List<Reading> getReadingsBySerialNumber(String serialNumber) {
 		List<Reading> aList = getAllReadings();
 		ArrayList<Reading> readingList = new ArrayList<Reading>();
-		
+
 		for (Reading reading : aList) {
-			if( reading.getSerialNumber().getSerialNumber().equalsIgnoreCase(serialNumber) )
-			{
+			if (reading.getSerialNumber().getSerialNumber().equalsIgnoreCase(serialNumber)) {
 				readingList.add(reading);
 			}
 		}
 		return readingList;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Reading> getReadingsByCustomerName (String customerName) {
+	public List<Reading> getReadingsByCustomerName(String customerName) {
 		List<Reading> aList = getAllReadings();
 		ArrayList<Reading> readingList = new ArrayList<Reading>();
-		
+
 		for (Reading reading : aList) {
-			if( reading.getCustomerName().getCustomerName().equalsIgnoreCase(customerName) )
-			{
+			if (reading.getCustomerName().getCustomerName().equalsIgnoreCase(customerName)) {
 				readingList.add(reading);
 			}
 		}
 		return readingList;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Reading> getPreviousReadingForDevice(String serialNumber) {
-		//String name = serialNumber;
-		
+	public Reading getPreviousReadingForDevice(String serialNumber) {
+		// String name = serialNumber;
+
 		List<Reading> aList = new ArrayList<Reading>();
 		List<Reading> readingList = null;
-		Reading currentReading =  new Reading();
+		Reading currentReading = new Reading();
 		try {
 
 			readingList = getAllReadings();
 			int i = 0;
 			for (Reading reading : readingList) {
-				if (reading.getSerialNumber().getSerialNumber().equalsIgnoreCase(serialNumber))
-				{
-				  if (i == 0)
-				  {
-					 currentReading = reading; 
-				  }
-				  else 
-				  {
-					if (currentReading.getRecordID() < reading.getRecordID() )
-					{
+				if (reading.getSerialNumber().getSerialNumber().equalsIgnoreCase(serialNumber)) {
+					if (i == 0) {
 						currentReading = reading;
+					} else {
+						if (currentReading.getRecordID() < reading.getRecordID()) {
+							currentReading = reading;
+						}
 					}
-				  }
-				  i++;
+					i++;
 				}
-							
+
 			}
-			
-		if (currentReading.getSerialNumber().getSerialNumber() != null || currentReading.getSerialNumber().getSerialNumber() != "")
-			{
+
+			if (currentReading.getSerialNumber().getSerialNumber() != null
+					|| currentReading.getSerialNumber().getSerialNumber() != "") {
 				aList.add(currentReading);
 			}
-		
+
 		} catch (Exception e) {
 			return null;
 		}
-		return aList;
+		return currentReading;
 	}
 
-	
 	@Override
-	public List<Reading> selectReadingsForManager(String customer,
-			String dateRange, String user, String serialNumber) {
-		
+	public List<Reading> selectReadingsForManager(String customer, String dateRange, String user, String serialNumber) {
+
 		boolean allCustomers = false;
 		boolean allUsers = false;
 		boolean dateNotSelected = false;
@@ -296,22 +456,19 @@ public class ReadingDao implements ReadingDaoInt {
 			}
 
 			if (serialNumber != null) {
-				readingList = getReadingsBySerialNumber(serialNumber);				
-				}
-			else if (serialNumber == null) {
-		
+				readingList = getReadingsBySerialNumber(serialNumber);
+			} else if (serialNumber == null) {
+
 				if (allCustomers == true && allUsers == true) {
 					if (dateNotSelected == false) {
 						readingList = getAllReadings();
 						for (Reading reading : readingList) {
 
-							
 							convDate = reading.getInsertDate().substring(0, 10);
 							normalDate = convDate.replace("/", "-");
 							dateData = myFormat.parse(normalDate);
 							boolean withinRange = false;
-							if (myStart.compareTo(dateData) <= 0
-									&& myEnd.compareTo(dateData) >= 0) {
+							if (myStart.compareTo(dateData) <= 0 && myEnd.compareTo(dateData) >= 0) {
 								// withinRange = true;
 								aList.add(reading);
 							}
@@ -334,13 +491,10 @@ public class ReadingDao implements ReadingDaoInt {
 							normalDate = convDate.replace("/", "-");
 							dateData = myFormat.parse(normalDate);
 							boolean withinRange = false;
-							if (myStart.compareTo(dateData) <= 0
-									&& myEnd.compareTo(dateData) >= 0) {
+							if (myStart.compareTo(dateData) <= 0 && myEnd.compareTo(dateData) >= 0) {
 								withinRange = true;
 							}
-							if (reading.getEmployee().getEmail()
-									.equalsIgnoreCase(user)
-									&& withinRange == true) {
+							if (reading.getEmployee().getEmail().equalsIgnoreCase(user) && withinRange == true) {
 								aList.add(reading);
 							}
 
@@ -348,14 +502,12 @@ public class ReadingDao implements ReadingDaoInt {
 					} else if (dateNotSelected == true) {
 						readingList = getAllReadings();
 						for (Reading reading : readingList) {
-							if (reading.getEmployee().getEmail()
-									.equalsIgnoreCase(user)) {
+							if (reading.getEmployee().getEmail().equalsIgnoreCase(user)) {
 								aList.add(reading);
 							}
 						}
 					}
-				}
-				else if (allCustomers == false && allUsers == true) {
+				} else if (allCustomers == false && allUsers == true) {
 					if (dateNotSelected == false) {
 						readingList = getAllReadings();
 						for (Reading reading : readingList) {
@@ -364,38 +516,29 @@ public class ReadingDao implements ReadingDaoInt {
 							normalDate = convDate.replace("/", "-");
 							dateData = myFormat.parse(normalDate);
 							boolean withinRange = false;
-							if (myStart.compareTo(dateData) <= 0
-									&& myEnd.compareTo(dateData) >= 0) {
+							if (myStart.compareTo(dateData) <= 0 && myEnd.compareTo(dateData) >= 0) {
 								withinRange = true;
 							}
-							if (reading.getCustomerName().getCustomerName() != null ) 
-							{
-								if (reading.getCustomerName()
-										.getCustomerName()
-										.equalsIgnoreCase(customer)
+							if (reading.getCustomerName().getCustomerName() != null) {
+								if (reading.getCustomerName().getCustomerName().equalsIgnoreCase(customer)
 										&& withinRange == true) {
 									aList.add(reading);
 								}
 
 							}
-							
+
 						}
 					} else if (dateNotSelected == true) {
 						readingList = getAllReadings();
 						for (Reading reading : readingList) {
-							if (reading.getCustomerName() != null )
-							{
-								if (reading.getCustomerName() != null ) 
-								{
-									if (reading.getCustomerName()
-											.getCustomerName()
-											.equalsIgnoreCase(customer)) {
+							if (reading.getCustomerName() != null) {
+								if (reading.getCustomerName() != null) {
+									if (reading.getCustomerName().getCustomerName().equalsIgnoreCase(customer)) {
 										aList.add(reading);
 									}
 								}
-								
+
 							}
-							
 
 						}
 					}
@@ -411,36 +554,29 @@ public class ReadingDao implements ReadingDaoInt {
 							normalDate = convDate.replace("/", "-");
 							dateData = myFormat.parse(normalDate);
 							boolean withinRange = false;
-							if (myStart.compareTo(dateData) <= 0
-									&& myEnd.compareTo(dateData) >= 0) {
+							if (myStart.compareTo(dateData) <= 0 && myEnd.compareTo(dateData) >= 0) {
 								withinRange = true;
 							}
-							if (reading.getCustomerName() != null ) 
-							{
-								if (reading.getCustomerName()							
-										.equalsIgnoreCase(customer)
-										&& order.getEmployee().getEmail()
-												.equalsIgnoreCase(user)
+							if (reading.getCustomerName() != null) {
+								if (reading.getCustomerName().equalsIgnoreCase(customer)
+										&& order.getEmployee().getEmail().equalsIgnoreCase(user)
 										&& withinRange == true) {
 									aList.add(order);
 								}
 							}
-							
+
 						}
 					} else if (dateNotSelected == true) {
 						readingList = getAllReadings();
 						for (Reading order : readingList) {
-							if (reading.getCustomerName() != null ) 
-							{
-								if (reading.getCustomerName()
-										.equalsIgnoreCase(customer)
-										&& order.getEmployee().getEmail()
-												.equalsIgnoreCase(user)) {
+							if (reading.getCustomerName() != null) {
+								if (reading.getCustomerName().equalsIgnoreCase(customer)
+										&& order.getEmployee().getEmail().equalsIgnoreCase(user)) {
 									aList.add(order);
 								}
 
 							}
-							
+
 						}
 					}
 				}
@@ -451,5 +587,11 @@ public class ReadingDao implements ReadingDaoInt {
 
 		return aList;
 	}
-     
+
+	@Override
+	public List<Reading> confirmReadingExist(String serialNumber, String period) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

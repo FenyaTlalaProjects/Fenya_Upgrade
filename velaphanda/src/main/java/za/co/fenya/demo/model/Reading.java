@@ -63,6 +63,12 @@ public class Reading implements Serializable{
 	@Column(name="Reading_Year")
 	private String readingYear;
 	
+	@Column(name="Reading_Period")
+	private String readingPeriod;
+	
+	@Column(name="Reading_Status")
+	private String readingStatus;
+	
 	@Column(name="Insert_Date")
 	private String insertDate;
 	

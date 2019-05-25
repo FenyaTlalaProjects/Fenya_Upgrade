@@ -34,6 +34,9 @@ public class ReadingBean {
 	private String modifiedBy;
 	private String serialNumber;
 	private String customerName;
+	private String readingPeriod;
+	private String readingStatus;
+	private Long recordID;
 	
 
 	

@@ -9,7 +9,9 @@ import za.co.fenya.demo.model.Reading;
 public interface ReadingServiceInt {
 	
 
-	String createReading(ReadingBean reading);
-	List<Reading> getPreviousReadingForDevice(String serialNumber);
+	List<Reading> createReading(ReadingBean reading);
+	Reading getPreviousReadingForDevice(String serialNumber);
 	List<Reading> getAllReadings();
+	String saveReading (ReadingBean reading);
+	String submitReading (ReadingBean reading);
 }

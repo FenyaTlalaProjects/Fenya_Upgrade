@@ -23,14 +23,13 @@ public class ReadingService implements ReadingServiceInt {
 	private String retMessage = null;
 	
 	@Override
-	public String createReading(ReadingBean reading) {
+	public List<Reading> createReading(ReadingBean reading) {
 		// TODO Auto-generated method stub
-		retMessage = readingDAO.createReading(reading);
-		return retMessage;
+		return readingDAO.createReading(reading);	 
 	}
 
 	@Override
-	public List<Reading> getPreviousReadingForDevice(String serialNumber) {
+	public Reading getPreviousReadingForDevice(String serialNumber) {
 		// TODO Auto-generated method stub
 		return readingDAO.getPreviousReadingForDevice(serialNumber);
 	}
@@ -40,5 +39,14 @@ public class ReadingService implements ReadingServiceInt {
 		// TODO Auto-generated method stub
 		return readingDAO.getAllReadings();
 	}		
+	
+	public String saveReading(ReadingBean reading) {
+		// TODO Auto-generated method stub
+		return readingDAO.saveReading(reading);
+	}	
 
+	public String submitReading(ReadingBean reading) {
+		// TODO Auto-generated method stub
+		return readingDAO.saveReading(reading);
+}
 }

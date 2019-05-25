@@ -172,7 +172,7 @@ public class DeviceDao implements DeviceDaoInt {
 		emp = (Employee) session.getAttribute("loggedInUser");
 		
 		try {
-			System.err.println("Moleko");
+	
 			historyBean = new CustomerDeviceHistoryBean();
 			//Prepare Device Data for History Table
 			historyBean.setAction("Update");
@@ -262,11 +262,7 @@ public class DeviceDao implements DeviceDaoInt {
 					readingBean.setPreviousColorReading(deviceBean.getColourReading());
 					readingBean.setPreviousMonoReading(deviceBean.getMonoReading());
 					readingBean.setEmployee(emp.getEmail());
-					
-					readingBean.setEmployee(emp.getEmail());
-					
-					
-					retMessage = readingDaoInt.createReading(readingBean);
+					retMessage = readingDaoInt.createDefaultReading(readingBean);
 				}
 				
 				if (customer != null) {
