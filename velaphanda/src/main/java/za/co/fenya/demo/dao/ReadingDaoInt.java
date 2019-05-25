@@ -8,7 +8,7 @@ import za.co.fenya.demo.model.Reading;
 public interface ReadingDaoInt {
 
 	
-	List<Reading> createReading(ReadingBean reading);
+	Reading createReading(ReadingBean reading);
 
 	List<Reading> getAllReadings();
 	

@@ -51,7 +51,7 @@ public class BillingController {
 	Employee userName = null;
 	private String customerName, technicianName, technicianEmail, selectedDateRange, heading, machineType = null;
 	public String[] getSerialNumbers = null;
-	List<Reading> getReadings = null;
+	Reading getReadings = null;
 	Reading readings = null;
 	private String globalCustomerName = null;
 
@@ -157,27 +157,34 @@ public class BillingController {
 		if (userName != null) {
 			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
 				getSerialNumbers = deviceServiceInt.getSerials();
+				reading.setEmployee(userName.getEmail());
+				reading.setReadingPeriod(selectedPeriod);
 				getReadings = deviceReadingServiceInt.createReading(reading);
 				if (getReadings != null) {
-					model.addObject("deviceReading", getReadings);
+					model.addObject("readingBean", getReadings);
+					System.err.println("Moleko...................................");
 				}
 				model.addObject("serialNumbers", getSerialNumbers);
 				model.addObject("customerName", customerName);
 				model.addObject("selectedName", selectedName);
 				model.addObject("selectedPeriod", selectedPeriod);
-				model.addObject("readingBean", getReadings);
 				model.addObject("selectedSerialNumber", selectedSerialNumber);
 				//model.addObject("retMessage", deviceReadingServiceInt.createDefaultReading(reading));
 				//model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
-				/*if (customerName != null) {
+				if (customerName != null) 
+				 {
 					model.addObject("customers", customerServiceInt.getClientList());
 					model.addObject("custName", customerName);
 
-				} else {
+				} 
+				else {
 					model.addObject("errorRetMessage", "Customer name does not exist.");
-				}*/
+				}
+				
 				model.setViewName("customerReadings");
-			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				
+			} 
+			else if (userName.getRole().equalsIgnoreCase("User")) {
 				getSerialNumbers = deviceServiceInt.getSerials();
 				getReadings = deviceReadingServiceInt.createReading(reading);
 				if (getReadings != null) {

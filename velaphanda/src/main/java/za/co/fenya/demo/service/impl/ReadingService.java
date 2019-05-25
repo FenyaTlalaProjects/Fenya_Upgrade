@@ -23,7 +23,7 @@ public class ReadingService implements ReadingServiceInt {
 	private String retMessage = null;
 	
 	@Override
-	public List<Reading> createReading(ReadingBean reading) {
+	public Reading createReading(ReadingBean reading) {
 		// TODO Auto-generated method stub
 		return readingDAO.createReading(reading);	 
 	}

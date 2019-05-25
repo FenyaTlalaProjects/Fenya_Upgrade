@@ -62,7 +62,7 @@ public class ReadingDao implements ReadingDaoInt {
 	ArrayList<Reading> readingList = null;
 
 	@Override
-	public List<Reading> createReading(ReadingBean reading) {
+	public Reading createReading(ReadingBean reading) {
 
 		Employee employee = (Employee) session.getAttribute("loggedInUser");
 		globalReading = new Reading();
@@ -70,9 +70,10 @@ public class ReadingDao implements ReadingDaoInt {
 		device = new Device();
 		emp = new Employee();
 		List<Reading> aList = getAllReadings();
-		ArrayList<Reading> readingList = new ArrayList<Reading>();
+		Reading returnReading = new Reading();
 		Reading previousReading = new Reading();
-
+		String previousMono = "0";
+		String previousColor = "0";
 
 		// Get Current Time Stamp
 		Calendar cal = Calendar.getInstance();
@@ -91,26 +92,28 @@ public class ReadingDao implements ReadingDaoInt {
 			if (device != null && reading.getReadingPeriod() != null) {
 				for (Reading readingValue : aList) {
 					if (readingValue.getSerialNumber().getSerialNumber().equalsIgnoreCase(reading.getSerialNumber())
-							&& readingValue.getReadingPeriod().equalsIgnoreCase(reading.getReadingPeriod())) {
-						readingList.add(readingValue);
+							&& readingValue.getReadingPeriod().equalsIgnoreCase(reading.getReadingPeriod())) 
+					{
+						 returnReading = readingValue ;
 						readingExist = true;
 					}
 				}
-			} else if (readingExist == false) {
+			}
+			
+			// Ingnore if reading already exist.
+			if (readingExist == false) {
 				previousReading = getPreviousReadingForDevice(reading.getSerialNumber());
-				String previousMono = "0";
-				String previousColor = "0";
 
 				if (previousReading != null) {
 					previousMono = previousReading.getPreviousMonoReading();
 					previousColor = previousReading.getPreviousColorReading();
 				}
-
-			//	globalReading.setColorReading(reading.getColorReading());
+				
+				// globalReading.setColorReading(reading.getColorReading());
 				globalReading.setCustomerName(customer);
 				globalReading.setSerialNumber(device);
 				globalReading.setEmployee(employee);
-			//	globalReading.setMonoReading(reading.getMonoReading());
+				// globalReading.setMonoReading(reading.getMonoReading());
 				globalReading.setPreviousColorReading(previousColor);
 				globalReading.setPreviousMonoReading(previousMono);
 				globalReading.setReadingPeriod(reading.getReadingPeriod());
@@ -118,23 +121,24 @@ public class ReadingDao implements ReadingDaoInt {
 				globalReading.setReadingStatus("Draft");
 				sessionFactory.getCurrentSession().save(globalReading);
 				retMessage = "Reading successfully submited";
-				
-				readingList.add(globalReading);
+				returnReading = globalReading;
+				//readingList.add(globalReading);
 			}
+		
+
 		}
 
 		catch (
 
-		Exception e) {
+		Exception e) 
+		{
 			retMessage = "Reading for " + device.getSerialNumber() + " not added\n" + e.getMessage() + ".";
 		}
-
-		return readingList;
-
-	}
 	
-	public String saveReading (ReadingBean reading)
-	{
+		return returnReading;
+	}
+
+	public String saveReading(ReadingBean reading) {
 		Employee employee = (Employee) session.getAttribute("loggedInUser");
 		globalReading = new Reading();
 		customer = new Customer();
@@ -143,7 +147,6 @@ public class ReadingDao implements ReadingDaoInt {
 		List<Reading> aList = getAllReadings();
 		ArrayList<Reading> readingList = new ArrayList<Reading>();
 		Reading previousReading = new Reading();
-
 
 		// Get Current Time Stamp
 		Calendar cal = Calendar.getInstance();
@@ -157,22 +160,22 @@ public class ReadingDao implements ReadingDaoInt {
 		device = deviceDaoInt.getDeviceBySerialNumbuer(reading.getSerialNumber());
 
 		try {
-				globalReading.setRecordID(reading.getRecordID());
-				globalReading.setColorReading(reading.getColorReading());
-				globalReading.setCustomerName(customer);
-				globalReading.setSerialNumber(device);
-				globalReading.setEmployee(employee);
-				globalReading.setMonoReading(reading.getMonoReading());
-				globalReading.setPreviousColorReading(reading.getPreviousColorReading());
-				globalReading.setPreviousMonoReading(reading.getPreviousMonoReading());
-				globalReading.setReadingPeriod(reading.getReadingPeriod());
-				globalReading.setInsertDate(currentDate.toString());
-				globalReading.setReadingStatus("inprogress");
-				sessionFactory.getCurrentSession().update(globalReading);
-				retMessage = "Reading successfully updated";
-				
-				readingList.add(globalReading);
-			
+			globalReading.setRecordID(reading.getRecordID());
+			globalReading.setColorReading(reading.getColorReading());
+			globalReading.setCustomerName(customer);
+			globalReading.setSerialNumber(device);
+			globalReading.setEmployee(employee);
+			globalReading.setMonoReading(reading.getMonoReading());
+			globalReading.setPreviousColorReading(reading.getPreviousColorReading());
+			globalReading.setPreviousMonoReading(reading.getPreviousMonoReading());
+			globalReading.setReadingPeriod(reading.getReadingPeriod());
+			globalReading.setInsertDate(currentDate.toString());
+			globalReading.setReadingStatus("inprogress");
+			sessionFactory.getCurrentSession().update(globalReading);
+			retMessage = "Reading successfully updated";
+
+			readingList.add(globalReading);
+
 		}
 
 		catch (
@@ -180,14 +183,11 @@ public class ReadingDao implements ReadingDaoInt {
 		Exception e) {
 			retMessage = "Reading for " + device.getSerialNumber() + " not added\n" + e.getMessage() + ".";
 		}
-		
+
 		return retMessage;
 	}
-	
-	
 
-	public String submitReading (ReadingBean reading)
-	{
+	public String submitReading(ReadingBean reading) {
 		Employee employee = (Employee) session.getAttribute("loggedInUser");
 		globalReading = new Reading();
 		customer = new Customer();
@@ -196,7 +196,6 @@ public class ReadingDao implements ReadingDaoInt {
 		List<Reading> aList = getAllReadings();
 		ArrayList<Reading> readingList = new ArrayList<Reading>();
 		Reading previousReading = new Reading();
-
 
 		// Get Current Time Stamp
 		Calendar cal = Calendar.getInstance();
@@ -210,22 +209,22 @@ public class ReadingDao implements ReadingDaoInt {
 		device = deviceDaoInt.getDeviceBySerialNumbuer(reading.getSerialNumber());
 
 		try {
-				globalReading.setRecordID(reading.getRecordID());
-				globalReading.setColorReading(reading.getColorReading());
-				globalReading.setCustomerName(customer);
-				globalReading.setSerialNumber(device);
-				globalReading.setEmployee(employee);
-				globalReading.setMonoReading(reading.getMonoReading());
-				globalReading.setPreviousColorReading(reading.getPreviousColorReading());
-				globalReading.setPreviousMonoReading(reading.getPreviousMonoReading());
-				globalReading.setReadingPeriod(reading.getReadingPeriod());
-				globalReading.setInsertDate(currentDate.toString());
-				globalReading.setReadingStatus("Active");
-				sessionFactory.getCurrentSession().update(globalReading);
-				retMessage = "Reading successfully submitted";
-				
-				readingList.add(globalReading);
-			
+			globalReading.setRecordID(reading.getRecordID());
+			globalReading.setColorReading(reading.getColorReading());
+			globalReading.setCustomerName(customer);
+			globalReading.setSerialNumber(device);
+			globalReading.setEmployee(employee);
+			globalReading.setMonoReading(reading.getMonoReading());
+			globalReading.setPreviousColorReading(reading.getPreviousColorReading());
+			globalReading.setPreviousMonoReading(reading.getPreviousMonoReading());
+			globalReading.setReadingPeriod(reading.getReadingPeriod());
+			globalReading.setInsertDate(currentDate.toString());
+			globalReading.setReadingStatus("Active");
+			sessionFactory.getCurrentSession().update(globalReading);
+			retMessage = "Reading successfully submitted";
+
+			readingList.add(globalReading);
+
 		}
 
 		catch (
@@ -233,14 +232,12 @@ public class ReadingDao implements ReadingDaoInt {
 		Exception e) {
 			retMessage = "Reading for " + device.getSerialNumber() + " not added\n" + e.getMessage() + ".";
 		}
-		
+
 		return retMessage;
 	}
-	
-	
-	
+
 	@Override
-	public String createDefaultReading (ReadingBean reading) {
+	public String createDefaultReading(ReadingBean reading) {
 
 		Employee employee = (Employee) session.getAttribute("loggedInUser");
 		globalReading = new Reading();
@@ -250,7 +247,6 @@ public class ReadingDao implements ReadingDaoInt {
 		List<Reading> aList = getAllReadings();
 		ArrayList<Reading> readingList = new ArrayList<Reading>();
 		Reading previousReading = new Reading();
-
 
 		// Get Current Time Stamp
 		Calendar cal = Calendar.getInstance();
@@ -264,18 +260,18 @@ public class ReadingDao implements ReadingDaoInt {
 		device = deviceDaoInt.getDeviceBySerialNumbuer(reading.getSerialNumber());
 
 		try {
-				globalReading.setColorReading(reading.getColorReading());
-				globalReading.setCustomerName(customer);
-				globalReading.setSerialNumber(device);
-				globalReading.setEmployee(employee);
-				globalReading.setMonoReading(reading.getMonoReading());
-				globalReading.setReadingPeriod(reading.getReadingPeriod());
-				globalReading.setInsertDate(currentDate.toString());
-				globalReading.setReadingStatus("Defalt");
-				sessionFactory.getCurrentSession().save(globalReading);
-				retMessage = "Reading successfully submited";
-				
-				readingList.add(globalReading);
+			globalReading.setColorReading(reading.getColorReading());
+			globalReading.setCustomerName(customer);
+			globalReading.setSerialNumber(device);
+			globalReading.setEmployee(employee);
+			globalReading.setMonoReading(reading.getMonoReading());
+			globalReading.setReadingPeriod(reading.getReadingPeriod());
+			globalReading.setInsertDate(currentDate.toString());
+			globalReading.setReadingStatus("Defalt");
+			sessionFactory.getCurrentSession().save(globalReading);
+			retMessage = "Reading successfully submited";
+
+			readingList.add(globalReading);
 		}
 
 		catch (
@@ -287,8 +283,6 @@ public class ReadingDao implements ReadingDaoInt {
 		return retMessage;
 
 	}
-
-	
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -402,7 +396,7 @@ public class ReadingDao implements ReadingDaoInt {
 							currentReading = reading;
 						}
 					}
-					i++;				
+					i++;
 				}
 
 			}
