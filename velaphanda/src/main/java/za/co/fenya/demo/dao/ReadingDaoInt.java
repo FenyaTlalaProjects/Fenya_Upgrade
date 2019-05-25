@@ -34,5 +34,4 @@ public interface ReadingDaoInt {
 	String saveReading(ReadingBean reading);
 	String submitReading(ReadingBean reading);
 	
-
 }

@@ -259,7 +259,7 @@
 
 										
 										<c:forEach items="${deviceReading}" var="reading">
-
+										
 											<div class="row grid-divider">
 												<div class="col-sm-6">
 													<div class="col-padding">
@@ -337,7 +337,7 @@
 												</div>
 											</div>
 
-										</c:forEach>
+										</c:forEach> 
 
 										<br />
 										<div class="row">

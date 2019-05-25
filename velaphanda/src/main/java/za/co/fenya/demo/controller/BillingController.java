@@ -166,6 +166,7 @@ public class BillingController {
 				model.addObject("selectedName", selectedName);
 				model.addObject("selectedPeriod", selectedPeriod);
 				model.addObject("selectedSerialNumber", selectedSerialNumber);
+				//model.addObject("retMessage", deviceReadingServiceInt.createDefaultReading(reading));
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
 				if (customerName != null) {
 					model.addObject("customers", customerServiceInt.getClientList());
@@ -187,6 +188,7 @@ public class BillingController {
 				model.addObject("selectedPeriod", selectedPeriod);
 				model.addObject("selectedSerialNumber", selectedSerialNumber);
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				//model.addObject("retMessage", deviceReadingServiceInt.createDefaultReading(reading));
 				if (customerName != null) {
 					model.addObject("custName", customerName);
 				} else {

@@ -14,4 +14,5 @@ public interface ReadingServiceInt {
 	List<Reading> getAllReadings();
 	String saveReading (ReadingBean reading);
 	String submitReading (ReadingBean reading);
+	String createDefaultReading(ReadingBean reading);
 }

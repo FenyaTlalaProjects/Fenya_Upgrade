@@ -49,4 +49,10 @@ public class ReadingService implements ReadingServiceInt {
 		// TODO Auto-generated method stub
 		return readingDAO.saveReading(reading);
 }
+
+	@Override
+	public String createDefaultReading(ReadingBean reading) {
+		// TODO Auto-generated method stub
+		return readingDAO.createDefaultReading(reading);
+	}
 }
