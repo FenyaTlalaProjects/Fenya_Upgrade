@@ -16,8 +16,8 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href='<c:url value="/home"/>'><svg class="glyph stroked home">
-						<use xlink:href="#stroked-home"></use></svg></a></li>
+				<li><a href='<c:url value="/home"/>'><svg
+							class="glyph stroked home"> <use xlink:href="#stroked-home"></use></svg></a></li>
 				<div class="nav navbar-nav navbar-right" style="margin-top: -1%;">
 					<a href="#" onclick="history.go(-1);"><span
 						class="glyphicon glyphicon-circle-arrow-left btn-lg"
@@ -45,9 +45,10 @@
 									<c:choose>
 										<c:when test="${addEmployee =='addEmployee' }">
 											<c:out value="${retMessage}"></c:out> Click<a
-												href='<c:url value="/displayEmployees"/>'  class="confirmtions"><b>
-													here</b></a> to view list of employees or 
-                            Click <a href='<c:url value="/registerEmployee"/>'
+												href='<c:url value="/displayEmployees"/>'
+												class="confirmtions"><b> here</b></a> to view list of employees or 
+                            Click <a
+												href='<c:url value="/registerEmployee"/>'
 												class="confirmtions"> <b> here</b></a> to add another Employee.
                         </c:when>
 									</c:choose>
@@ -55,7 +56,8 @@
 									<c:choose>
 										<c:when test="${updateEmployee =='updateEmployee' }">
 											<c:out value="${retMessage}"></c:out>
-                              Click <a href='<c:url value="/displayEmployees"/>'
+                              Click <a
+												href='<c:url value="/displayEmployees"/>'
 												class="confirmtions"> <b> here</b></a> to view list of Employees 
 				 	    </c:when>
 									</c:choose>
@@ -63,41 +65,42 @@
 									<c:choose>
 										<c:when test="${changePassword =='changePassword' }">
 											<c:out value="${retMessage}"></c:out>  Click <a
-												href='<c:url value="/displayEmployees"/>' class="confirmtions"> <b>
-													here</b></a>  to view list of Employees.       
+												href='<c:url value="/displayEmployees"/>'
+												class="confirmtions"> <b> here</b></a>  to view list of Employees.       
                            </c:when>
 									</c:choose>
 									<!--  Reset Password -->
 									<c:choose>
 										<c:when test="${resetPassword =='resetPassword' }">
 											<c:out value="${retMessage}"></c:out> Click <a
-												href='<c:url value="/displayEmployees"/>' class="confirmtions"> <b>
-													here</b></a> to view list of Employees.   
+												href='<c:url value="/displayEmployees"/>'
+												class="confirmtions"> <b> here</b></a> to view list of Employees.   
                            </c:when>
 									</c:choose>
 									<!-- Deactivate employee -->
 									<c:choose>
 										<c:when test="${deactivateEmployee =='deactivateEmployee' }">
 											<c:out value="${retMessage}"></c:out> Click<a
-												href='<c:url value="/displayEmployees"/>' class="confirmtions"><b>
-													here</b></a> to view list of Employees.
+												href='<c:url value="/displayEmployees"/>'
+												class="confirmtions"><b> here</b></a> to view list of Employees.
 				 	    </c:when>
 									</c:choose>
 									<!-- add Customer -->
 									<c:choose>
 										<c:when test="${addCustomer =='addCustomer' }">
 											<c:out value="${retMessage}"></c:out> Click<a
-												href='<c:url value="/displayEmployees"/>' class="confirmtions"><b>
-													here</b></a> to view list of Customers. or click <a
-												href='<c:url value="/addClient"/>' href="" class="confirmtions"><b> here</b></a> to add another Customer.
+												href='<c:url value="/displayEmployees"/>'
+												class="confirmtions"><b> here</b></a> to view list of Customers. or click <a
+												href='<c:url value="/addClient"/>' href=""
+												class="confirmtions"><b> here</b></a> to add another Customer.
 				 	    </c:when>
 									</c:choose>
 									<!-- update Customer -->
 									<c:choose>
 										<c:when test="${updateCustomer =='updateCustomer' }">
 											<c:out value="${retMessage}"></c:out> Click<a
-												href='<c:url value="/displayEmployees"/>' class="confirmtions"><b>
-													here</b></a> to view list of Customers.
+												href='<c:url value="/displayEmployees"/>'
+												class="confirmtions"><b> here</b></a> to view list of Customers.
 				 	    </c:when>
 									</c:choose>
 									<!-- add Device -->
@@ -105,7 +108,8 @@
 										<c:when test="${addDevice =='addDevice' }">
 											<c:out value="${retMessage}"></c:out>  Click<a
 												href='<c:url value="/searchDevice"/>' class="confirmtions"><b>
-													here</b></a> to view list of Devices or click <a class="confirmtions"
+													here</b></a> to view list of Devices or click <a
+												class="confirmtions"
 												href="searchClientforProduct?customerName=<c:out value='${customerName}'/>
 												><b> here</b></a> to add another Device for ${customerName}. Click <a
 												href='<c:url value="/addModelNumbers"/>'> <b>here</b> </a> to add Model Number.
@@ -304,6 +308,24 @@
 												class="confirmtions"><b> here</b></a> to go to billing management.	                            
 					 	   			 </c:when>
 									</c:choose>	
+									
+									<!-- Save Readings -->
+									<c:choose>
+										<c:when test="${saveReadings =='saveReadings' }">
+											<c:out value="${retMessage}"></c:out> 
+					 	       			   Click<a href='<c:url value="/billingmanagement"/>'
+												class="confirmtions"><b> here</b></a> to go to billing management.	                            
+					 	   			 </c:when>
+									</c:choose>
+									
+									<!-- Submit Readings -->
+									<c:choose>
+										<c:when test="${submitReadings =='submitReadings' }">
+											<c:out value="${retMessage}"></c:out> 
+					 	       			   Click<a href='<c:url value="/billingmanagement"/>'
+												class="confirmtions"><b> here</b></a> to go to billing management.	                            
+					 	   			 </c:when>
+									</c:choose>	
 
 								</div>
 							</c:if>
@@ -337,14 +359,17 @@
 										<c:when test="${changePassword =='changePassword' }">
 											<c:out value="${retErrorMessage}"></c:out>
                                   Click href='<c:url value="/displayEmployees"/>'
-												class="confirmtions"> <b> here</b></a>  to view list of Employees.       
+												class="confirmtions">
+												<b> here</b>
+											</a>  to view list of Employees.       
                            </c:when>
 									</c:choose>
 									<!--  Reset Password -->
 									<c:choose>
 										<c:when test="${resetPassword =='resetPassword' }">
 											<c:out value="${retErrorMessage}"></c:out>
-                                   Click <a href='<c:url value="/displayEmployees"/>'
+                                   Click <a
+												href='<c:url value="/displayEmployees"/>'
 												class="confirmtions"><b> here</b></a> to view list of Employees. 
                            </c:when>
 									</c:choose>
@@ -352,47 +377,52 @@
 									<c:choose>
 										<c:when test="${deactivateEmployee =='deactivateEmployee' }">
 											<c:out value="${retErrorMessage}"></c:out>
-                                    Click <a href='<c:url value="/displayEmployees"/>' class="confirmtions"><b>
-													here</b></a> to view list of Employees.
+                                    Click <a
+												href='<c:url value="/displayEmployees"/>'
+												class="confirmtions"><b> here</b></a> to view list of Employees.
                            </c:when>
 									</c:choose>
 									<!--  Add Customer -->
 									<c:choose>
 										<c:when test="${addCustomer =='addCustomer' }">
 											<c:out value="${retErrorMessage}"></c:out> 
-				 	          		Click<a href='<c:url value="/displayCustomers"/>' class="confirmtions"><b> here</b></a> 
-				 	          		to view list of Customers or Click <a href='<c:url value="/addClient"/>'
-									class="confirmtions"><b> here</b></a> to add another Customer.
+				 	          		Click<a href='<c:url value="/displayCustomers"/>'
+												class="confirmtions"><b> here</b></a> 
+				 	          		to view list of Customers or Click <a
+												href='<c:url value="/addClient"/>' class="confirmtions"><b>
+													here</b></a> to add another Customer.
 				 	    </c:when>
 									</c:choose>
 									<!-- update Customer -->
 									<c:choose>
 										<c:when test="${updateCustomer =='updateCustomer' }">
 											<c:out value="${retErrorMessage}"></c:out> 
-				 	          				Click<a href='<c:url value="/displayCustomers"/>' class="confirmtions"><b> here</b></a> to display list of Customers.
+				 	          				Click<a href='<c:url value="/displayCustomers"/>'
+												class="confirmtions"><b> here</b></a> to display list of Customers.
 				 	   				 </c:when>
 									</c:choose>
 									<!-- add Device -->
 									<c:choose>
 										<c:when test="${addDevice =='addDevice' }">
 											<c:out value="${retErrorMessage}"></c:out> 
-				 	        			 Click<a href='<c:url value="/searchDevice"/>' class="confirmtions"><b>
-													here</b></a> to view list of Devices.
+				 	        			 Click<a href='<c:url value="/searchDevice"/>'
+												class="confirmtions"><b> here</b></a> to view list of Devices.
 				 	   					 </c:when>
 									</c:choose>
 									<!-- update Device -->
 									<c:choose>
 										<c:when test="${updateCustomer =='updateCustomer' }">
 											<c:out value="${retErrorMessage}"></c:out> 
-				 	       Click<a href='<c:url value="/displayCustomers"/>' class="confirmtions"><b>
-													here</b></a> to view list of customers.
+				 	       Click<a href='<c:url value="/displayCustomers"/>'
+												class="confirmtions"><b> here</b></a> to view list of customers.
 				 	    </c:when>
 									</c:choose>
 									<!-- Place an Orders -->
 									<c:choose>
 										<c:when test="${orders =='orders' }">
 											<c:out value="${retErrorMessage}"></c:out> 
-					 	        	 Click<a href='<c:url value="/placeOrderForTechnician"/>'
+					 	        	 Click<a
+												href='<c:url value="/placeOrderForTechnician"/>'
 												class="confirmtions"> <b> here</b></a> to place anoher order again.
 	                            	
 					 	    	</c:when>
@@ -420,8 +450,8 @@
 									<c:choose>
 										<c:when test="${declineOrder =='declineOrder' }">
 											<c:out value="${retErrorMessage}"></c:out> 
-					 	      . Click<a href='<c:url value="/pendingOrders"/>' class="confirmtions"><b>
-													here</b></a> to view list of pending Orders.                            
+					 	      . Click<a href='<c:url value="/pendingOrders"/>'
+												class="confirmtions"><b> here</b></a> to view list of pending Orders.                            
 					 	    </c:when>
 									</c:choose>
 
@@ -436,27 +466,28 @@
 									<c:choose>
 										<c:when test="${addSpares =='addSpares' }">
 											<c:out value="${retErrorMessage}"></c:out> Click<a
-												href='<c:url value="/addSpares"/>' class="confirmtions"><b> here</b></a> to add another Spare/Part or Click <a
-												href='<c:url value="/sparemanagement"/>' class="confirmtions"><b>
-													here</b></a> to view available stock in HO.                            
+												href='<c:url value="/addSpares"/>' class="confirmtions"><b>
+													here</b></a> to add another Spare/Part or Click <a
+												href='<c:url value="/sparemanagement"/>'
+												class="confirmtions"><b> here</b></a> to view available stock in HO.                            
 					 	    </c:when>
 									</c:choose>
 									<!-- Receive Spares -->
 									<c:choose>
 										<c:when test="${receiveSpareParts =='receiveSpareParts' }">
 											<c:out value="${retErrorMessage}"></c:out> Click<a
-												href='<c:url value="/receiveParts"/>'class="confirmtions"><b>
+												href='<c:url value="/receiveParts"/>' class="confirmtions"><b>
 													here</b></a> to add another Spare/Part or Click <a
-												href='<c:url value="/sparemanagement"/>' class="confirmtions"><b>
-													here</b></a> to view available stock in HO.                          
+												href='<c:url value="/sparemanagement"/>'
+												class="confirmtions"><b> here</b></a> to view available stock in HO.                          
 					 	    </c:when>
 									</c:choose>
 									<!-- performTicketAciton -->
 									<c:choose>
 										<c:when test="${performTicketAction == 'performTicketAction'}">
 											<c:out value="${retErrorMessage}"> Click<a
-													href='<c:url value="/ticketmanagement"/>' class="confirmtions"><b>
-														here</b></a> to go to order management.</c:out>
+													href='<c:url value="/ticketmanagement"/>'
+													class="confirmtions"><b> here</b></a> to go to order management.</c:out>
 										</c:when>
 									</c:choose>
 
@@ -464,19 +495,38 @@
 									<c:choose>
 										<c:when test="${moveSpares == 'moveSpares'}">
 											<c:out value="${retErrorMessage}"> Click<a
-													href='<c:url value="/sparemanagement"/>' class="confirmtions"><b>
-														here</b></a> to go to spare management.</c:out>
+													href='<c:url value="/sparemanagement"/>'
+													class="confirmtions"><b> here</b></a> to go to spare management.</c:out>
 										</c:when>
 									</c:choose>
-									
+
 									<!-- Capture Readings -->
 									<c:choose>
 										<c:when test="${captureReadings =='captureReadings' }">
 											<c:out value="${retErrorMessage}"></c:out> 
-					 	       			   Click<a href='<c:url value="/userbillingmanagement"/>'
+					 	       			   Click<a
+												href='<c:url value="/userbillingmanagement"/>'
 												class="confirmtions"><b> here</b></a> to go to billing management.	                            
 					 	   			 </c:when>
-									</c:choose>	
+									</c:choose>
+
+									<!-- Save Readings -->
+									<c:choose>
+										<c:when test="${saveReadings =='saveReadings' }">
+											<c:out value="${retErrorMessage}"></c:out> 
+					 	       			   Click<a href='<c:url value="/billingmanagement"/>'
+												class="confirmtions"><b> here</b></a> to go to billing management.	                            
+					 	   			 </c:when>
+									</c:choose>
+
+									<!-- Submit Readings -->
+									<c:choose>
+										<c:when test="${submitReadings =='submitReadings' }">
+											<c:out value="${retErrorMessage}"></c:out> 
+					 	       			   Click<a href='<c:url value="/billingmanagement"/>'
+												class="confirmtions"><b> here</b></a> to go to billing management.	                            
+					 	   			 </c:when>
+									</c:choose>
 
 								</div>
 

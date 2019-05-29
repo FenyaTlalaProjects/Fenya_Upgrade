@@ -110,7 +110,7 @@ public class BillingController {
 		return model;
 	}
 
-	//display searched customer and its serial numbers
+	// display searched customer and its serial numbers
 	@RequestMapping(value = { "readingsCustomerByDevice", "userReadingsCustomerByDevice" }, method = RequestMethod.GET)
 	public ModelAndView displaySearchedCustomer(String customerName) {
 		model = new ModelAndView();
@@ -145,10 +145,10 @@ public class BillingController {
 	}
 
 	// search reading for a client
-	@RequestMapping(value = { "searchCustomerReading", "userSearchCustomerReading" },method=RequestMethod.POST)
+	@RequestMapping(value = { "searchCustomerReading", "userSearchCustomerReading" }, method = RequestMethod.POST)
 	public ModelAndView searchCustomer(@RequestParam("customerName") String customerName,
-									   @RequestParam("serialNumber") String serialNumber,
-			                           @RequestParam("period")String period, ReadingBean reading) {
+			@RequestParam("serialNumber") String serialNumber, @RequestParam("period") String period,
+			ReadingBean reading) {
 		String selectedName = customerName;
 		String selectedSerialNumber = serialNumber;
 		String selectedPeriod = period;
@@ -169,22 +169,21 @@ public class BillingController {
 				model.addObject("selectedName", selectedName);
 				model.addObject("selectedPeriod", selectedPeriod);
 				model.addObject("selectedSerialNumber", selectedSerialNumber);
-				//model.addObject("retMessage", deviceReadingServiceInt.createDefaultReading(reading));
-				//model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
-				if (customerName != null) 
-				 {
+				// model.addObject("retMessage",
+				// deviceReadingServiceInt.createDefaultReading(reading));
+				// model.addObject("deviceList",
+				// deviceServiceInt.getDeviceListByClientName(customerName));
+				if (customerName != null) {
 					model.addObject("customers", customerServiceInt.getClientList());
 					model.addObject("custName", customerName);
 
-				} 
-				else {
+				} else {
 					model.addObject("errorRetMessage", "Customer name does not exist.");
 				}
-				
+
 				model.setViewName("customerReadings");
-				
-			} 
-			else if (userName.getRole().equalsIgnoreCase("User")) {
+
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
 				getSerialNumbers = deviceServiceInt.getSerials();
 				getReadings = deviceReadingServiceInt.createReading(reading);
 				if (getReadings != null) {
@@ -197,7 +196,8 @@ public class BillingController {
 				model.addObject("selectedSerialNumber", selectedSerialNumber);
 				model.addObject("readingBean", reading);
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
-				//model.addObject("retMessage", deviceReadingServiceInt.createDefaultReading(reading));
+				// model.addObject("retMessage",
+				// deviceReadingServiceInt.createDefaultReading(reading));
 				if (customerName != null) {
 					model.addObject("custName", customerName);
 				} else {
@@ -232,7 +232,7 @@ public class BillingController {
 				model.addObject("serialNo", serialNumber);
 				model.addObject("selectedSerialNumber", selectedSerialNumber);
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
-				//getReadings = deviceReadingServiceInt.createReading(reading);
+				// getReadings = deviceReadingServiceInt.createReading(reading);
 				if (getReadings != null) {
 					model.addObject("deviceReading", getReadings);
 				}
@@ -256,7 +256,8 @@ public class BillingController {
 				model.addObject("serialNo", serialNumber);
 				model.addObject("selectedSerialNumber", selectedSerialNumber);
 				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
-				///getReadings = deviceReadingServiceInt.getPreviousReadingForDevice(serialNumber);
+				/// getReadings =
+				/// deviceReadingServiceInt.getPreviousReadingForDevice(serialNumber);
 				if (getReadings != null) {
 					model.addObject("deviceReading", getReadings);
 				}
@@ -314,6 +315,52 @@ public class BillingController {
 				model.addObject("customers", customerServiceInt.getClientList());
 				model.addObject("newDate", selectedDateRange);
 				model.addObject("captureReadings", captureReadings);
+				model.setViewName("confirm");
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	// save reading
+	@RequestMapping(params = "Save", method = RequestMethod.POST)
+	public ModelAndView saveReading(@RequestParam("customerName") String customerName, @RequestParam("serialNumber") String serialNumber, @ModelAttribute("captureReadings") ReadingBean reading) {
+		model = new ModelAndView();
+		String saveReadings = "saveReadings";
+		String selectedName = customerName;
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				model.addObject("saveReadings", saveReadings);
+				model.addObject("retMessage", deviceReadingServiceInt.saveReading(reading));
+				model.setViewName("confirmations");
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				model.addObject("saveReadings", saveReadings);
+				model.addObject("retMessage", deviceReadingServiceInt.saveReading(reading));
+				model.setViewName("confirm");
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	//// submit reading
+	@RequestMapping(params = "Submit", method = RequestMethod.POST)
+	public ModelAndView submitReading(@RequestParam("customerName") String customerName,@RequestParam("serialNumber") String serialNumber, @ModelAttribute("captureReadings") ReadingBean reading) {
+		model = new ModelAndView();
+		String submitReadings = "submitReadings";
+		String selectedName = customerName;
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				model.addObject("retMessage", deviceReadingServiceInt.submitReading(reading));
+				model.addObject("submitReadings", submitReadings);
+				model.setViewName("confirmations");
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				model.addObject("retMessage", deviceReadingServiceInt.submitReading(reading));
+				model.addObject("submitReadings", submitReadings);
 				model.setViewName("confirm");
 			}
 		} else {
@@ -389,8 +436,6 @@ public class BillingController {
 		}
 		return model;
 	}
-
-	
 
 	// create SLA page
 	@RequestMapping(value = { "SLA", "userSLA" }, method = RequestMethod.GET)

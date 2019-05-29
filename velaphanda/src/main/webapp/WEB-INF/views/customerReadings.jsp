@@ -367,10 +367,11 @@
 
 										<br />
 										<div class="row">
+											
 											<div class="col-sm-2"></div>
 											<div class="col-sm-3">
 												<div class="col text-center">
-													<input type="submit" value="Save Readings"
+													<input type="submit" value="Save"
 														class="btn btn-primary btn-block btn-md" tabindex="9"
 														id="captureReadings">
 												</div>
@@ -378,15 +379,15 @@
 
 											<div class="col-sm-3">
 												<div class="col text-center">
-													<input type="submit" value="Submit Readings"
+													<input type="submit" value="Submit"
 														class="btn btn-primary btn-block btn-md" tabindex="9"
 														id="captureReadings">
 												</div>
 											</div>
-
 											<div class="col-sm-2"></div>
 
 										</div>
+										
 									</fieldset>
 
 
