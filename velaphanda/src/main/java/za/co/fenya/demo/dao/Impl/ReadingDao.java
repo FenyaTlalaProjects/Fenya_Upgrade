@@ -74,7 +74,8 @@ public class ReadingDao implements ReadingDaoInt {
 		Reading previousReading = new Reading();
 		String previousMono = "0";
 		String previousColor = "0";
-
+		String paddedReading = "";
+		
 		// Get Current Time Stamp
 		Calendar cal = Calendar.getInstance();
 		// SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:s");
@@ -120,9 +121,10 @@ public class ReadingDao implements ReadingDaoInt {
 				globalReading.setInsertDate(currentDate.toString());
 				globalReading.setReadingStatus("Draft");
 				sessionFactory.getCurrentSession().save(globalReading);
+				//paddedReading = String.format("%06d", globalReading.getRecordID()); 
+			
 				retMessage = "Reading successfully submited";
 				returnReading = globalReading;
-				//readingList.add(globalReading);
 			}
 		
 

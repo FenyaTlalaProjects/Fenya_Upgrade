@@ -37,6 +37,8 @@ public class ReadingBean {
 	private String readingPeriod;
 	private String readingStatus;
 	private Long recordID;
+	//private String readingNumber;
+	
 	
 
 	
