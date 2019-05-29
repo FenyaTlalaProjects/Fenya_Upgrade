@@ -163,7 +163,7 @@
 
 							<c:if test="${not empty custName}">
 
-							<form:form class="well form-horizontal" action="captureReadings"
+								<form:form class="well form-horizontal" action="captureReadings"
 									modelAttribute="captureReadings" method="post"
 									id="captureReadings">
 
@@ -174,9 +174,36 @@
 											<b style="font-size: 15px;">Customer Device </b>
 										</legend>
 
+										<!-- Text input recordID-->
+										<div class="form-group ">
+											<label class="col-xs-3 control-label">Record ID</label>
+											<div class="col-md-6 inputGroupContainer">
+												<div class="input-group">
+													<span class="input-group-addon"><i
+														class="glyphicon glyphicon-list"></i></span> <input type="text"
+														class="form-control" name="recordID" id="recordID"
+														value="${readingBean.recordID}" readonly="readonly">
+												</div>
+											</div>
+										</div>
+
+										<%-- <!-- Text input Reading Number-->
+										<div class="form-group ">
+											<label class="col-xs-3 control-label">Reading Number</label>
+											<div class="col-md-6 inputGroupContainer">
+											<div class="input-group">
+													<span class="input-group-addon"><i
+														class="glyphicon glyphicon-list"></i></span>  
+													<input type="text" class="form-control" name="readingNumber"
+														id="readingNumber" value="${readingNumber}" readonly="readonly"> 
+											</div>
+											</div>
+										</div> --%>
+
 										<!-- Select type customers-->
 										<div class="form-group">
-											<label class="col-md-3 control-label">Selected Customer</label>
+											<label class="col-md-3 control-label">Selected
+												Customer</label>
 											<div class="col-md-6 inputGroupContainer">
 												<div class="input-group">
 
@@ -203,8 +230,8 @@
 												<div class="input-group">
 													<span class="input-group-addon"><i
 														class="glyphicon glyphicon-hdd"></i></span> <input
-														name="serialNumber" list="deviceList" readonly="readonly" id="serialNumber"
-														class="form-control" type="text"
+														name="serialNumber" list="deviceList" readonly="readonly"
+														id="serialNumber" class="form-control" type="text"
 														onkeydown="upperCaseF(this)"
 														placeholder='Enter Serial Number'
 														value="${selectedSerialNumber}" />
@@ -237,8 +264,8 @@
 											<div class="col-md-6 inputGroupContainer">
 												<div class="input-group input-append date"
 													id="startDatePeriodPicker">
-													<input type="text" class="form-control" readonly="readonly" name="period"
-														id="period" placeholder="MM-YYYY"
+													<input type="text" class="form-control" readonly="readonly"
+														name="period" id="period" placeholder="MM-YYYY"
 														value="${selectedPeriod}"> <span
 														class="input-group-addon"> <span
 														class="glyphicon glyphicon-calendar"></span>
@@ -249,7 +276,7 @@
 
 									</fieldset>
 									<br>
-									
+
 									<fieldset>
 										<!-- Device Readings -->
 										<br>
@@ -257,104 +284,112 @@
 											<b style="font-size: 15px;">Device Readings</b>
 										</legend>
 
-										
-										<c:forEach items="${readingBean}" var="reading">
-										
-											<div class="row grid-divider">
-												<div class="col-sm-6">
-													<div class="col-padding">
-														<legend>
-															<b style="font-size: 15px;"> Mono Reading</b>
-														</legend>
 
-														<!-- Text input Mono-->
-														<div class="form-group">
-															 <label class="col-xs-3 control-label">Previous</label>
-														
-															<div class="col-md-6 inputGroupContainer">
-																<div class="input-group">
-																	<span class="input-group-addon"><i
-																		class="glyphicon glyphicon-barcode"></i></span> <input
-																		id="previousMonoReading" name="previousMonoReading"
-																		readonly class="form-control" type="text"
-																		value="<c:out value="${reading.previousMonoReading}"/>">
-																</div>
-															</div>
-														</div>
+										<%-- <c:forEach items="${readingBean}" var="reading"> --%>
 
-														<!-- Text input Color-->
-														<div class="form-group">
-														 <label class="col-xs-3 control-label">Current</label>
-														
-															<div class="col-md-6 inputGroupContainer">
-																<div class="input-group">
-																	<span class="input-group-addon"><i
-																		class="glyphicon glyphicon-barcode"></i></span> <input
-																		id="colorReading" name="colorReading"
-																		placeholder="Current Mono Reading"
-																		class="form-control" type="text">
-																</div>
+										<div class="row grid-divider">
+											<div class="col-sm-6">
+												<div class="col-padding">
+													<legend>
+														<b style="font-size: 15px;"> Mono Reading</b>
+													</legend>
+
+													<!-- Text input Mono-->
+													<div class="form-group">
+														<label class="col-xs-3 control-label">Previous</label>
+
+														<div class="col-md-6 inputGroupContainer">
+															<div class="input-group">
+																<span class="input-group-addon"><i
+																	class="glyphicon glyphicon-barcode"></i></span> <input
+																	id="previousMonoReading" name="previousMonoReading"
+																	readonly class="form-control" type="text"
+																	value="${readingBean.previousMonoReading}">
 															</div>
 														</div>
 													</div>
-												</div>
-												<div class="col-sm-6">
-													<div class="col-padding">
-														<legend>
-															<b style="font-size: 15px;"> Color Reading</b>
-														</legend>
-														<!-- Text input Mono-->
-														<div class="form-group">
-														<label class="col-xs-3 control-label">Previous </label>
-														 <div class="col-md-6 inputGroupContainer">
-																	<div class="input-group">
-																	<span class="input-group-addon"><i
-																		class="glyphicon glyphicon-barcode"></i></span> <input
-																		id="previousColorReading" readonly
-																		name="previousColorReading"
-																		value="<c:out value="${reading.previousColorReading}"/>"
-																		class="form-control" type="text">
-																</div>
+
+													<!-- Text input Color-->
+													<div class="form-group">
+														<label class="col-xs-3 control-label">Current</label>
+
+														<div class="col-md-6 inputGroupContainer">
+															<div class="input-group">
+																<span class="input-group-addon"><i
+																	class="glyphicon glyphicon-barcode"></i></span> <input
+																	id="colorReading" name="colorReading"
+																	placeholder="Current Mono Reading" class="form-control"
+																	type="text">
 															</div>
 														</div>
-
-														<!-- Text input Color-->
-														<div class="form-group">
-														 <label class="col-xs-3 control-label">Current</label>
-														
-															<div class="col-md-6 inputGroupContainer">
-																<div class="input-group">
-																	<span class="input-group-addon"><i
-																		class="glyphicon glyphicon-barcode"></i></span> <input
-																		id="colourReading" name="colourReading"
-																		placeholder="Current Colour Reading"
-																		class="form-control" type="text">
-																</div>
-															</div>
-														</div>
-
 													</div>
 												</div>
 											</div>
+											<div class="col-sm-6">
+												<div class="col-padding">
+													<legend>
+														<b style="font-size: 15px;"> Color Reading</b>
+													</legend>
+													<!-- Text input Mono-->
+													<div class="form-group">
+														<label class="col-xs-3 control-label">Previous </label>
+														<div class="col-md-6 inputGroupContainer">
+															<div class="input-group">
+																<span class="input-group-addon"><i
+																	class="glyphicon glyphicon-barcode"></i></span> <input
+																	id="previousColorReading" readonly
+																	name="previousColorReading" class="form-control"
+																	type="text" value="${readingBean.previousColorReading}">
+															</div>
+														</div>
+													</div>
 
-										</c:forEach>
+													<!-- Text input Color-->
+													<div class="form-group">
+														<label class="col-xs-3 control-label">Current</label>
+
+														<div class="col-md-6 inputGroupContainer">
+															<div class="input-group">
+																<span class="input-group-addon"><i
+																	class="glyphicon glyphicon-barcode"></i></span> <input
+																	id="colourReading" name="colourReading"
+																	placeholder="Current Colour Reading"
+																	class="form-control" type="text">
+															</div>
+														</div>
+													</div>
+
+												</div>
+											</div>
+										</div>
+
+										<%-- </c:forEach> --%>
 
 										<br />
 										<div class="row">
-											<div class="col-sm-4"></div>
-											<div class="col-sm-4">
+											<div class="col-sm-2"></div>
+											<div class="col-sm-3">
 												<div class="col text-center">
-													<input type="submit" value="Capture Readings"
+													<input type="submit" value="Save Readings"
 														class="btn btn-primary btn-block btn-md" tabindex="9"
 														id="captureReadings">
 												</div>
 											</div>
-											<div class="col-sm-4"></div>
+
+											<div class="col-sm-3">
+												<div class="col text-center">
+													<input type="submit" value="Submit Readings"
+														class="btn btn-primary btn-block btn-md" tabindex="9"
+														id="captureReadings">
+												</div>
+											</div>
+
+											<div class="col-sm-2"></div>
 
 										</div>
 									</fieldset>
-									
-									
+
+
 								</form:form>
 
 							</c:if>
@@ -394,7 +429,7 @@
 		</div>
 		<!--/.main-->
 		<c:import url="templates/javascriptslib.jsp"></c:import>
-		
+
 		<c:import url="templates/sidebar-collapse.jsp"></c:import>
 
 		<!-- /Scripts -->

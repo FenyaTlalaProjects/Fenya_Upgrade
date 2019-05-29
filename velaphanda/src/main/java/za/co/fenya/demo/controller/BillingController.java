@@ -51,7 +51,7 @@ public class BillingController {
 	Employee userName = null;
 	private String customerName, technicianName, technicianEmail, selectedDateRange, heading, machineType = null;
 	public String[] getSerialNumbers = null;
-	Reading getReadings = null;
+	Reading getReadings = new Reading();
 	Reading readings = null;
 	private String globalCustomerName = null;
 
