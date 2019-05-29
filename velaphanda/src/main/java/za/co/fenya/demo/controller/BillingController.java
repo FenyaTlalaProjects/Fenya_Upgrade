@@ -278,60 +278,17 @@ public class BillingController {
 		return model;
 	}
 
-	// capture readings page
-	@RequestMapping(value = { "captureReadings", "userCaptureReadings" }, method = { RequestMethod.POST })
-	public ModelAndView displayCaptureDeviceReadingsByCus(@RequestParam("customerName") String customerName,
-			@RequestParam("serialNumber") String serialNumber, @ModelAttribute("captureReadings") ReadingBean reading) {
-		model = new ModelAndView();
-		selectedDateRange = "Select Date";
-		String captureReadings = "captureReadings";
-		String selectedName = customerName;
-
-		userName = (Employee) session.getAttribute("loggedInUser");
-		if (userName != null) {
-
-			if (userName.getRole().equalsIgnoreCase("Manager") || userName.getRole().equalsIgnoreCase("Admin")) {
-
-				getSerialNumbers = deviceServiceInt.getSerials();
-				model.addObject("serialNumbers", getSerialNumbers);
-				model.addObject("retMessage", deviceReadingServiceInt.createReading(reading));
-				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
-				model.addObject("customerName", customerName);
-				model.addObject("selectedName", selectedName);
-				model.addObject("customers", customerServiceInt.getClientList());
-				model.addObject("newDate", selectedDateRange);
-				model.addObject("captureReadings", captureReadings);
-				model.setViewName("confirmations");
-
-			} else if (userName.getRole().equalsIgnoreCase("User")) {
-
-				getSerialNumbers = deviceServiceInt.getSerials();
-				model.addObject("serialNumbers", getSerialNumbers);
-				model.addObject("retMessage", deviceReadingServiceInt.createReading(reading));
-				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
-				model.addObject("customerName", customerName);
-				model.addObject("selectedName", selectedName);
-				// model.addObject("selectedPeriod",selectedPeriod);
-				model.addObject("customers", customerServiceInt.getClientList());
-				model.addObject("newDate", selectedDateRange);
-				model.addObject("captureReadings", captureReadings);
-				model.setViewName("confirm");
-			}
-		} else {
-			model.setViewName("login");
-		}
-		return model;
-	}
+	
 
 	// save reading
-	@RequestMapping(params = "Save", method = RequestMethod.POST)
-	public ModelAndView saveReading(@RequestParam("customerName") String customerName, @RequestParam("serialNumber") String serialNumber, @ModelAttribute("captureReadings") ReadingBean reading) {
+	@RequestMapping(value="captureReadings", params = {"Save"}, method = RequestMethod.POST)
+	public ModelAndView saveReading(@ModelAttribute("captureReadings") ReadingBean reading) {
 		model = new ModelAndView();
 		String saveReadings = "saveReadings";
-		String selectedName = customerName;
 		userName = (Employee) session.getAttribute("loggedInUser");
 		if (userName != null) {
 			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				reading.setEmployee(userName.getEmail());
 				model.addObject("saveReadings", saveReadings);
 				model.addObject("retMessage", deviceReadingServiceInt.saveReading(reading));
 				model.setViewName("confirmations");
@@ -347,14 +304,14 @@ public class BillingController {
 	}
 
 	//// submit reading
-	@RequestMapping(params = "Submit", method = RequestMethod.POST)
-	public ModelAndView submitReading(@RequestParam("customerName") String customerName,@RequestParam("serialNumber") String serialNumber, @ModelAttribute("captureReadings") ReadingBean reading) {
+	@RequestMapping(value="captureReadings", params={"Submit"}, method = RequestMethod.POST)
+	public ModelAndView submitReading(@ModelAttribute("captureReadings") ReadingBean reading) {
 		model = new ModelAndView();
 		String submitReadings = "submitReadings";
-		String selectedName = customerName;
 		userName = (Employee) session.getAttribute("loggedInUser");
 		if (userName != null) {
 			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				reading.setEmployee(userName.getEmail());
 				model.addObject("retMessage", deviceReadingServiceInt.submitReading(reading));
 				model.addObject("submitReadings", submitReadings);
 				model.setViewName("confirmations");

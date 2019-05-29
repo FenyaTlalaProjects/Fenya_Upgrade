@@ -317,7 +317,7 @@
 															<div class="input-group">
 																<span class="input-group-addon"><i
 																	class="glyphicon glyphicon-barcode"></i></span> <input
-																	id="colorReading" name="colorReading"
+																	id="monoReading" name="monoReading"
 																	placeholder="Current Mono Reading" class="form-control"
 																	type="text">
 															</div>
@@ -371,17 +371,17 @@
 											<div class="col-sm-2"></div>
 											<div class="col-sm-3">
 												<div class="col text-center">
-													<input type="submit" value="Save"
+													<input type="submit" name="Save" value="Save"
 														class="btn btn-primary btn-block btn-md" tabindex="9"
-														id="captureReadings">
+														id="SaveReadings">
 												</div>
 											</div>
 
 											<div class="col-sm-3">
 												<div class="col text-center">
-													<input type="submit" value="Submit"
+													<input type="submit" name="Submit" value="Submit"
 														class="btn btn-primary btn-block btn-md" tabindex="9"
-														id="captureReadings">
+														id="submitReadings">
 												</div>
 											</div>
 											<div class="col-sm-2"></div>
@@ -396,24 +396,7 @@
 							</c:if>
 
 							<c:if test="${empty custName }"></c:if>
-
-
-
-							<!-- Read Readings -->
-
-							<c:if test="${not empty serialNo}">
-
-								<form:form class="well form-horizontal" action="captureReadings"
-									modelAttribute="captureReadings" method="post"
-									id="captureReadings">
-
-								</form:form>
-
-							</c:if>
-
-							<c:if test="${empty serialNo }"></c:if>
-
-
+							
 						</div>
 						<!-- .panel-body -->
 					</div>
