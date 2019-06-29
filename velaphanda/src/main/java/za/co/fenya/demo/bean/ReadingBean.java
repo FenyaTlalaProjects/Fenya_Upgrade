@@ -24,8 +24,8 @@ public class ReadingBean {
 	private String readingPeriod;
 	private String readingStatus;
 	private Long recordID;
-	private double colorTotal;
-	private double monoTotal;
+	private String colorTotal;
+	private String monoTotal;
 	//private String readingNumber;
 	
 	

@@ -207,17 +207,20 @@ public class ReadingDao implements ReadingDaoInt {
 		localReading = getReadingByID(reading.getRecordID());
 
 		try {
-			 double monoReading = Double.parseDouble(reading.getMonoReading());
-			 double previousMonoReading = Double.parseDouble(localReading.getPreviousMonoReading());
+			 int monoReading = Integer.parseInt(reading.getMonoReading());
+			 int previousMonoReading = Integer.parseInt(localReading.getPreviousMonoReading());
 			 
-			 double colorReading = Double.parseDouble(reading.getColorReading());
-			 double previousColorReading = Double.parseDouble(localReading.getPreviousColorReading());
+			 int colorReading = Integer.parseInt(reading.getColorReading());
+			 int previousColorReading = Integer.parseInt(localReading.getPreviousColorReading());
+			 
+			 int currentMonoTotal = monoReading-previousMonoReading;
+			 int currentColorTotal = colorReading- previousColorReading;
 			 
 			localReading.setColorReading(reading.getColorReading());
 			localReading.setMonoReading(reading.getMonoReading());
 			localReading.setReadingStatus("Active");
-			localReading.setMonoTotal(monoReading - previousMonoReading);
-			localReading.setColorTotal(colorReading - previousColorReading);
+			localReading.setMonoTotal(""+currentMonoTotal);
+			localReading.setColorTotal(""+currentColorTotal);
 			sessionFactory.getCurrentSession().merge(localReading);
 			retMessage = "Reading successfully updated";
 

@@ -71,10 +71,10 @@ public class Reading implements Serializable{
 	private String modifiedDate;
 	
 	@Column(name="Color_Total")
-	private double colorTotal;
+	private String colorTotal;
 	
 	@Column(name="Mono_Total")
-	private double monoTotal;
+	private String monoTotal;
 	
 
 	@ManyToOne
