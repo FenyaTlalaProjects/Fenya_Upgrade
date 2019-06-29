@@ -171,7 +171,6 @@ public class ReadingDao implements ReadingDaoInt {
 			sessionFactory.getCurrentSession().merge(localReading);
 			retMessage = "Reading successfully updated";
 
-			readingList.add(localReading);
 
 		}
 
@@ -186,13 +185,14 @@ public class ReadingDao implements ReadingDaoInt {
 
 	public String submitReading(ReadingBean reading) {
 		Employee employee = (Employee) session.getAttribute("loggedInUser");
-		Reading globalReading = new Reading();
+		//globalReading = new Reading();
+		Reading localReading = new Reading();
 		customer = new Customer();
 		device = new Device();
 		emp = new Employee();
 		List<Reading> aList = getAllReadings();
 		ArrayList<Reading> readingList = new ArrayList<Reading>();
-		Reading previousReading = new Reading();
+		//Reading previousReading = new Reading();
 
 		// Get Current Time Stamp
 		Calendar cal = Calendar.getInstance();
@@ -204,24 +204,24 @@ public class ReadingDao implements ReadingDaoInt {
 		customer = customerDaoInt.getClientByClientName(reading.getCustomerName());
 		emp = employeeDaoInt.getEmployeeByEmpNum(reading.getEmployee());
 		device = deviceDaoInt.getDeviceBySerialNumbuer(reading.getSerialNumber());
-        
+		localReading = getReadingByID(reading.getRecordID());
+
 		try {
-			globalReading.setRecordID(reading.getRecordID());
-			globalReading.setColorReading(reading.getColorReading());
-			globalReading.setCustomerName(customer);
-			globalReading.setSerialNumber(device);
-			globalReading.setEmployee(employee);
-			globalReading.setMonoReading(reading.getMonoReading());
-			globalReading.setPreviousColorReading(reading.getPreviousColorReading());
-			globalReading.setPreviousMonoReading(reading.getPreviousMonoReading());
-			globalReading.setReadingPeriod(reading.getReadingPeriod());
-			globalReading.setInsertDate(currentDate.toString());
-			globalReading.setReadingStatus("Active");
-			sessionFactory.getCurrentSession().update(globalReading);
-			retMessage = "Reading successfully submitted";
+			 double monoReading = Double.parseDouble(reading.getMonoReading());
+			 double previousMonoReading = Double.parseDouble(localReading.getPreviousMonoReading());
+			 
+			 double colorReading = Double.parseDouble(reading.getColorReading());
+			 double previousColorReading = Double.parseDouble(localReading.getPreviousColorReading());
+			 
+			localReading.setColorReading(reading.getColorReading());
+			localReading.setMonoReading(reading.getMonoReading());
+			localReading.setReadingStatus("Active");
+			localReading.setMonoTotal(monoReading - previousMonoReading);
+			localReading.setColorTotal(colorReading - previousColorReading);
+			sessionFactory.getCurrentSession().merge(localReading);
+			retMessage = "Reading successfully updated";
 
-			readingList.add(globalReading);
-
+			readingList.add(localReading);
 		}
 
 		catch (
@@ -293,12 +293,12 @@ public class ReadingDao implements ReadingDaoInt {
 	public List<Reading> getReadingsByMonthOfYear(String month, String year) {
 		List<Reading> aList = getAllReadings();
 		ArrayList<Reading> readingList = new ArrayList<Reading>();
-
+/*
 		for (Reading reading : aList) {
 			if (reading.getReadingMonth().equalsIgnoreCase(month) && reading.getReadingYear().equalsIgnoreCase(year)) {
 				readingList.add(reading);
 			}
-		}
+		}*/
 		return readingList;
 	}
 

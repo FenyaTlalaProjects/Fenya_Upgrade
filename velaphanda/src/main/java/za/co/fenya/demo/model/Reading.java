@@ -57,14 +57,6 @@ public class Reading implements Serializable{
 	
 	@Column(name="Previous_Mono_Reading")
 	private String previousMonoReading;
-	 
-	
-	@Column(name="Reading_Month")
-	private String readingMonth;
-
-	
-	@Column(name="Reading_Year")
-	private String readingYear;
 	
 	@Column(name="Reading_Period")
 	private String readingPeriod;
@@ -77,6 +69,12 @@ public class Reading implements Serializable{
 	
 	@Column(name="Modified_Date")
 	private String modifiedDate;
+	
+	@Column(name="Color_Total")
+	private double colorTotal;
+	
+	@Column(name="Mono_Total")
+	private double monoTotal;
 	
 
 	@ManyToOne
