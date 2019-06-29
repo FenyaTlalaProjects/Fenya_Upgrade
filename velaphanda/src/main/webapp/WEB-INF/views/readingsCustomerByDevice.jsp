@@ -325,7 +325,7 @@
 																	<span class="input-group-addon"><i
 																		class="glyphicon glyphicon-barcode"></i></span> <input
 																		id="monoReading" name="monoReading"
-																		placeholder="Current Mono Reading"
+																		value="<c:out value="${reading.monoReading}"/>">
 																		class="form-control" type="text">
 																</div>
 															</div>
@@ -359,7 +359,7 @@
 																	<span class="input-group-addon"><i
 																		class="glyphicon glyphicon-barcode"></i></span> <input
 																		id="colorReading" name="colorReading"
-																		placeholder="Current Colour Reading"
+																		value="<c:out value="${reading.colorReading}"/>"
 																		class="form-control" type="text">
 																</div>
 															</div>

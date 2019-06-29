@@ -25,8 +25,7 @@ import za.co.fenya.demo.model.Customer;
 import za.co.fenya.demo.model.Device;
 import za.co.fenya.demo.model.Employee;
 import za.co.fenya.demo.model.Reading;
-import za.co.fenya.demo.model.Tickets;
-import za.co.fenya.demo.model.Reading;
+
 
 @Repository("readingDAO")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -166,7 +165,6 @@ public class ReadingDao implements ReadingDaoInt {
 
 		try {
 			
-		
 			localReading.setColorReading(reading.getColorReading());
 			localReading.setMonoReading(reading.getMonoReading());
 			localReading.setReadingStatus("inprogress");
@@ -206,7 +204,7 @@ public class ReadingDao implements ReadingDaoInt {
 		customer = customerDaoInt.getClientByClientName(reading.getCustomerName());
 		emp = employeeDaoInt.getEmployeeByEmpNum(reading.getEmployee());
 		device = deviceDaoInt.getDeviceBySerialNumbuer(reading.getSerialNumber());
-
+        
 		try {
 			globalReading.setRecordID(reading.getRecordID());
 			globalReading.setColorReading(reading.getColorReading());
@@ -304,7 +302,6 @@ public class ReadingDao implements ReadingDaoInt {
 		return readingList;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Reading> getReadingsByUser(String user) {
 		List<Reading> aList = getAllReadings();
@@ -374,7 +371,6 @@ public class ReadingDao implements ReadingDaoInt {
 		return readingList;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Reading getPreviousReadingForDevice(String serialNumber) {
 		// String name = serialNumber;
