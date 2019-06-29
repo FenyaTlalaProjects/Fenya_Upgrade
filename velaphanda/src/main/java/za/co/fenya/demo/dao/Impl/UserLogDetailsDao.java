@@ -19,12 +19,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import za.co.fenya.demo.bean.InvoiceBean;
-import za.co.fenya.demo.dao.CustomerDeviceHistoryDaoInt;
-import za.co.fenya.demo.dao.InvoiceDaoInt;
+
 import za.co.fenya.demo.dao.UserLogDetailsDaoInt;
 import za.co.fenya.demo.model.Employee;
-import za.co.fenya.demo.model.InvoiceHeader;
+
 import za.co.fenya.demo.model.UserLogDetails;
 
 
