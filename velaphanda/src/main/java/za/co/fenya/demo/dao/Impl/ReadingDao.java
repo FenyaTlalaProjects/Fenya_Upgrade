@@ -107,8 +107,8 @@ public class ReadingDao implements ReadingDaoInt {
 				previousReading = getPreviousReadingForDevice(reading.getSerialNumber());
 
 				if (previousReading != null) {
-					previousMono = previousReading.getPreviousMonoReading();
-					previousColor = previousReading.getPreviousColorReading();
+					previousMono = previousReading.getMonoReading();
+					previousColor = previousReading.getColorReading();
 				}
 				
 				globalReading.setColorReading(reading.getColorReading());
