@@ -47,7 +47,7 @@ public class ReadingService implements ReadingServiceInt {
 
 	public String submitReading(ReadingBean reading) {
 		// TODO Auto-generated method stub
-		return readingDAO.saveReading(reading);
+		return readingDAO.submitReading(reading);
 }
 
 	@Override
