@@ -352,7 +352,7 @@
 															<div class="input-group">
 																<span class="input-group-addon"><i
 																	class="glyphicon glyphicon-barcode"></i></span> <input
-																	id="colourReading" name="colourReading"
+																	id="colorReading" name="colorReading"
 																	placeholder="Current Colour Reading"
 																	class="form-control" type="text">
 															</div>
