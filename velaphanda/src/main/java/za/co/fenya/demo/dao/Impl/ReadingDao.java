@@ -35,11 +35,13 @@ public class ReadingDao implements ReadingDaoInt {
 	@Autowired
 	private SessionFactory sessionFactory;
 	@Autowired
+	private SessionFactory sessionFactory1;
+	@Autowired
 	private EmployeeDaoInt employeeDao;
 	@Autowired
 	private HttpSession session = null;
 
-	private Reading globalReading;
+	//private Reading globalReading = null;
 	private Customer customer;
 	private Device device;
 	@Autowired
@@ -65,12 +67,12 @@ public class ReadingDao implements ReadingDaoInt {
 	public Reading createReading(ReadingBean reading) {
 
 		Employee employee = (Employee) session.getAttribute("loggedInUser");
-		globalReading = new Reading();
+		Reading globalReading = new Reading();
 		customer = new Customer();
 		device = new Device();
 		emp = new Employee();
 		List<Reading> aList = getAllReadings();
-		Reading returnReading = new Reading();
+	
 		Reading previousReading = new Reading();
 		String previousMono = "0";
 		String previousColor = "0";
@@ -95,7 +97,7 @@ public class ReadingDao implements ReadingDaoInt {
 					if (readingValue.getSerialNumber().getSerialNumber().equalsIgnoreCase(reading.getSerialNumber())
 							&& readingValue.getReadingPeriod().equalsIgnoreCase(reading.getReadingPeriod())) 
 					{
-						 returnReading = readingValue ;
+						 globalReading = readingValue ;
 						readingExist = true;
 					}
 				}
@@ -110,11 +112,11 @@ public class ReadingDao implements ReadingDaoInt {
 					previousColor = previousReading.getPreviousColorReading();
 				}
 				
-				// globalReading.setColorReading(reading.getColorReading());
+				globalReading.setColorReading(reading.getColorReading());
 				globalReading.setCustomerName(customer);
 				globalReading.setSerialNumber(device);
 				globalReading.setEmployee(employee);
-				// globalReading.setMonoReading(reading.getMonoReading());
+				globalReading.setMonoReading(reading.getMonoReading());
 				globalReading.setPreviousColorReading(previousColor);
 				globalReading.setPreviousMonoReading(previousMono);
 				globalReading.setReadingPeriod(reading.getReadingPeriod());
@@ -122,9 +124,8 @@ public class ReadingDao implements ReadingDaoInt {
 				globalReading.setReadingStatus("Draft");
 				sessionFactory.getCurrentSession().save(globalReading);
 				//paddedReading = String.format("%06d", globalReading.getRecordID()); 
-			
+				
 				retMessage = "Reading successfully submited";
-				returnReading = globalReading;
 			}
 		
 
@@ -137,18 +138,19 @@ public class ReadingDao implements ReadingDaoInt {
 			retMessage = "Reading for " + device.getSerialNumber() + " not added\n" + e.getMessage() + ".";
 		}
 	
-		return returnReading;
+		return globalReading;
 	}
 
 	public String saveReading(ReadingBean reading) {
 		Employee employee = (Employee) session.getAttribute("loggedInUser");
-		globalReading = new Reading();
+		//globalReading = new Reading();
+		Reading localReading = new Reading();
 		customer = new Customer();
 		device = new Device();
 		emp = new Employee();
 		List<Reading> aList = getAllReadings();
 		ArrayList<Reading> readingList = new ArrayList<Reading>();
-		Reading previousReading = new Reading();
+		//Reading previousReading = new Reading();
 
 		// Get Current Time Stamp
 		Calendar cal = Calendar.getInstance();
@@ -160,23 +162,18 @@ public class ReadingDao implements ReadingDaoInt {
 		customer = customerDaoInt.getClientByClientName(reading.getCustomerName());
 		emp = employeeDaoInt.getEmployeeByEmpNum(reading.getEmployee());
 		device = deviceDaoInt.getDeviceBySerialNumbuer(reading.getSerialNumber());
+		localReading = getReadingByID(reading.getRecordID());
 
 		try {
-			globalReading.setRecordID(reading.getRecordID());
-			globalReading.setColorReading(reading.getColorReading());
-			globalReading.setCustomerName(customer);
-			globalReading.setSerialNumber(device);
-			globalReading.setEmployee(employee);
-			globalReading.setMonoReading(reading.getMonoReading());
-			globalReading.setPreviousColorReading(reading.getPreviousColorReading());
-			globalReading.setPreviousMonoReading(reading.getPreviousMonoReading());
-			globalReading.setReadingPeriod(reading.getReadingPeriod());
-			globalReading.setInsertDate(currentDate.toString());
-			globalReading.setReadingStatus("inprogress");
-			sessionFactory.getCurrentSession().update(globalReading);
+			
+		
+			localReading.setColorReading(reading.getColorReading());
+			localReading.setMonoReading(reading.getMonoReading());
+			localReading.setReadingStatus("inprogress");
+			sessionFactory.getCurrentSession().merge(localReading);
 			retMessage = "Reading successfully updated";
 
-			readingList.add(globalReading);
+			readingList.add(localReading);
 
 		}
 
@@ -191,7 +188,7 @@ public class ReadingDao implements ReadingDaoInt {
 
 	public String submitReading(ReadingBean reading) {
 		Employee employee = (Employee) session.getAttribute("loggedInUser");
-		globalReading = new Reading();
+		Reading globalReading = new Reading();
 		customer = new Customer();
 		device = new Device();
 		emp = new Employee();
@@ -242,7 +239,7 @@ public class ReadingDao implements ReadingDaoInt {
 	public String createDefaultReading(ReadingBean reading) {
 
 		Employee employee = (Employee) session.getAttribute("loggedInUser");
-		globalReading = new Reading();
+		Reading globalReading = new Reading();
 		customer = new Customer();
 		device = new Device();
 		emp = new Employee();
@@ -590,4 +587,8 @@ public class ReadingDao implements ReadingDaoInt {
 		return null;
 	}
 
+	private Reading getReadingByID(Long recordID) {
+		
+		return (Reading) sessionFactory.getCurrentSession().get(Reading.class, recordID);
+	}
 }

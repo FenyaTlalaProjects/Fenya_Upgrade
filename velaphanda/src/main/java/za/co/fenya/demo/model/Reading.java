@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -38,7 +39,9 @@ public class Reading implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GenericGenerator(name="gen",strategy="increment")
-	@GeneratedValue(generator="gen")
+	//@GeneratedValue(generator="gen")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	
 	@Column(name="Record_ID", unique = true, nullable = false, precision = 15, scale = 0)
 	private Long recordID;
 	
