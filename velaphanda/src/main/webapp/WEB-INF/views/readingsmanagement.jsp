@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Billing Management</title>
+<title>Reading Management</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <c:import url="templates/tableresizefont.jsp"></c:import>
@@ -22,7 +22,7 @@
 			<ol class="breadcrumb">
 				<li><a href='<c:url value="/home"/>'><svg class="glyph stroked home">
 						<use xlink:href="#stroked-home"></use></svg></a></li>
-				<div class="nav navbar-nav navbar-right" style="margin-top: -1%;">
+				<div class="nav navbar-nav navbar-right" style="margin-top: -1%">
 					<a href="#" onclick="history.go(-1);"><span
 						class="glyphicon glyphicon-circle-arrow-left btn-lg"
 						title="Previous Page"></span></a> <a href="#" onclick="history.go(1);"><span

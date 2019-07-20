@@ -304,7 +304,7 @@
 									<c:choose>
 										<c:when test="${captureReadings =='captureReadings' }">
 											<c:out value="${retMessage}"></c:out> 
-					 	       			   Click<a href='<c:url value="/billingmanagement"/>'
+					 	       			   Click<a href='<c:url value="/readings"/>'
 												class="confirmtions"><b> here</b></a> to go to billing management.	                            
 					 	   			 </c:when>
 									</c:choose>	
@@ -313,7 +313,7 @@
 									<c:choose>
 										<c:when test="${saveReadings =='saveReadings' }">
 											<c:out value="${retMessage}"></c:out> 
-					 	       			   Click<a href='<c:url value="/billingmanagement"/>'
+					 	       			   Click<a href='<c:url value="/readings"/>'
 												class="confirmtions"><b> here</b></a> to go to billing management.	                            
 					 	   			 </c:when>
 									</c:choose>
@@ -322,7 +322,7 @@
 									<c:choose>
 										<c:when test="${submitReadings =='submitReadings' }">
 											<c:out value="${retMessage}"></c:out> 
-					 	       			   Click<a href='<c:url value="/billingmanagement"/>'
+					 	       			   Click<a href='<c:url value="/readings"/>'
 												class="confirmtions"><b> here</b></a> to go to billing management.	                            
 					 	   			 </c:when>
 									</c:choose>	
@@ -505,7 +505,7 @@
 										<c:when test="${captureReadings =='captureReadings' }">
 											<c:out value="${retErrorMessage}"></c:out> 
 					 	       			   Click<a
-												href='<c:url value="/userbillingmanagement"/>'
+												href='<c:url value="/userreadings"/>'
 												class="confirmtions"><b> here</b></a> to go to billing management.	                            
 					 	   			 </c:when>
 									</c:choose>
@@ -514,7 +514,7 @@
 									<c:choose>
 										<c:when test="${saveReadings =='saveReadings' }">
 											<c:out value="${retErrorMessage}"></c:out> 
-					 	       			   Click<a href='<c:url value="/billingmanagement"/>'
+					 	       			   Click<a href='<c:url value="/userreadings"/>'
 												class="confirmtions"><b> here</b></a> to go to billing management.	                            
 					 	   			 </c:when>
 									</c:choose>
@@ -523,7 +523,7 @@
 									<c:choose>
 										<c:when test="${submitReadings =='submitReadings' }">
 											<c:out value="${retErrorMessage}"></c:out> 
-					 	       			   Click<a href='<c:url value="/billingmanagement"/>'
+					 	       			   Click<a href='<c:url value="/userreadings"/>'
 												class="confirmtions"><b> here</b></a> to go to billing management.	                            
 					 	   			 </c:when>
 									</c:choose>

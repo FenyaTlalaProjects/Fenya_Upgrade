@@ -55,8 +55,8 @@ public class BillingController {
 	Reading readings = null;
 	private String globalCustomerName = null;
 
-	// create billing management pages
-	@RequestMapping(value = { "billingmanagement", "userbillingmanagement" }, method = RequestMethod.GET)
+	// readings management page
+	@RequestMapping(value = { "readingsmanagement", "userreadingsmanagement" }, method = RequestMethod.GET)
 	public ModelAndView displayBillingPage() {
 		heading = "All Readings";
 		model = new ModelAndView();
@@ -65,12 +65,87 @@ public class BillingController {
 			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
 				model.addObject("heading", heading);
 				model.addObject("deviceReadingList", deviceReadingServiceInt.getAllReadings());
-				model.setViewName("billingmanagement");
+				model.setViewName("readingsmanagement");
 
 			} else if (userName.getRole().equalsIgnoreCase("User")) {
 				model.addObject("heading", heading);
 				model.addObject("deviceReadingList", deviceReadingServiceInt.getAllReadings());
-				model.setViewName("userbillingmanagement");
+				model.setViewName("userreadingsmanagement");
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	// invoice management page
+	@RequestMapping(value = { "invoicemanagement", "userinvoicemanagement" }, method = RequestMethod.GET)
+	public ModelAndView displayInvoiceMangement() {
+		heading = "All Invoices";
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				model.addObject("heading", heading);
+				model.addObject("deviceReadingList", deviceReadingServiceInt.getAllReadings());
+				model.setViewName("invoicemanagement");
+
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				model.addObject("heading", heading);
+				model.addObject("deviceReadingList", deviceReadingServiceInt.getAllReadings());
+				model.setViewName("userinvoicemanagement");
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	// SLA management page
+	@RequestMapping(value = { "slamanagement", "userslamanagement" }, method = RequestMethod.GET)
+	public ModelAndView displaySLAPage(String customerName) {
+		selectedDateRange = "Select Date";
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+
+			if (userName.getRole().equalsIgnoreCase("Manager") || userName.getRole().equalsIgnoreCase("Admin")) {
+				model.addObject("customerName", customerName);
+				model.addObject("customers", customerServiceInt.getClientList());
+				model.addObject("newDate", selectedDateRange);
+				model.setViewName("slamanagement");
+
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				model.addObject("customerName", customerName);
+				model.addObject("customers", customerServiceInt.getClientList());
+				model.addObject("newDate", selectedDateRange);
+				model.setViewName("userslamanagement");
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	// statements management page
+	@RequestMapping(value = { "statementsmanagement", "userstatementsmanagement" }, method = RequestMethod.GET)
+	public ModelAndView displayStatementPage(String customerName) {
+		selectedDateRange = "Select Date";
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+
+			if (userName.getRole().equalsIgnoreCase("Manager") || userName.getRole().equalsIgnoreCase("Admin")) {
+				model.addObject("customerName", customerName);
+				model.addObject("customers", customerServiceInt.getClientList());
+				model.addObject("newDate", selectedDateRange);
+				model.setViewName("statementsmanagement");
+
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				model.addObject("customerName", customerName);
+				model.addObject("customers", customerServiceInt.getClientList());
+				model.addObject("newDate", selectedDateRange);
+				model.setViewName("userstatementsmanagement");
 			}
 		} else {
 			model.setViewName("login");
@@ -278,10 +353,8 @@ public class BillingController {
 		return model;
 	}
 
-	
-
 	// save reading
-	@RequestMapping(value="captureReadings", params = {"Save"}, method = RequestMethod.POST)
+	@RequestMapping(value = "captureReadings", params = { "Save" }, method = RequestMethod.POST)
 	public ModelAndView saveReading(@ModelAttribute("captureReadings") ReadingBean reading) {
 		model = new ModelAndView();
 		String saveReadings = "saveReadings";
@@ -303,8 +376,8 @@ public class BillingController {
 		return model;
 	}
 
-	//// submit reading
-	@RequestMapping(value="captureReadings", params={"Submit"}, method = RequestMethod.POST)
+	// submit reading
+	@RequestMapping(value = "captureReadings", params = { "Submit" }, method = RequestMethod.POST)
 	public ModelAndView submitReading(@ModelAttribute("captureReadings") ReadingBean reading) {
 		model = new ModelAndView();
 		String submitReadings = "submitReadings";
@@ -394,60 +467,8 @@ public class BillingController {
 		return model;
 	}
 
-	// create SLA page
-	@RequestMapping(value = { "SLA", "userSLA" }, method = RequestMethod.GET)
-	public ModelAndView displaySLAPage(String customerName) {
-		selectedDateRange = "Select Date";
-		model = new ModelAndView();
-		userName = (Employee) session.getAttribute("loggedInUser");
-		if (userName != null) {
-
-			if (userName.getRole().equalsIgnoreCase("Manager") || userName.getRole().equalsIgnoreCase("Admin")) {
-				model.addObject("customerName", customerName);
-				model.addObject("customers", customerServiceInt.getClientList());
-				model.addObject("newDate", selectedDateRange);
-				model.setViewName("SLA");
-
-			} else if (userName.getRole().equalsIgnoreCase("User")) {
-				model.addObject("customerName", customerName);
-				model.addObject("customers", customerServiceInt.getClientList());
-				model.addObject("newDate", selectedDateRange);
-				model.setViewName("userSLA");
-			}
-		} else {
-			model.setViewName("login");
-		}
-		return model;
-	}
-
-	// create statements page
-	@RequestMapping(value = { "statements", "userstatements" }, method = RequestMethod.GET)
-	public ModelAndView displayStatementPage(String customerName) {
-		selectedDateRange = "Select Date";
-		model = new ModelAndView();
-		userName = (Employee) session.getAttribute("loggedInUser");
-		if (userName != null) {
-
-			if (userName.getRole().equalsIgnoreCase("Manager") || userName.getRole().equalsIgnoreCase("Admin")) {
-				model.addObject("customerName", customerName);
-				model.addObject("customers", customerServiceInt.getClientList());
-				model.addObject("newDate", selectedDateRange);
-				model.setViewName("statements");
-
-			} else if (userName.getRole().equalsIgnoreCase("User")) {
-				model.addObject("customerName", customerName);
-				model.addObject("customers", customerServiceInt.getClientList());
-				model.addObject("newDate", selectedDateRange);
-				model.setViewName("userstatements");
-			}
-		} else {
-			model.setViewName("login");
-		}
-		return model;
-	}
-
 	// create invoice page
-	@RequestMapping(value = { "invoice", "userInvoice" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "invoice", "userinvoice" }, method = RequestMethod.GET)
 	public ModelAndView displayInvoicePage(String customerName) {
 		selectedDateRange = "Select Date";
 		model = new ModelAndView();
@@ -464,7 +485,381 @@ public class BillingController {
 				model.addObject("customerName", customerName);
 				model.addObject("customers", customerServiceInt.getClientList());
 				model.addObject("newDate", selectedDateRange);
-				model.setViewName("userInvoice");
+				model.setViewName("userinvoice");
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	// display searched customer and its serial numbers on invoice
+	@RequestMapping(value = { "invoiceCustomerByDevice", "userinvoiceCustomerByDevice" }, method = RequestMethod.GET)
+	public ModelAndView displaySearchCustomer(String customerName) {
+		model = new ModelAndView();
+		String selectedName = customerName;
+		userName = (Employee) session.getAttribute("loggedInUser");
+
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || userName.getRole().equalsIgnoreCase("Admin")) {
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customers", customerServiceInt.getClientList());
+				model.addObject("newDate", selectedDateRange);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.setViewName("invoice");
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customers", customerServiceInt.getClientList());
+				model.addObject("newDate", selectedDateRange);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.setViewName("userinvoice");
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+
+	}
+
+	// search available reading for a client to display when creating
+	@RequestMapping(value = { "invoiceSearchCustomerReading",
+			"userinvoiceSearchCustomerReading" }, method = RequestMethod.POST)
+	public ModelAndView searchCustomerReadingForInvoice(@RequestParam("customerName") String customerName,
+			@RequestParam("serialNumber") String serialNumber, @RequestParam("period") String period,
+			ReadingBean reading) {
+		String selectedName = customerName;
+		String selectedSerialNumber = serialNumber;
+		String selectedPeriod = period;
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				reading.setEmployee(userName.getEmail());
+				reading.setReadingPeriod(selectedPeriod);
+				getReadings = deviceReadingServiceInt.createReading(reading);
+				if (getReadings != null) {
+					model.addObject("readingBean", getReadings);
+					System.err.println("Moleko...................................");
+				}
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("selectedPeriod", selectedPeriod);
+				model.addObject("selectedSerialNumber", selectedSerialNumber);
+				// model.addObject("retMessage",
+				// deviceReadingServiceInt.createDefaultReading(reading));
+				// model.addObject("deviceList",
+				// deviceServiceInt.getDeviceListByClientName(customerName));
+				if (customerName != null) {
+					model.addObject("customers", customerServiceInt.getClientList());
+					model.addObject("custName", customerName);
+
+				} else {
+					model.addObject("errorRetMessage", "Customer name does not exist.");
+				}
+
+				model.setViewName("invoice");
+
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				getReadings = deviceReadingServiceInt.createReading(reading);
+				if (getReadings != null) {
+					model.addObject("deviceReading", getReadings);
+				}
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("selectedPeriod", selectedPeriod);
+				model.addObject("selectedSerialNumber", selectedSerialNumber);
+				model.addObject("readingBean", reading);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				// model.addObject("retMessage",
+				// deviceReadingServiceInt.createDefaultReading(reading));
+				if (customerName != null) {
+					model.addObject("custName", customerName);
+				} else {
+					model.addObject("errorRetMessage", "Customer name does not exist.");
+				}
+				model.setViewName("userinvoice");
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	// read and display list of captured invoice
+	@RequestMapping(value = { "capturedinvoice" }, method = RequestMethod.GET)
+	public ModelAndView displayCapturedInvoice(String serialNumber) {
+		String selectedName = customerName;
+		heading = "Captured";
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceReadingList", deviceReadingServiceInt.getAllReadings());
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("invoicemanagement");
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("userinvoicemanagement");
+
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	// read and display list of pending invoice
+	@RequestMapping(value = { "pendinginvoice" }, method = RequestMethod.GET)
+	public ModelAndView displaypendinginvoice(String serialNumber) {
+		String selectedName = customerName;
+		heading = "Pending";
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("invoicemanagement");
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("userinvoicemanagement");
+
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	// read and display list of paid invoice
+	@RequestMapping(value = { "paidinvoice" }, method = RequestMethod.GET)
+	public ModelAndView displaypaidinvoice(String serialNumber) {
+		String selectedName = customerName;
+		heading = "Paid";
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("invoicemanagement");
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("userinvoicemanagement");
+
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	// read and display list of Approved invoice
+	@RequestMapping(value = { "approvedinvoice" }, method = RequestMethod.GET)
+	public ModelAndView displayApprovedinvoice(String serialNumber) {
+		String selectedName = customerName;
+		heading = "Approved";
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("invoicemanagement");
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("userinvoicemanagement");
+
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	// read and display list of Deleted invoice
+	@RequestMapping(value = { "deletedinvoice" }, method = RequestMethod.GET)
+	public ModelAndView displaydeletedinvoice(String serialNumber) {
+		String selectedName = customerName;
+		heading = "Deleted";
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("invoicemanagement");
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("userinvoicemanagement");
+
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	// read and display list of sent invoice
+	@RequestMapping(value = { "sentinvoice" }, method = RequestMethod.GET)
+	public ModelAndView displaysentinvoice(String serialNumber) {
+		String selectedName = customerName;
+		heading = "Sent";
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("invoicemanagement");
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("userinvoicemanagement");
+
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	// read and display list of draft invoice
+	@RequestMapping(value = { "draftinvoice" }, method = RequestMethod.GET)
+	public ModelAndView displaydraftinvoice(String serialNumber) {
+		String selectedName = customerName;
+		heading = "Draft";
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("invoicemanagement");
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("userinvoicemanagement");
+
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	// read and display list of partial invoice
+	@RequestMapping(value = { "partialinvoice" }, method = RequestMethod.GET)
+	public ModelAndView displaypartialinvoice(String serialNumber) {
+		String selectedName = customerName;
+		heading = "Partial";
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("invoicemanagement");
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				getSerialNumbers = deviceServiceInt.getSerials();
+				model.addObject("serialNumbers", getSerialNumbers);
+				model.addObject("customerName", customerName);
+				model.addObject("selectedName", selectedName);
+				model.addObject("deviceList", deviceServiceInt.getDeviceListByClientName(customerName));
+				model.addObject("deviceReading", getReadings);
+				model.addObject("heading", heading);
+				model.setViewName("userinvoicemanagement");
+
 			}
 		} else {
 			model.setViewName("login");

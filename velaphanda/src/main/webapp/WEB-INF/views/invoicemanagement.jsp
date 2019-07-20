@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Billing Management</title>
+<title>Invoice Management</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <c:import url="templates/tableresizefont.jsp"></c:import>
@@ -22,7 +22,7 @@
 			<ol class="breadcrumb">
 				<li><a href='<c:url value="/home"/>'><svg class="glyph stroked home">
 						<use xlink:href="#stroked-home"></use></svg></a></li>
-				<div class="nav navbar-nav navbar-right" style="margin-top: -1%;">
+				<div class="nav navbar-nav navbar-right" style="margin-top: -1%">
 					<a href="#" onclick="history.go(-1);"><span
 						class="glyphicon glyphicon-circle-arrow-left btn-lg"
 						title="Previous Page"></span></a> <a href="#" onclick="history.go(1);"><span
@@ -36,9 +36,14 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading" align="center">Readings</div>
+					<div class="panel-heading" align="center">Invoice</div>
 					<div class="panel-body">
+						
 					
+						<a href='<c:url value="/invoice"/>' class="btn btn-success"> Create Invoice </a>
+										
+						<br>
+						
 						<form:form action="searchTicket" method="post" id="searchTicket"
 							class="searchTicket" modelAttribute="searchTicket">
 
@@ -145,32 +150,89 @@
 								<div class="col-sm-12">
 									<div class="row">
 										<br />
+										
 										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="/customerReadings"/>'>
-												<div class="well" style="background-color: #ffffff;">
-													<h5 class="text-danger">
-														<span class="label label-danger pull-right"><span class="glyphicon">&#xe065;</span></span>
-														Enter Readings
-													</h5>
-												</div>
-											</a>
-										</div>
-										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="/capturedReadings"/>'>
+											<a href='<c:url value="/partialinvoice"/>'>
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-success">
 														<span class="label label-success pull-right">${countCapturedReadings}</span>
-														Captured Readings 
+														Partial Invoice 
+													</h5>
+												</div>
+											</a>
+										</div>
+										
+										<div class="col-xs-6 col-md-3">
+											<a href='<c:url value="/draftinvoice"/>'>
+												<div class="well" style="background-color: #ffffff;">
+													<h5 class="text-success">
+														<span class="label label-success pull-right">${countCapturedReadings}</span>
+														Draft Invoice 
+													</h5>
+												</div>
+											</a>
+										</div>
+										
+										<div class="col-xs-6 col-md-3">
+											<a href='<c:url value="/sentinvoice"/>'>
+												<div class="well" style="background-color: #ffffff;">
+													<h5 class="text-success">
+														<span class="label label-success pull-right">${countCapturedReadings}</span>
+														Sent Invoice 
+													</h5>
+												</div>
+											</a>
+										</div>
+										
+										<div class="col-xs-6 col-md-3">
+											<a href='<c:url value="/approvedinvoice"/>'>
+												<div class="well" style="background-color: #ffffff;">
+													<h5 class="text-success">
+														<span class="label label-success pull-right">${countCapturedReadings}</span>
+														Approved Invoice 
+													</h5>
+												</div>
+											</a>
+										</div>
+										
+										<div class="col-xs-6 col-md-3">
+											<a href='<c:url value="/capturedinvoice"/>'>
+												<div class="well" style="background-color: #ffffff;">
+													<h5 class="text-success">
+														<span class="label label-success pull-right">${countCapturedReadings}</span>
+														Captured Invoice 
+													</h5>
+												</div>
+											</a>
+										</div>
+										
+										<div class="col-xs-6 col-md-3">
+											<a href='<c:url value="/deletedinvoice"/>'>
+												<div class="well" style="background-color: #ffffff;">
+													<h5 class="text-success">
+														<span class="label label-success pull-right">${countCapturedReadings}</span>
+														Deleted Invoice 
 													</h5>
 												</div>
 											</a>
 										</div>
 										<div class="col-xs-6 col-md-3">
-											<a href='<c:url value="/pendingReadings"/>'>
+											<a href='<c:url value="/pendinginvoice"/>'>
 												<div class="well" style="background-color: #ffffff;">
 													<h5 class="text-primary">
 														<span class="label label-primary pull-right">${countPendingReadings}</span>
-														Pending Readings
+														 Pending Invoice
+													</h5>
+												</div>
+											</a>
+										</div>
+										
+										<div class="col-xs-6 col-md-3">
+											<a href='<c:url value="/paidinvoice"/>'>
+												<div class="well" style="background-color: #ffffff;">
+													<h5 class="text-primary">
+														<span class="label label-primary pull-right">${countPendingReadings}</span>
+														Paid Invoice
 													</h5>
 												</div>
 											</a>
@@ -192,15 +254,39 @@
 
 							<c:choose>
 								
-								<c:when test="${heading=='All Readings' }">
-									<div class="panel-heading" align="center">All Readings</div>
+								<c:when test="${heading=='All Invoices' }">
+									<div class="panel-heading" align="center">All Invoices</div>
+								</c:when>
+								<c:when test="${heading=='Approved' }">
+									<div class="panel-heading" align="center">Approved
+										Invoice</div>
 								</c:when>	
 								<c:when test="${heading=='Captured' }">
-									<div class="panel-heading" align="center">Captured Readings</div>
+									<div class="panel-heading" align="center">Captured Invoice</div>
 								</c:when>
 								<c:when test="${heading=='Pending' }">
 									<div class="panel-heading" align="center">Pending
-										Readings</div>
+										Invoice</div>
+								</c:when>
+								<c:when test="${heading=='Partial' }">
+									<div class="panel-heading" align="center">Partial
+										Invoice</div>
+								</c:when>
+								<c:when test="${heading=='Draft' }">
+									<div class="panel-heading" align="center">Draft
+										Invoice</div>
+								</c:when>
+								<c:when test="${heading=='Sent' }">
+									<div class="panel-heading" align="center">Sent
+										Invoice</div>
+								</c:when>
+								<c:when test="${heading=='Paid' }">
+									<div class="panel-heading" align="center">Paid
+										Invoice</div>
+								</c:when>
+								<c:when test="${heading=='Deleted' }">
+									<div class="panel-heading" align="center">Deleted
+										Invoice</div>
 								</c:when>
 												
 								
@@ -213,16 +299,16 @@
 								data-sort-order="desc">
 								<thead>
 									<tr>
+										<th data-field="invoiceNo" data-sortable="true">Invoice No</th>
 										<th data-field="customername" data-sortable="true">Customer Name</th>
-										<th data-field="serialnumber" data-sortable="true">Serial Number</th>
-										<th data-field="capturedBy" data-sortable="true">Captured By</th>
-										<th data-field="modifiedBy" data-sortable="true">Modified By</th>
-										<th data-field="dateInserted" data-sortable="true">Date Inserted</th>
-										<th data-field="readingStatus" data-sortable="true">Reading Status</th>
-										<th data-field="previousColorReading" data-sortable="true">Previous Color Reading</th>
-										<th data-field="previousMonoReading" data-sortable="true">Previous Mono Reading</th>
-										<th data-field="colorReading" data-sortable="true">Current Color Reading</th>										
-										<th data-field="monoReading" data-sortable="true">Current Mono Reading</th>
+										<th data-field="serialnumber" data-sortable="true">Serial Number</th>										
+										<th data-field="capturedBy" data-sortable="true">Captured By</th>										
+										<th data-field="dateInserted" data-sortable="true">Date Issued</th>
+										<th data-field="readingStatus" data-sortable="true">Due Date</th>
+										<th data-field="invoiceStatus" data-sortable="true">Invoice Status</th>
+										<th data-field="type" data-sortable="true">Amount Paid</th>
+										<th data-field="type" data-sortable="true">Amount Due</th>										
+										<th data-field="monoReading" data-sortable="true">Action</th>
 										
 									</tr>
 								</thead>
@@ -231,16 +317,16 @@
 									<!-- Iterating over the list sent from Controller -->
 									<c:forEach var="list" items="${deviceReadingList}">
 										<tr>
+											<td>INV011</td>
 											<td>${list.customerName.customerName}</td>
 											<td>${list.serialNumber.serialNumber}</td>
 											<td>${list.employee.firstName} ${list.employee.lastName}</td>
-											<td>${list.modifiedBy.firstName} ${list.modifiedBy.lastName}</td>
+											<td>${list.insertDate}</td>
 											<td>${list.insertDate}</td>
 											<td>${list.readingStatus}</td>
-											<td>${list.previousColorReading}</td>
-											<td>${list.previousMonoReading}</td>
-											<td>${list.colorReading}</td>
-											<td>${list.monoReading}</td>											
+											<td>R400</td>
+											<td>R000</td>
+											<td><a href="" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a> <a href="#" data-invoice-id="1" data-email="" data-invoice-type="invoice" data-custom-email="" class="btn btn-success btn-xs email-invoice"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a> <a href="" class="btn btn-info btn-xs" target="_blank"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a> <a data-invoice-id="1" class="btn btn-danger btn-xs delete-invoice"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>										
 										</tr>
 									</c:forEach>
 								</tbody>

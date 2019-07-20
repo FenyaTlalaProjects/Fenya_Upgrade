@@ -59,26 +59,28 @@
 				</a>
 				
 				<ul class="children collapse" id="sub-item-5">
+					
 					<li>
-						<a class="" href='<c:url value="/billingmanagement"/>'>
-							Readings
+						<a class="" href='<c:url value="/invoicemanagement"/>'>
+							Invoices Management
 						</a>
 					</li>
 					<li>
-						<a class="" href='<c:url value="/invoice"/>'>
-							Invoices
+						<a class="" href='<c:url value="/readingsmanagement"/>'>
+							Readings Management
 						</a>
 					</li>
 					<li>
-						<a class="" href='<c:url value="/statements"/>'>
-							Statements
+						<a class="" href='<c:url value="/slamanagement"/>'>
+							SLA Management
+						</a>
+					</li>	
+					<li>
+						<a class="" href='<c:url value="/statementsmanagement"/>'>
+							Statements Management
 						</a>
 					</li>
-					<li>
-						<a class="" href='<c:url value="/SLA"/>'>
-							SLA
-						</a>
-					</li>				
+								
 				</ul>
 				
 			</li>

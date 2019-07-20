@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Billing Management</title>
+<title>Reading Management</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <c:import url="templates/tableresizefont.jsp"></c:import>
@@ -15,13 +15,13 @@
 </head>
 <body onload="CovertDateToString()">
 
-	<c:import url="templates/navbar.jsp"></c:import>
+	<c:import url="templates/usernavbar.jsp"></c:import>
 
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href='<c:url value="/home"/>'><svg class="glyph stroked home">
-						<use xlink:href="#stroked-home"></use></svg></a></li>
+				<li><a href='<c:url value="/userdashboard"/>'><svg
+							class="glyph stroked home"> <use xlink:href="#stroked-home"></use></svg></a></li>
 				<div class="nav navbar-nav navbar-right" style="margin-top: -1%;">
 					<a href="#" onclick="history.go(-1);"><span
 						class="glyphicon glyphicon-circle-arrow-left btn-lg"
@@ -31,7 +31,6 @@
 				</div>
 			</ol>
 		</div>
-		<!--/.row-->
 
 		<div class="row">
 			<div class="col-lg-12">
