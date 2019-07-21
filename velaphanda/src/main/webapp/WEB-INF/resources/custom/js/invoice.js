@@ -91,6 +91,44 @@ $(document).ready(function() {
         calculateTotal();
     });
 
+	//insert line item
+	$(document).on('click', ".item-select", function(e) {
+
+   		e.preventDefault;
+
+   		var product = $(this);
+
+   		$('#insert').modal({ backdrop: 'static', keyboard: false }).one('click', '#selected', function(e) {
+
+		    var itemText = $('#insert').find("option:selected").text();
+		    var itemValue = $('#insert').find("option:selected").val();
+
+		    $(product).closest('tr').find('.invoice_product').val(itemText);
+		    $(product).closest('tr').find('.invoice_product_price').val(itemValue);
+
+		    updateTotals('.calculate');
+        	calculateTotal();
+
+   		});
+
+   		return false;
+
+   	});
+	
+	//insert customer
+	$(document).on('click', ".select-customer", function(e) {
+
+   		e.preventDefault;
+
+   		var customer = $(this);
+
+   		$('#insert_customer').modal({ backdrop: 'static', keyboard: false });
+
+   		return false;
+
+   	});
+	
+	
 	function updateTotals(elem) {
 
         var tr = $(elem).closest('tr'),
@@ -184,7 +222,7 @@ $(document).ready(function() {
 
 			$.ajax({
 
-				url: 'response.php',
+				//url: '',
 				type: 'POST',
 				data: $("#create_invoice").serialize(),
 				dataType: 'json',
@@ -192,7 +230,7 @@ $(document).ready(function() {
 					$("#response .message").html("<strong>" + data.status + "</strong>: " + data.message);
 					$("#response").removeClass("alert-warning").addClass("alert-success").fadeIn();
 					$("html, body").animate({ scrollTop: $('#response').offset().top }, 1000);
-					$("#create_invoice").before().html("<a href='/invoice-add.php' class='btn btn-primary'>Create new invoice</a>");
+					$("#create_invoice").before().html("<a href='/' class='btn btn-primary'>Create new invoice</a>");
 					$("#create_invoice").remove();
 					$btn.button("reset");
 				},
@@ -208,13 +246,11 @@ $(document).ready(function() {
 
 	}
 
-
-
    	function emailInvoice(invoiceId) {
 
         jQuery.ajax({
 
-        	url: 'response.php',
+        	//url: '',
             type: 'POST', 
             data: invoiceId,
             dataType: 'json', 
@@ -236,7 +272,7 @@ $(document).ready(function() {
 
         jQuery.ajax({
 
-        	url: 'response.php',
+        	//url: '',
             type: 'POST', 
             data: invoiceId,
             dataType: 'json', 
@@ -262,7 +298,7 @@ $(document).ready(function() {
 
         jQuery.ajax({
 
-        	url: 'response.php',
+        	//url: '',
             type: 'POST', 
             data: $("#update_invoice").serialize(),
             dataType: 'json', 
@@ -281,29 +317,8 @@ $(document).ready(function() {
     	});
 
    	}
-
-   	function downloadCSV(action) {
-
-   		jQuery.ajax({
-
-   			url: 'response.php',
-   			type: 'POST',
-   			data: action,
-   			dataType: 'json',
-   			success: function(data){
-				$("#response .message").html("<strong>" + data.status + "</strong>: " + data.message);
-				$("#response").removeClass("alert-warning").addClass("alert-success").fadeIn();
-				$("html, body").animate({ scrollTop: $('#response').offset().top }, 1000);
-			},
-			error: function(data){
-				$("#response .message").html("<strong>" + data.status + "</strong>: " + data.message);
-				$("#response").removeClass("alert-success").addClass("alert-warning").fadeIn();
-				$("html, body").animate({ scrollTop: $('#response').offset().top }, 1000);
-			} 
-   		});
-
-   	}
-
+   	
    	
 
+   
 });

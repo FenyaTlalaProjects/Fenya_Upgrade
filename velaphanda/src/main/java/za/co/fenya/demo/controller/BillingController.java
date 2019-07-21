@@ -100,6 +100,29 @@ public class BillingController {
 		}
 		return model;
 	}
+	
+	// invoice management page
+		@RequestMapping(value = "invoicemanagement", params = { "newCustomer" }, method = RequestMethod.GET)
+		public ModelAndView displayInvoiceMangementNew() {
+			heading = "All Invoices";
+			model = new ModelAndView();
+			userName = (Employee) session.getAttribute("loggedInUser");
+			if (userName != null) {
+				if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+					model.addObject("heading", heading);
+					model.addObject("deviceReadingList", deviceReadingServiceInt.getAllReadings());
+					model.setViewName("invoicemanagement");
+
+				} else if (userName.getRole().equalsIgnoreCase("User")) {
+					model.addObject("heading", heading);
+					model.addObject("deviceReadingList", deviceReadingServiceInt.getAllReadings());
+					model.setViewName("userinvoicemanagement");
+				}
+			} else {
+				model.setViewName("login");
+			}
+			return model;
+		}
 
 	// SLA management page
 	@RequestMapping(value = { "slamanagement", "userslamanagement" }, method = RequestMethod.GET)
@@ -527,7 +550,7 @@ public class BillingController {
 
 	}
 
-	// search available reading for a client to display when creating
+	// search available reading for a client to display when creating invoice
 	@RequestMapping(value = { "invoiceSearchCustomerReading",
 			"userinvoiceSearchCustomerReading" }, method = RequestMethod.POST)
 	public ModelAndView searchCustomerReadingForInvoice(@RequestParam("customerName") String customerName,
@@ -594,6 +617,7 @@ public class BillingController {
 		}
 		return model;
 	}
+	
 
 	// read and display list of captured invoice
 	@RequestMapping(value = { "capturedinvoice" }, method = RequestMethod.GET)
