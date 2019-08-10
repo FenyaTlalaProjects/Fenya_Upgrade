@@ -55,4 +55,12 @@ public class ReadingService implements ReadingServiceInt {
 		// TODO Auto-generated method stub
 		return readingDAO.createDefaultReading(reading);
 	}
+
+	@Override
+	public Reading getReadingsForInvoice(String serialNumber, String readingPeriod) {
+		// TODO Auto-generated method stub
+		return readingDAO.getReadingsForInvoice(serialNumber, readingPeriod);
+	}
+
+
 }

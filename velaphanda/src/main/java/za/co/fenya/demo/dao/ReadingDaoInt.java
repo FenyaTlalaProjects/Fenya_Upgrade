@@ -33,5 +33,7 @@ public interface ReadingDaoInt {
 	String createDefaultReading(ReadingBean reading);	
 	String saveReading(ReadingBean reading);
 	String submitReading(ReadingBean reading);
+
+	Reading getReadingsForInvoice(String serialNumber, String readingPeriod);
 	
 }

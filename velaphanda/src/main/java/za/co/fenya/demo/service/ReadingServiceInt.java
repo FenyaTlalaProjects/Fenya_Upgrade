@@ -15,4 +15,5 @@ public interface ReadingServiceInt {
 	String saveReading (ReadingBean reading);
 	String submitReading (ReadingBean reading);
 	String createDefaultReading(ReadingBean reading);
+	Reading getReadingsForInvoice(String serialNumber, String readingPeriod);
 }

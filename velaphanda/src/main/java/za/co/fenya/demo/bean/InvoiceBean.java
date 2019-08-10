@@ -70,16 +70,16 @@ public class InvoiceBean {
 	private String SupplierCompanyNumber;
 	
 	// Line Item
-	private String lineNumber;
-	private String itemDescription;
-	private String startReading;
-	private String endReading;
-	private String unitOfMeasure;
-	private String quantity;
-	private String price;
-	private String lineCurrency;
-	private String lineTotal;
-	private String lineStatus;
+	private String [] lineNumber;
+	private String [] itemDescription;
+	private String [] startReading;
+	private String [] endReading;
+	private String [] unitOfMeasure;
+	private String [] quantity;
+	private String [] price;
+	private String [] lineCurrency;
+	private String [] lineTotal;
+	private String [] lineStatus;
 	
 	
 }

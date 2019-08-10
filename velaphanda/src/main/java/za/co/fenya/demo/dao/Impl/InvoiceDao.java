@@ -26,9 +26,13 @@ import za.co.fenya.demo.dao.ReadingDaoInt;
 import za.co.fenya.demo.model.Customer;
 import za.co.fenya.demo.model.Device;
 import za.co.fenya.demo.model.Employee;
+import za.co.fenya.demo.model.InvoiceContactAddress;
 import za.co.fenya.demo.model.InvoiceHeader;
+import za.co.fenya.demo.model.InvoiceLineItem;
+import za.co.fenya.demo.model.InvoicePayment;
 import za.co.fenya.demo.model.Reading;
 import za.co.fenya.demo.model.Tickets;
+import za.co.fenya.demo.util.StringToDouble;
 import za.co.fenya.demo.model.Reading;
 
 
@@ -43,8 +47,12 @@ public class InvoiceDao implements InvoiceDaoInt {
 	@Autowired
 	private HttpSession session = null;
 	
+	ReadingDao readingDAO = null;
 	private Reading globalReading;
 	private InvoiceHeader globalInvoiceHeader;
+	private InvoiceLineItem globalLineItem;
+	private InvoiceContactAddress globalAddress;
+	private InvoicePayment globalPayment;
 	private Customer customer;
 	private Device device;
 	@Autowired
@@ -57,6 +65,7 @@ public class InvoiceDao implements InvoiceDaoInt {
 	private String retMessage = null;
 	private ReadingBean readingBean = null;
 	private InvoiceBean invoiceBean = null;
+	private Reading reading = null;
 	Employee userName, emp = null;
 	DateFormat dateFormat = null;
 	Date date = null;
@@ -65,6 +74,236 @@ public class InvoiceDao implements InvoiceDaoInt {
 	String timeDeviceAdded = sdfDate.format(now);
 	ArrayList<?> aList = null;
 	ArrayList<Reading> readingList = null;
+	double rentalValue = 0.00;
+	double monoCopyCost = 0.00;
+	double colorCopyCost = 0.00;
+	double monoTotal = 0.00;
+	double colorTotal = 0.00;
+	double lineAmount = 0.0;
+	double colorLineAmount = 0.0;
+	String machineType = null;
+	int lineItemNumber = 0;
+		
+	
+	public InvoiceBean createInvoice (InvoiceBean invoice)
+	{
+		Employee employee = (Employee) session.getAttribute("loggedInUser");
+		InvoiceHeader invoiceHeader = new InvoiceHeader();
+		InvoiceBean localBean = new InvoiceBean();
+		customer = new Customer();
+		device = new Device();
+		emp = new Employee();
+		List<InvoiceHeader> aList = getAllInvoices();
+		String rentalValue = "";
+		readingDAO =  new ReadingDao();
+		// Get Current Time Stamp
+		Calendar cal = Calendar.getInstance();
+		// SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:s");
+		Date currentDate = new Date();
+		cal.setTime(new Date());
+
+		currentDate = cal.getTime();
+		customer = customerDaoInt.getClientByClientName(invoice.getCustomerName());
+		emp = employeeDaoInt.getEmployeeByEmpNum(invoice.getCreatedBy());
+		device = deviceDaoInt.getDeviceBySerialNumbuer(invoice.getSerialNumber());
+		machineType = device.getMachineType();
+		reading = readingDAO.getReadingsForInvoice(device.getSerialNumber(), invoice.getInvoicePeriod());
+		
+		
+		boolean invoiceExist = false;
+
+		try {
+			
+			if (reading != null)
+			{
+				if (device != null && invoice.getPeriod() != null) {
+					for (InvoiceHeader invoiceValue : aList) {
+						if (invoiceValue.getDevice().getSerialNumber().equalsIgnoreCase(invoice.getSerialNumber())
+								&& invoiceValue.getPeriod().equalsIgnoreCase(invoice.getPeriod()))
+						{
+							 globalInvoiceHeader = invoiceValue ;
+				//			 invoiceExist = true;
+						}
+					}
+				}
+				
+				// Ingnore if reading already exist.
+				if (invoiceExist == false) {
+					
+					
+					if (device.isRentalMachine() == true)
+					{
+						rentalValue = device.getRentalCost();					
+					}
+					
+					monoCopyCost = Double.parseDouble(device.getMonoCopyCost());
+					colorCopyCost  = Double.parseDouble(device.getMonoCopyCost());
+					monoTotal = Double.parseDouble (reading.getMonoTotal());
+					colorTotal = Double.parseDouble (reading.getColorTotal());
+					
+					globalInvoiceHeader.setCustomerName(customer);
+					globalInvoiceHeader.setEmployee(employee);
+					globalInvoiceHeader.setDevice(device);
+					globalInvoiceHeader.setPeriod(invoice.getPeriod());
+					globalInvoiceHeader.setInsertDate(currentDate.toString());
+					globalInvoiceHeader.setStatus(invoice.getStatus());
+					globalInvoiceHeader.setInvoiceDate(invoice.getInvoiceDate());
+					sessionFactory.getCurrentSession().save(globalInvoiceHeader);
+				
+					if (machineType.equalsIgnoreCase("Mono"))
+					{
+					  lineAmount = 	monoCopyCost * monoTotal;
+					  
+					  
+					  lineItemNumber = lineItemNumber + 1;
+					  globalLineItem.setCurrency(invoice.getCurrency());
+					  globalLineItem.setItemDescription("Mono Readings" + " " + reading.getPreviousMonoReading() + " " + reading.getMonoReading());
+					  globalLineItem.setInvoiceNumber(globalInvoiceHeader);
+					  globalLineItem.setLineNumber(Integer.toString(lineItemNumber));
+					  globalLineItem.setUnitOfMeasure("Each");
+					  globalLineItem.setPrice(device.getMonoCopyCost());
+					  globalLineItem.setQuantity(reading.getMonoTotal());
+					  globalLineItem.setStartReading(reading.getPreviousMonoReading());
+					  globalLineItem.setEndReading(reading.getMonoReading());
+					  globalLineItem.setTotal(Double.toString(lineAmount));
+					  sessionFactory.getCurrentSession().save(globalInvoiceHeader);
+					  
+						if (device.isRentalMachine() == true)
+						{
+							 lineItemNumber = lineItemNumber + 1;
+							  globalLineItem.setCurrency(invoice.getCurrency());
+							  globalLineItem.setItemDescription("Rental Value");
+							  globalLineItem.setInvoiceNumber(globalInvoiceHeader);
+							  globalLineItem.setLineNumber(Integer.toString(lineItemNumber));
+							  globalLineItem.setUnitOfMeasure("Each");
+							  globalLineItem.setTotal(rentalValue);
+							  sessionFactory.getCurrentSession().save(globalInvoiceHeader);
+						}
+					}
+					else if (machineType.equalsIgnoreCase("Color"))
+					{
+						lineAmount = 	monoCopyCost * monoTotal;
+						colorLineAmount = colorCopyCost * colorTotal;
+						  
+						  
+						  lineItemNumber = lineItemNumber + 1;
+						  globalLineItem.setCurrency(invoice.getCurrency());
+						  globalLineItem.setItemDescription("Mono Readings" + " " + reading.getPreviousMonoReading() + " " + reading.getMonoReading());
+						  globalLineItem.setInvoiceNumber(globalInvoiceHeader);
+						  globalLineItem.setLineNumber(Integer.toString(lineItemNumber));
+						  globalLineItem.setUnitOfMeasure("Each");
+						  globalLineItem.setPrice(device.getMonoCopyCost());
+						  globalLineItem.setQuantity(reading.getMonoTotal());
+						  globalLineItem.setStartReading(reading.getPreviousMonoReading());
+						  globalLineItem.setEndReading(reading.getMonoReading());
+						  globalLineItem.setTotal(Double.toString(lineAmount));
+						  sessionFactory.getCurrentSession().save(globalInvoiceHeader);
+						  
+							
+						  //Capture Color reading
+						  lineItemNumber = lineItemNumber + 1;
+						  globalLineItem.setCurrency(invoice.getCurrency());
+						  globalLineItem.setItemDescription("Color Readings"+ " " + reading.getPreviousColorReading() + " " + reading.getColorReading());
+						  globalLineItem.setInvoiceNumber(globalInvoiceHeader);
+						  globalLineItem.setLineNumber(Integer.toString(lineItemNumber));
+						  globalLineItem.setUnitOfMeasure("Each");
+						  globalLineItem.setPrice(device.getColourCopyCost());
+						  globalLineItem.setQuantity(reading.getColorTotal());
+						  globalLineItem.setStartReading(reading.getPreviousColorReading());
+						  globalLineItem.setEndReading(reading.getColorReading());
+						  globalLineItem.setTotal(Double.toString(lineAmount));
+						  sessionFactory.getCurrentSession().save(globalInvoiceHeader);
+							
+						  if (device.isRentalMachine() == true)
+							{
+								 lineItemNumber = lineItemNumber + 1;
+								  globalLineItem.setCurrency(invoice.getCurrency());
+								  globalLineItem.setItemDescription("Rental Value");
+								  globalLineItem.setInvoiceNumber(globalInvoiceHeader);
+								  globalLineItem.setLineNumber(Integer.toString(lineItemNumber));
+								  globalLineItem.setUnitOfMeasure("Each");
+								  globalLineItem.setTotal(rentalValue);
+								  sessionFactory.getCurrentSession().save(globalInvoiceHeader);
+							}
+						
+					}
+					
+					
+					localBean = retrieveLineItems(invoice);
+					//paddedReading = String.format("%06d", globalReading.getRecordID()); 
+					
+					retMessage = "Reading successfully submited";
+				}
+				
+				
+			}
+						//if true, refresh line items
+		
+
+		}
+
+		catch (
+
+		Exception e) 
+		{
+			retMessage = "Reading for " + device.getSerialNumber() + " not added\n" + e.getMessage() + ".";
+		}
+	
+		return localBean;
+	}
+	
+	public InvoiceBean retrieveLineItems (InvoiceBean invoice)
+	{
+		
+		String [] lineNumber = null;
+		String [] itemDescription = null;
+		String [] startReading = null;
+		String [] endReading = null;
+		String [] unitOfMeasure = null;
+		String [] quantity = null;
+		String [] price = null;
+		String [] lineCurrency = null;
+		String [] lineTotal = null;
+		InvoiceBean localBean = new InvoiceBean();
+		List<InvoiceLineItem> aList = getAllLineItems();
+		
+		int index = 0;
+		
+	
+		if (aList != null)
+		{
+			for (InvoiceLineItem invoiceValue : aList) 
+			{
+				if (invoiceValue.getInvoiceNumber().getRecordID().toString().equalsIgnoreCase(invoice.getInvoiceNumber()))
+				{
+					String lineNum = invoiceValue.getLineNumber();
+					index = Integer.parseInt(lineNum) - 1;
+
+					lineNumber[index] =  lineNum;
+					itemDescription [index] = invoiceValue.getItemDescription();
+					startReading [index] =  invoiceValue.getStartReading();
+					endReading[index] = invoiceValue.getEndReading();
+					unitOfMeasure[index] = invoiceValue.getUnitOfMeasure();
+					quantity[index] = invoiceValue.getQuantity();
+					price[index] = invoiceValue.getPrice();
+					lineCurrency [index] = invoiceValue.getCurrency();
+					lineTotal [index] = invoiceValue.getTotal();
+					
+					localBean.setLineNumber(lineNumber);
+					localBean.setItemDescription(itemDescription);
+					localBean.setStartReading(startReading);
+					localBean.setEndReading(endReading);
+					localBean.setUnitOfMeasure(unitOfMeasure);
+					localBean.setQuantity(quantity);
+					localBean.setPrice(price);
+					localBean.setLineCurrency(lineCurrency);
+					localBean.setLineTotal(lineTotal);
+				}
+												
+		}
+		}		return localBean;
+	}
+		
 	
 	
 	@Override
@@ -75,7 +314,7 @@ public class InvoiceDao implements InvoiceDaoInt {
 		customer = new Customer();
 		device = new Device();
 		emp = new Employee();
-		globalInvoiceHeader = new InvoiceHeader();
+		
 
 		String userName = null;
 
@@ -128,6 +367,14 @@ public class InvoiceDao implements InvoiceDaoInt {
 		return (List<InvoiceHeader>) criteria.list();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<InvoiceLineItem> getAllLineItems() {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(
+				InvoiceHeader.class);
+		return (List<InvoiceLineItem>) criteria.list();
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -162,326 +409,5 @@ public class InvoiceDao implements InvoiceDaoInt {
 		return convertedNum;
 		
 	}
-
-	
-	
-     /*
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Reading> getReadingsByMonthOfYear (String month, String year) {
-		List<Reading> aList = getAllReadings();
-		ArrayList<Reading> readingList = new ArrayList<Reading>();
-		
-
-		for (Reading reading : aList) {
-			if( reading.getReadingMonth().equalsIgnoreCase(month) && reading.getReadingYear().equalsIgnoreCase(year) )
-			{
-				readingList.add(reading);
-			}
-		}
-		return readingList;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Reading> getReadingsByUser (String user) {
-		List<Reading> aList = getAllReadings();
-		ArrayList<Reading> readingList = new ArrayList<Reading>();
-		
-
-		for (Reading reading : aList) {
-			if( reading.getEmployee().getEmail().equalsIgnoreCase(user) )
-			{
-				readingList.add(reading);
-			}
-		}
-		return readingList;
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Reading> getReadingsByModifyApprover (String approver) {
-		List<Reading> aList = getAllReadings();
-		ArrayList<Reading> readingList = new ArrayList<Reading>();
-		
-		for (Reading reading : aList) {
-			if( reading.getModifyApprover().getEmail().equalsIgnoreCase(approver) )
-			{
-				readingList.add(reading);
-			}
-		}
-		return readingList;
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Reading> getReadingsByModifyUser (String user) {
-		List<Reading> aList = getAllReadings();
-		ArrayList<Reading> readingList = new ArrayList<Reading>();
-		
-		for (Reading reading : aList) {
-			if( reading.getModifiedBy().getEmail().equalsIgnoreCase(user) )
-			{
-				readingList.add(reading);
-			}
-		}
-		return readingList;
-	}
-	
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Reading> getReadingsByCustomerName (String customerName) {
-		List<Reading> aList = getAllReadings();
-		ArrayList<Reading> readingList = new ArrayList<Reading>();
-		
-		for (Reading reading : aList) {
-			if( reading.getCustomerName().getCustomerName().equalsIgnoreCase(customerName) )
-			{
-				readingList.add(reading);
-			}
-		}
-		return readingList;
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Reading> getPreviousReadingForDevice(String serialNumber) {
-		//String name = serialNumber;
-		
-		List<Reading> aList = new ArrayList<Reading>();
-		List<Reading> readingList = null;
-		Reading currentReading =  new Reading();
-		try {
-
-			readingList = getAllReadings();
-			int i = 0;
-			for (Reading reading : readingList) {
-				if (reading.getSerialNumber().getSerialNumber().equalsIgnoreCase(serialNumber))
-				{
-				  if (i == 0)
-				  {
-					 currentReading = reading; 
-				  }
-				  else 
-				  {
-					if (currentReading.getRecordID() < reading.getRecordID() )
-					{
-						currentReading = reading;
-					}
-				  }
-				  i++;
-				}
-							
-			}
-			
-		if (currentReading.getSerialNumber().getSerialNumber() != null || currentReading.getSerialNumber().getSerialNumber() != "")
-			{
-				aList.add(currentReading);
-			}
-		
-		} catch (Exception e) {
-			return null;
-		}
-		return aList;
-	}
-
-	
-	@Override
-	public List<Reading> selectReadingsForManager(String customer,
-			String dateRange, String user, String serialNumber) {
-		
-		boolean allCustomers = false;
-		boolean allUsers = false;
-		boolean dateNotSelected = false;
-
-		List<Reading> readingList = null;
-		List<Reading> aList = new ArrayList<Reading>();
-
-		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date myStart = new Date();
-		Date myEnd = new Date();
-		Date dateData = new Date();
-		String convDate = "";
-		String normalDate = "";
-
-		try {
-
-			allCustomers = customer.equalsIgnoreCase("All Customers");
-			allUsers = user.equalsIgnoreCase("All Users");
-			dateNotSelected = dateRange.equalsIgnoreCase("Select Date");
-			String startDate = "";
-			String endDate = "";
-			if (dateNotSelected != true) {
-				startDate = dateRange.substring(0, 10);
-				endDate = dateRange.substring(13);
-
-				myStart = new Date();
-				myEnd = new Date();
-				dateData = new Date();
-
-				myStart = myFormat.parse(startDate);
-				myEnd = myFormat.parse(endDate);
-
-			}
-
-			if (serialNumber != null) {
-				readingList = getReadingsBySerialNumber(serialNumber);				
-				}
-			else if (serialNumber == null) {
-		
-				if (allCustomers == true && allUsers == true) {
-					if (dateNotSelected == false) {
-						readingList = getAllReadings();
-						for (Reading reading : readingList) {
-
-							
-							convDate = reading.getInsertDate().substring(0, 10);
-							normalDate = convDate.replace("/", "-");
-							dateData = myFormat.parse(normalDate);
-							boolean withinRange = false;
-							if (myStart.compareTo(dateData) <= 0
-									&& myEnd.compareTo(dateData) >= 0) {
-								// withinRange = true;
-								aList.add(reading);
-							}
-						}
-					} else if (dateNotSelected == true) {
-						readingList = getAllReadings();
-						for (Reading reading : readingList) {
-							aList.add(reading);
-						}
-					}
-
-				}
-
-				else if (allCustomers == true && allUsers == false) {
-					if (dateNotSelected == false) {
-						readingList = getAllReadings();
-						for (Reading reading : readingList) {
-
-							convDate = reading.getInsertDate().substring(0, 10);
-							normalDate = convDate.replace("/", "-");
-							dateData = myFormat.parse(normalDate);
-							boolean withinRange = false;
-							if (myStart.compareTo(dateData) <= 0
-									&& myEnd.compareTo(dateData) >= 0) {
-								withinRange = true;
-							}
-							if (reading.getEmployee().getEmail()
-									.equalsIgnoreCase(user)
-									&& withinRange == true) {
-								aList.add(reading);
-							}
-
-						}
-					} else if (dateNotSelected == true) {
-						readingList = getAllReadings();
-						for (Reading reading : readingList) {
-							if (reading.getEmployee().getEmail()
-									.equalsIgnoreCase(user)) {
-								aList.add(reading);
-							}
-						}
-					}
-				}
-				else if (allCustomers == false && allUsers == true) {
-					if (dateNotSelected == false) {
-						readingList = getAllReadings();
-						for (Reading reading : readingList) {
-
-							convDate = reading.getInsertDate().substring(0, 10);
-							normalDate = convDate.replace("/", "-");
-							dateData = myFormat.parse(normalDate);
-							boolean withinRange = false;
-							if (myStart.compareTo(dateData) <= 0
-									&& myEnd.compareTo(dateData) >= 0) {
-								withinRange = true;
-							}
-							if (reading.getCustomerName().getCustomerName() != null ) 
-							{
-								if (reading.getCustomerName()
-										.getCustomerName()
-										.equalsIgnoreCase(customer)
-										&& withinRange == true) {
-									aList.add(reading);
-								}
-
-							}
-							
-						}
-					} else if (dateNotSelected == true) {
-						readingList = getAllReadings();
-						for (Reading reading : readingList) {
-							if (reading.getCustomerName() != null )
-							{
-								if (reading.getCustomerName() != null ) 
-								{
-									if (reading.getCustomerName()
-											.getCustomerName()
-											.equalsIgnoreCase(customer)) {
-										aList.add(reading);
-									}
-								}
-								
-							}
-							
-
-						}
-					}
-				}
-
-				else if (allCustomers == false && allUsers == false) {
-					ReadingBean reading = null;
-					if (dateNotSelected == false) {
-						readingList = getAllReadings();
-						for (Reading order : readingList) {
-
-							convDate = reading.getInsertDate().substring(0, 10);
-							normalDate = convDate.replace("/", "-");
-							dateData = myFormat.parse(normalDate);
-							boolean withinRange = false;
-							if (myStart.compareTo(dateData) <= 0
-									&& myEnd.compareTo(dateData) >= 0) {
-								withinRange = true;
-							}
-							if (reading.getCustomerName() != null ) 
-							{
-								if (reading.getCustomerName()							
-										.equalsIgnoreCase(customer)
-										&& order.getEmployee().getEmail()
-												.equalsIgnoreCase(user)
-										&& withinRange == true) {
-									aList.add(order);
-								}
-							}
-							
-						}
-					} else if (dateNotSelected == true) {
-						readingList = getAllReadings();
-						for (Reading order : readingList) {
-							if (reading.getCustomerName() != null ) 
-							{
-								if (reading.getCustomerName()
-										.equalsIgnoreCase(customer)
-										&& order.getEmployee().getEmail()
-												.equalsIgnoreCase(user)) {
-									aList.add(order);
-								}
-
-							}
-							
-						}
-					}
-				}
-			}
-		} catch (Exception exception) {
-			exception.getMessage();
-		}
-
-		return aList;
-	}
-	
-	*/
      
 }

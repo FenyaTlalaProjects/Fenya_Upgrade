@@ -74,6 +74,12 @@ public class Device implements Serializable{
 	private String monoCopyCost;
 	@Column(name="Colour_Copy_Cost")
 	private String colourCopyCost;
+	@Column(name="Machine_Type")
+	private String machineType;
+	@Column(name="Rental_Machine")
+	private boolean rentalMachine;
+	@Column(name="Retal_Cost")
+	private String rentalCost;
 	
 	@ManyToOne
 	@JoinColumn(name="Device_Contact")
@@ -85,7 +91,5 @@ public class Device implements Serializable{
     
 	@OneToMany(mappedBy ="device", cascade= CascadeType.ALL,fetch=FetchType.LAZY)
 	private Set<Accessories> accessories;
-	
-	
 	
 }

@@ -317,6 +317,22 @@ public class ReadingDao implements ReadingDaoInt {
 		}
 		return readingList;
 	}
+	
+	@Override
+	public Reading getReadingsForInvoice(String serialNumber, String readingPeriod) {
+		// String name = serialNumber;
+
+		List<Reading> aList = getAllReadings();
+		Reading aReading = new Reading();
+
+		for (Reading reading : aList) {
+			if (reading.getSerialNumber().getSerialNumber().equalsIgnoreCase(serialNumber) &&
+					reading.getReadingPeriod().equalsIgnoreCase(readingPeriod)) {
+				aReading = reading;
+			}
+		}
+		return aReading;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
