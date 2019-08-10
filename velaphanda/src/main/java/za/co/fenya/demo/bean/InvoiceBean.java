@@ -38,7 +38,6 @@ public class InvoiceBean {
 	private String approver;
 	
 	//Invoice Contact Address
-	
 	private String [] role;
 	private String [] name;
 	private String [] street;
@@ -54,7 +53,6 @@ public class InvoiceBean {
 	private String [] contactTelephone;
 	
 	//Payment Details
-		
 	private String actualPayDate;
 	private String currency;
 	private String paymentTerms;
@@ -80,6 +78,5 @@ public class InvoiceBean {
 	private String [] lineCurrency;
 	private String [] lineTotal;
 	private String [] lineStatus;
-	
 	
 }

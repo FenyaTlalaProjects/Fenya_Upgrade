@@ -132,10 +132,10 @@ $(document).ready(function() {
 	function updateTotals(elem) {
 
         var tr = $(elem).closest('tr'),
-            quantity = $('[name="invoice_product_qty[]"]', tr).val(),
-	        price = $('[name="invoice_product_price[]"]', tr).val(),
-            isPercent = $('[name="invoice_product_discount[]"]', tr).val().indexOf('%') > -1,
-            percent = $.trim($('[name="invoice_product_discount[]"]', tr).val().replace('%', '')),
+            quantity = $('[name="quantity[]"]', tr).val(),
+	        price = $('[name="price[]"]', tr).val(),
+            isPercent = $('[name="discount[]"]', tr).val().indexOf('%') > -1,
+            percent = $.trim($('[name="discount[]"]', tr).val().replace('%', '')),
 	        subtotal = parseInt(quantity) * parseFloat(price);
 
         if(percent && $.isNumeric(percent) && percent !== 0) {
@@ -145,7 +145,7 @@ $(document).ready(function() {
                 subtotal = subtotal - parseFloat(percent);
             }
         } else {
-            $('[name="invoice_product_discount[]"]', tr).val('');
+            $('[name="discount[]"]', tr).val('');
         }
 
 	    $('.calculate-sub', tr).val(subtotal.toFixed(2));
@@ -159,8 +159,8 @@ $(document).ready(function() {
 
 	    $('#invoice_table tbody tr').each(function() {
             var c_sbt = $('.calculate-sub', this).val(),
-                quantity = $('[name="invoice_product_qty[]"]', this).val(),
-	            price = $('[name="invoice_product_price[]"]', this).val() || 0,
+                quantity = $('[name="quantity[]"]', this).val(),
+	            price = $('[name="price[]"]', this).val() || 0,
                 subtotal = parseInt(quantity) * parseFloat(price);
             
             grandTotal += parseFloat(c_sbt);
@@ -173,151 +173,38 @@ $(document).ready(function() {
 	    	vat = parseInt($('.invoice-vat').attr('data-vat-rate'));
 
 	    $('.invoice-sub-total').text(subT.toFixed(2));
-	    $('#invoice_subtotal').val(subT.toFixed(2));
+	    $('#subTotal').val(subT.toFixed(2));
         $('.invoice-discount').text(disc.toFixed(2));
-        $('#invoice_discount').val(disc.toFixed(2));
+        $('#discount').val(disc.toFixed(2));
 
         if($('.invoice-vat').attr('data-enable-vat') === '1') {
 
 	        if($('.invoice-vat').attr('data-vat-method') === '1') {
 		        $('.invoice-vat').text(((vat / 100) * finalTotal).toFixed(2));
-		        $('#invoice_vat').val(((vat / 100) * finalTotal).toFixed(2));
+		        $('#vat').val(((vat / 100) * finalTotal).toFixed(2));
 	            $('.invoice-total').text((finalTotal).toFixed(2));
-	            $('#invoice_total').val((finalTotal).toFixed(2));
+	            $('#total').val((finalTotal).toFixed(2));
 	        } else {
 	            $('.invoice-vat').text(((vat / 100) * finalTotal).toFixed(2));
-	            $('#invoice_vat').val(((vat / 100) * finalTotal).toFixed(2));
+	            $('#vat').val(((vat / 100) * finalTotal).toFixed(2));
 		        $('.invoice-total').text((finalTotal + ((vat / 100) * finalTotal)).toFixed(2));
-		        $('#invoice_total').val((finalTotal + ((vat / 100) * finalTotal)).toFixed(2));
+		        $('#total').val((finalTotal + ((vat / 100) * finalTotal)).toFixed(2));
 	        }
 		} else {
 			$('.invoice-total').text((finalTotal).toFixed(2));
-			$('#invoice_total').val((finalTotal).toFixed(2));
+			$('#total').val((finalTotal).toFixed(2));
 		}
 
 		// remove vat
     	if($('input.remove_vat').is(':checked')) {
 	        $('.invoice-vat').text("0.00");
-	        $('#invoice_vat').val("0.00");
+	        $('#vat').val("0.00");
             $('.invoice-total').text((finalTotal).toFixed(2));
-            $('#invoice_total').val((finalTotal).toFixed(2));
+            $('#total').val((finalTotal).toFixed(2));
 	    }
 
 	}
 
-	function actionCreateInvoice(){
-
-		var errorCounter = validateForm();
-
-		if (errorCounter > 0) {
-		    $("#response").removeClass("alert-success").addClass("alert-warning").fadeIn();
-		    $("#response .message").html("<strong>Error</strong>: It appear's you have forgotten to complete something!");
-		    $("html, body").animate({ scrollTop: $('#response').offset().top }, 1000);
-		} else {
-
-			var $btn = $("#action_create_invoice").button("loading");
-
-			$(".required").parent().removeClass("has-error");
-			$("#create_invoice").find(':input:disabled').removeAttr('disabled');
-
-			$.ajax({
-
-				//url: '',
-				type: 'POST',
-				data: $("#create_invoice").serialize(),
-				dataType: 'json',
-				success: function(data){
-					$("#response .message").html("<strong>" + data.status + "</strong>: " + data.message);
-					$("#response").removeClass("alert-warning").addClass("alert-success").fadeIn();
-					$("html, body").animate({ scrollTop: $('#response').offset().top }, 1000);
-					$("#create_invoice").before().html("<a href='/' class='btn btn-primary'>Create new invoice</a>");
-					$("#create_invoice").remove();
-					$btn.button("reset");
-				},
-				error: function(data){
-					$("#response .message").html("<strong>" + data.status + "</strong>: " + data.message);
-					$("#response").removeClass("alert-success").addClass("alert-warning").fadeIn();
-					$("html, body").animate({ scrollTop: $('#response').offset().top }, 1000);
-					$btn.button("reset");
-				} 
-
-			});
-		}
-
-	}
-
-   	function emailInvoice(invoiceId) {
-
-        jQuery.ajax({
-
-        	//url: '',
-            type: 'POST', 
-            data: invoiceId,
-            dataType: 'json', 
-            success: function(data){
-				$("#response .message").html("<strong>" + data.status + "</strong>: " + data.message);
-				$("#response").removeClass("alert-warning").addClass("alert-success").fadeIn();
-				$("html, body").animate({ scrollTop: $('#response').offset().top }, 1000);
-			},
-			error: function(data){
-				$("#response .message").html("<strong>" + data.status + "</strong>: " + data.message);
-				$("#response").removeClass("alert-success").addClass("alert-warning").fadeIn();
-				$("html, body").animate({ scrollTop: $('#response').offset().top }, 1000);
-			} 
-    	});
-
-   	}
-
-   	function deleteInvoice(invoiceId) {
-
-        jQuery.ajax({
-
-        	//url: '',
-            type: 'POST', 
-            data: invoiceId,
-            dataType: 'json', 
-            success: function(data){
-				$("#response .message").html("<strong>" + data.status + "</strong>: " + data.message);
-				$("#response").removeClass("alert-warning").addClass("alert-success").fadeIn();
-				$("html, body").animate({ scrollTop: $('#response').offset().top }, 1000);
-				$btn.button("reset");
-			},
-			error: function(data){
-				$("#response .message").html("<strong>" + data.status + "</strong>: " + data.message);
-				$("#response").removeClass("alert-success").addClass("alert-warning").fadeIn();
-				$("html, body").animate({ scrollTop: $('#response').offset().top }, 1000);
-				$btn.button("reset");
-			} 
-    	});
-
-   	}
-   	function updateInvoice() {
-
-   		var $btn = $("#action_update_invoice").button("loading");
-   		$("#update_invoice").find(':input:disabled').removeAttr('disabled');
-
-        jQuery.ajax({
-
-        	//url: '',
-            type: 'POST', 
-            data: $("#update_invoice").serialize(),
-            dataType: 'json', 
-            success: function(data){
-				$("#response .message").html("<strong>" + data.status + "</strong>: " + data.message);
-				$("#response").removeClass("alert-warning").addClass("alert-success").fadeIn();
-				$("html, body").animate({ scrollTop: $('#response').offset().top }, 1000);
-				$btn.button("reset");
-			},
-			error: function(data){
-				$("#response .message").html("<strong>" + data.status + "</strong>: " + data.message);
-				$("#response").removeClass("alert-success").addClass("alert-warning").fadeIn();
-				$("html, body").animate({ scrollTop: $('#response').offset().top }, 1000);
-				$btn.button("reset");
-			} 
-    	});
-
-   	}
-   	
    	
 
    

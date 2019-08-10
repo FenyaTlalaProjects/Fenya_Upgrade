@@ -158,6 +158,25 @@
 												class="confirmtions"><b> here</b></a> to go to billing management.	                            
 					 	   			 </c:when>
 									</c:choose>
+									
+									<!-- Save Invoice -->
+									<c:choose>
+										<c:when test="${saveInvoice =='saveInvoice' }">
+											<c:out value="${retMessage}"></c:out> 
+					 	       			   Click<a href='<c:url value="/userinvoice"/>'
+												class="confirmtions"><b> here</b></a> to go to billing management.	                            
+					 	   			 </c:when>
+									</c:choose>
+
+									<!-- Submit Invoice -->
+									<c:choose>
+										<c:when test="${submitInvoice =='submitInvoice' }">
+											<c:out value="${retMessage}"></c:out> 
+					 	       			   Click<a href='<c:url value="/userinvoice"/>'
+												class="confirmtions"><b> here</b></a> to go to billing management.	                            
+					 	   			 </c:when>
+									</c:choose>
+									
 
 								</div>
 
@@ -237,6 +256,26 @@
 										<c:when test="${submitReadings =='submitReadings' }">
 											<c:out value="${retErrorMessage}"></c:out> 
 					 	       			   Click<a href='<c:url value="/userreadings"/>'
+												class="confirmtions"><b> here</b></a> to go to billing management.	                            
+					 	   			 </c:when>
+									</c:choose>
+									
+									
+									
+									<!-- Save Invoice -->
+									<c:choose>
+										<c:when test="${saveInvoice =='saveInvoice' }">
+											<c:out value="${retErrorMessage}"></c:out> 
+					 	       			   Click<a href='<c:url value="/userinvoice"/>'
+												class="confirmtions"><b> here</b></a> to go to billing management.	                            
+					 	   			 </c:when>
+									</c:choose>
+
+									<!-- Submit Invoice -->
+									<c:choose>
+										<c:when test="${submitInvoice =='submitInvoice' }">
+											<c:out value="${retErrorMessage}"></c:out> 
+					 	       			   Click<a href='<c:url value="/userinvoice"/>'
 												class="confirmtions"><b> here</b></a> to go to billing management.	                            
 					 	   			 </c:when>
 									</c:choose>

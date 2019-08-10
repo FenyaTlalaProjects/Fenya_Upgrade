@@ -96,7 +96,7 @@
 								<fieldset>
 
 									<h4>
-										Provide Details: <span>Step 1 - 4</span>
+										Provide Details: <span>Step 1 - 2</span>
 									</h4>
 
 									<p>
@@ -186,7 +186,9 @@
 										<c:if test="${not empty custName}">
 
 
+
 											<div class="well form-horizontal">
+
 
 
 												<!-- Customer Device -->
@@ -383,8 +385,6 @@
 												</div>
 
 											</div>
-
-
 										</c:if>
 										<c:if test="${empty custName }"></c:if>
 									</p>
@@ -398,7 +398,8 @@
 											</div>
 											<div class="col-sm-7" style="margin-left: 16%;">
 												<div class="form-wizard-buttons">
-													<button type="button" class="btn btn-next" style=" color: white;">Next</button>
+													<button type="button" class="btn btn-next"
+														style="color: white;">Next</button>
 												</div>
 											</div>
 
@@ -411,32 +412,40 @@
 								</fieldset>
 								<!-- Form Step 1 -->
 
+
 								<!-- Form Step 2 -->
 								<fieldset>
 
-									<h4>
-										Create Invoice: <span>Step 2 - 2</span>
-									</h4>
-									<div style="clear: both;"></div>
-									<p>
-										<br />
-									<div class="row">
-										<div class="col-sm-3"></div>
-										<div class="col-xs-6 text-right">
-											<div class="row">
-												<div class="col-xs-6">
-													<h1 class="invoice_type">INVOICE</h1>
+									<form:form action="captureInvoice"
+										modelAttribute="captureInvoice" method="post"
+										id="captureInvoice">
+
+										<h4>
+											Create Invoice: <span>Step 2 - 2</span>
+										</h4>
+										<div style="clear: both;"></div>
+										<p>
+											<br />
+										<div class="row">
+											<div class="col-sm-3"></div>
+											<div class="col-xs-6 text-right">
+												<div class="row">
+													<div class="col-xs-6">
+														<h1 class="invoice_type">INVOICE</h1>
+													</div>
+
+													<div class="col-xs-4"></div>
 												</div>
-												<div class="col-xs-3">
-													<select name="invoice_type" id="invoice_type"
-														class="form-control">
-														<option value="invoice" selected>Invoice</option>
-														<!-- 	<option value="quote">Quote</option>
-														<option value="receipt">Receipt</option> -->
-													</select>
-												</div>
-												<div class="col-xs-3">
-													<select name="invoice_status" id="invoice_status"
+												<div class="col-xs-4"></div>
+												<div class="col-xs-4"></div>
+
+											</div>
+											<div class="col-sm-6"></div>
+
+											<div class="col-xs-3">
+
+												<div class="form-group">
+													<label>Status</label> <select name="status" id="status"
 														class="form-control">
 														<option value="open" selected>Open</option>
 														<option value="paid">Partial</option>
@@ -444,24 +453,37 @@
 														<option value="paid">Paid</option>
 													</select>
 												</div>
-											</div>
-											<div class="col-xs-4 no-padding-right">
+
 												<div class="form-group">
+													<label>Invoice Number</label>
+													<div class="input-group" id="invoiceNumber">
+														<span class="input-group-addon">INV</span> <input
+															type="text" name="invoiceNumber" id="invoiceNumber"
+															class="form-control" placeholder="Invoice Number"
+															aria-describedby="sizing-addon1" value="">
+													</div>
+												</div>
+
+											</div>
+
+											<div class="col-xs-3">
+												<div class="form-group">
+													<label>Invoice Date</label>
 													<div class="input-group date" id="invoice_date">
-														<input type="text" class="form-control"
-															name="invoice_date" placeholder="Select invoice date"
+														<input type="text" class="form-control" name="invoiceDate"
+															placeholder="Select invoice date"
 															data-date-format="DD/MM/YYYY" /> <span
 															class="input-group-addon"> <span
 															class="glyphicon glyphicon-calendar"></span>
 														</span>
 													</div>
 												</div>
-											</div>
-											<div class="col-xs-4">
 												<div class="form-group">
-													<div class="input-group date" id="invoice_due_date">
+													<label>Invoice Due Date</label>
+													<div class="input-group date" id="invoiceDueDate">
 														<input type="text" class="form-control"
-															name="invoice_due_date" placeholder="Select due date"
+															name="invoiceDueDate"
+															placeholder="Select invoice due date"
 															data-date-format="DD/MM/YYYY" /> <span
 															class="input-group-addon"> <span
 															class="glyphicon glyphicon-calendar"></span>
@@ -469,411 +491,408 @@
 													</div>
 												</div>
 											</div>
-											<div class="input-group col-xs-4 float-right">
-												<span class="input-group-addon">INV</span> <input
-													type="text" name="invoice_id" id="invoice_id"
-													class="form-control" placeholder="Invoice Number"
-													aria-describedby="sizing-addon1" value="001">
-											</div>
+
+
 										</div>
-										<div class="col-sm-3"></div>
 
-									</div>
 
-									<div class="row">
+										<div class="row">
 
-										<div class="col-xs-6">
-											<div class="panel panel-default">
-												<div class="panel-heading">
-													INOVICE FROM
-													<h4 class="float-left">Vendor Information</h4>
+											<div class="col-xs-6">
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														INOVICE FROM
+														<h4 class="float-left">Vendor Information</h4>
 
-													<div class="clear"></div>
+														<div class="clear"></div>
 
-												</div>
-												<div class="panel-body form-group form-group-sm">
-													<div class="row">
+													</div>
+													<div class="panel-body form-group form-group-sm">
+														<div class="row">
 
-														<div class="col-xs-6">
-															<div class="form-group">
-																<img src="resources/images/mainlogo_small.jpg"
-																	class="img-responsive"
-																	style="width: 53px; height: 63px; background-position: 50% 50%;">
+															<div class="col-xs-6">
+																<div class="form-group">
+																	<img src="resources/images/mainlogo_small.jpg"
+																		class="img-responsive"
+																		style="width: 53px; height: 63px; background-position: 50% 50%;">
+																</div>
+
+																<div class="form-group no-margin-bottom">
+																	<label>Switchboard </label> <input type="text"
+																		class="form-control copy-input"
+																		name="customer_postcode" id="customer_postcode"
+																		placeholder="Postcode" tabindex="7"
+																		value="012 765 0200 / 087 701 1689"
+																		readonly="readonly">
+																</div>
+																<div class="form-group no-margin-bottom">
+																	<label>Fax No </label> <input type="text"
+																		class="form-control copy-input"
+																		name="customer_postcode" id="customer_postcode"
+																		placeholder="Postcode" tabindex="7"
+																		value="086 403 7955" readonly="readonly">
+																</div>
+																<div class="form-group no-margin-bottom">
+																	<label>Email </label> <input type="text"
+																		class="form-control copy-input"
+																		name="customer_postcode" id="customer_postcode"
+																		placeholder="Postcode" tabindex="7"
+																		value="admin@velaphanda.co.za" readonly="readonly">
+																</div>
+
 															</div>
 
-															<div class="form-group no-margin-bottom">
-																<label>Switchboard </label> <input type="text"
-																	class="form-control copy-input"
-																	name="customer_postcode" id="customer_postcode"
-																	placeholder="Postcode" tabindex="7"
-																	value="012 765 0200 / 087 701 1689" readonly="readonly">
+															<div class="col-xs-6">
+
+
+																<div class="form-group">
+																	<label>Company Name</label> <input type="text"
+																		class="form-control margin-bottom copy-input"
+																		name="customer_name" id="customer_name"
+																		placeholder="Enter name" tabindex="1"
+																		value="Velaphanda Trading & Projects"
+																		readonly="readonly">
+																</div>
+																<div class="form-group">
+																	<label>Address</label> <input type="text"
+																		class="form-control margin-bottom copy-input"
+																		name="customer_address_1" id="customer_address_1"
+																		placeholder="Address 1" tabindex="3"
+																		value="296 Galway Avenue, Bronberrick"
+																		readonly="readonly">
+																</div>
+																<div class="form-group">
+																	<label>Town</label> <input type="text"
+																		class="form-control margin-bottom copy-input"
+																		name="customer_town" id="customer_town"
+																		placeholder="Town" tabindex="5" value="Centurion"
+																		readonly="readonly">
+																</div>
+																<div class="form-group no-margin-bottom">
+																	<label>Postal code</label> <input type="text"
+																		class="form-control copy-input"
+																		name="customer_postcode" id="customer_postcode"
+																		placeholder="Postcode" tabindex="7" value="0158"
+																		readonly="readonly">
+																</div>
+
 															</div>
-															<div class="form-group no-margin-bottom">
-																<label>Fax No </label> <input type="text"
-																	class="form-control copy-input"
-																	name="customer_postcode" id="customer_postcode"
-																	placeholder="Postcode" tabindex="7"
-																	value="086 403 7955" readonly="readonly">
-															</div>
-															<div class="form-group no-margin-bottom">
-																<label>Email </label> <input type="text"
-																	class="form-control copy-input"
-																	name="customer_postcode" id="customer_postcode"
-																	placeholder="Postcode" tabindex="7"
-																	value="admin@velaphanda.co.za" readonly="readonly">
-															</div>
+
+
 
 														</div>
-
-														<div class="col-xs-6">
-
-
-															<div class="form-group">
-																<label>Company Name</label> <input type="text"
-																	class="form-control margin-bottom copy-input"
-																	name="customer_name" id="customer_name"
-																	placeholder="Enter name" tabindex="1"
-																	value="Velaphanda Trading & Projects"
-																	readonly="readonly">
-															</div>
-															<div class="form-group">
-																<label>Address</label> <input type="text"
-																	class="form-control margin-bottom copy-input"
-																	name="customer_address_1" id="customer_address_1"
-																	placeholder="Address 1" tabindex="3"
-																	value="296 Galway Avenue, Bronberrick"
-																	readonly="readonly">
-															</div>
-															<div class="form-group">
-																<label>Town</label> <input type="text"
-																	class="form-control margin-bottom copy-input"
-																	name="customer_town" id="customer_town"
-																	placeholder="Town" tabindex="5" value="Centurion"
-																	readonly="readonly">
-															</div>
-															<div class="form-group no-margin-bottom">
-																<label>Postal code</label> <input type="text"
-																	class="form-control copy-input"
-																	name="customer_postcode" id="customer_postcode"
-																	placeholder="Postcode" tabindex="7" value="0158"
-																	readonly="readonly">
-															</div>
-
-														</div>
-
-
-
 													</div>
 												</div>
 											</div>
-										</div>
 
-										<div class="col-xs-6 text-left">
-											<div class="panel panel-default">
-												<div class="panel-heading">
-													INOVICE TO
-													<div class="row">
-														<div class=col-sm-5>
-															<h4 class="">Customer Information</h4>
-														</div>
+											<div class="col-xs-6 text-left">
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														INOVICE TO
+														<div class="row">
+															<div class=col-sm-6>
+																<h4 class="">Customer Information</h4>
+															</div>
 
-														<!-- <div class=col-sm-5>
+															<!-- <div class=col-sm-5>
 															<a href="#" class="select-customer">Select Existing
 																customer</a>
 														</div> -->
-														<div class="clear"></div>
-													</div>
-												</div>
-												<div class="panel-body form-group form-group-sm">
-													<div class="row">
-
-														<div class="col-xs-6">
-															<label>First name</label>
-															<div class="form-group">
-																<input type="text"
-																	class="form-control margin-bottom copy-input"
-																	name="contactPersonFirstname"
-																	id="contactPersonFirstname"
-																	placeholder="Contact Person Enter firstname"
-																	tabindex="1">
-															</div>
-															<div class="form-group">
-																<label>Last name</label> <input type="text"
-																	class="form-control margin-bottom copy-input"
-																	name="contactPersonLastname" id="contactPersonLastname"
-																	placeholder="Contact Person Enter lastname"
-																	tabindex="3">
-															</div>
-															<div class="form-group">
-																<label>CellPhone No</label> <input type="text"
-																	class="form-control margin-bottom copy-input"
-																	name="contactPersonCellphoneNo"
-																	id="contactPersonCellphoneNo"
-																	placeholder="Contact Person Cellphone no" tabindex="5">
-															</div>
-															<div class="form-group no-margin-bottom">
-																<label>Email</label> <input type="text"
-																	class="form-control copy-input"
-																	name="contactPersonEmail" id="contactPersonEmail"
-																	placeholder="Contact Person Email" tabindex="7">
-															</div>
+															<div class="clear"></div>
 														</div>
-														<div class="col-xs-6">
+													</div>
+													<div class="panel-body form-group form-group-sm">
+														<div class="row">
 
-
-															<div class="form-group">
-																<label>Customer Address</label> <input type="text"
-																	class="form-control margin-bottom copy-input"
-																	name="customer_address_2" id="customer_address_2"
-																	placeholder="Customer Address" tabindex="4">
-															</div>
-															<div class="form-group">
-																<div class="form-group no-margin-bottom">
-																	<label>Customer Telephone No</label> <input type="text"
-																		class="form-control" name="customer_phone"
-																		id="customer_phone"
-																		placeholder="Customer Phone number" tabindex="8">
+															<div class="col-xs-6">
+																<label>First name</label>
+																<div class="form-group">
+																	<input type="text"
+																		class="form-control margin-bottom copy-input"
+																		name="contactPersonFirstname"
+																		id="contactPersonFirstname"
+																		placeholder="Contact Person Enter firstname"
+																		tabindex="1">
 																</div>
 																<div class="form-group">
-																	<label>Customer Province</label> <input type="text"
+																	<label>Last name</label> <input type="text"
 																		class="form-control margin-bottom copy-input"
-																		name="customer_province" id="customer_province"
-																		placeholder="Customer Province" tabindex="6">
+																		name="contactPersonLastname"
+																		id="contactPersonLastname"
+																		placeholder="Contact Person Enter lastname"
+																		tabindex="3">
+																</div>
+																<div class="form-group">
+																	<label>CellPhone No</label> <input type="text"
+																		class="form-control margin-bottom copy-input"
+																		name="contactPersonCellphoneNo"
+																		id="contactPersonCellphoneNo"
+																		placeholder="Contact Person Cellphone no" tabindex="5">
 																</div>
 																<div class="form-group no-margin-bottom">
-																	<label>Customer Email</label> <input type="text"
-																		class="form-control copy-input" name="customerEmail"
-																		id="customerEmail" placeholder="Customer Email"
-																		tabindex="7">
+																	<label>Email</label> <input type="text"
+																		class="form-control copy-input"
+																		name="contactPersonEmail" id="contactPersonEmail"
+																		placeholder="Contact Person Email" tabindex="7">
+																</div>
+															</div>
+															<div class="col-xs-6">
+
+
+																<div class="form-group">
+																	<label>Customer Address</label> <input type="text"
+																		class="form-control margin-bottom copy-input"
+																		name="customer_address_2" id="customer_address_2"
+																		placeholder="Customer Address" tabindex="4">
+																</div>
+																<div class="form-group">
+																	<div class="form-group no-margin-bottom">
+																		<label>Customer Telephone No</label> <input
+																			type="text" class="form-control"
+																			name="customer_phone" id="customer_phone"
+																			placeholder="Customer Phone number" tabindex="8">
+																	</div>
+																	<div class="form-group">
+																		<label>Customer Province</label> <input type="text"
+																			class="form-control margin-bottom copy-input"
+																			name="customer_province" id="customer_province"
+																			placeholder="Customer Province" tabindex="6">
+																	</div>
+																	<div class="form-group no-margin-bottom">
+																		<label>Customer Email</label> <input type="text"
+																			class="form-control copy-input" name="customerEmail"
+																			id="customerEmail" placeholder="Customer Email"
+																			tabindex="7">
+																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-										<!-- / end client details section -->
-										<div class="row" style="margin-right: 0%; margin-left: 0%;">
-											<div class="col-sm-12">
-												<table class="table table-bordered" id="invoice_table">
-													<thead>
-														<tr>
-															<th width="500">
-																<h4>
-																	<a href="#" class="btn btn-success btn-xs add-row"><span
-																		class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
-																	Item
-																</h4>
-															</th>
-															<th>
-																<h4>Qty</h4>
-															</th>
-															<th>
-																<h4>Price</h4>
-															</th>
-															<th width="300">
-																<h4>Discount</h4>
-															</th>
-															<th>
-																<h4>Sub Total</h4>
-															</th>
-														</tr>
-													</thead>
-													<tbody>
-														<tr>
-															<td>
-																<div class="form-group form-group-sm  no-margin-bottom">
-																	<a href="#" class="btn btn-danger btn-xs delete-row">
-																		<span class="glyphicon glyphicon-remove"
-																		aria-hidden="true"></span>
-																	</a>
-																	<div class="form-group">
+											<!-- / end client details section -->
+											<div class="row" style="margin-right: 0%; margin-left: 0%;">
+												<div class="col-sm-12">
+													<table class="table table-bordered" id="invoice_table">
+														<thead>
+															<tr>
+																<th width="500">
+																	<h4>
+																		<a href="#" class="btn btn-success btn-xs add-row"><span
+																			class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+																		Item
+																	</h4>
+																</th>
+																<th>
+																	<h4>Qty</h4>
+																</th>
+																<th>
+																	<h4>Price</h4>
+																</th>
+																<th width="300">
+																	<h4>Discount</h4>
+																</th>
+																<th>
+																	<h4>Sub Total</h4>
+																</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>
+																	<div class="form-group form-group-sm  no-margin-bottom">
+																		<a href="#" class="btn btn-danger btn-xs delete-row">
+																			<span class="glyphicon glyphicon-remove"
+																			aria-hidden="true"></span>
+																		</a>
+																		<div class="form-group">
 
-																		<div class="col-md-8">
-																			
-																				<input type="text" class="form-control item-input invoice_product"
+																			<div class="col-md-8">
+
+																				<input type="text"
+																					class="form-control item-input invoice_product"
 																					name="invoice_product[]"
 																					placeholder="Enter item and / or description">
-																	
+
+																			</div>
 																		</div>
+																		<p class="item-select">
+																			or <a href="#">Select an item</a>
+																		</p>
 																	</div>
-																	<p class="item-select">
-																		or <a href="#">Select an item</a>
-																	</p>
-																</div>
-															</td>
-															<td class="text-right">
-																<div class="form-group form-group-sm no-margin-bottom">
-																	<input type="text"
-																		class="form-control invoice_product_qty calculate"
-																		name="invoice_product_qty[]" value="1">
-																</div>
-															</td>
-															<td class="text-right">
-																<div
-																	class="input-group input-group-sm  no-margin-bottom">
-																	<span class="input-group-addon">R</span> <input
-																		type="text"
-																		class="form-control calculate invoice_product_price"
-																		name="invoice_product_price[]"
-																		aria-describedby="sizing-addon1" placeholder="0.00">
-																</div>
-															</td>
-															<td class="text-right">
-																<div class="form-group form-group-sm  no-margin-bottom">
-																	<input type="text" class="form-control calculate"
-																		name="invoice_product_discount[]"
-																		placeholder="Enter % or value (ex: 10% or 10.50)">
-																</div>
-															</td>
-															<td class="text-right">
-																<div class="input-group input-group-sm">
-																	<span class="input-group-addon">R</span> <input
-																		type="text" class="form-control calculate-sub"
-																		name="invoice_product_sub[]" id="invoice_product_sub"
-																		value="0.00" aria-describedby="sizing-addon1" disabled>
-																</div>
-															</td>
-														</tr>
-													</tbody>
-												</table>
+																</td>
+																<td class="text-right">
+																	<div class="form-group form-group-sm no-margin-bottom">
+																		<input type="text"
+																			class="form-control invoice_product_qty calculate"
+																			name="quantity[]" value="1">
+																	</div>
+																</td>
+																<td class="text-right">
+																	<div
+																		class="input-group input-group-sm  no-margin-bottom">
+																		<span class="input-group-addon">R</span> <input
+																			type="text"
+																			class="form-control calculate invoice_product_price"
+																			name="price[]" aria-describedby="sizing-addon1"
+																			placeholder="0.00">
+																	</div>
+																</td>
+																<td class="text-right">
+																	<div class="form-group form-group-sm  no-margin-bottom">
+																		<input type="text" class="form-control calculate"
+																			name="discount[]"
+																			placeholder="Enter % or value (ex: 10% or 10.50)">
+																	</div>
+																</td>
+																<td class="text-right">
+																	<div class="input-group input-group-sm">
+																		<span class="input-group-addon">R</span> <input
+																			type="text" class="form-control calculate-sub"
+																			name="subTotal[]" id="subTotal" value="0.00"
+																			aria-describedby="sizing-addon1" disabled>
+																	</div>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
 											</div>
-										</div>
 
-										<div id="invoice_totals" class="padding-right row text-right">
-											<br> <br>
-											<div class="col-xs-6">
+											<div id="invoice_totals" class="padding-right row text-right">
+												<br> <br>
+												<div class="col-xs-6">
 
-												<!-- Text input Invoice Note-->
-												<div class="form-group">
+													<!-- Text input Invoice Note-->
+													<div class="form-group">
 
-													<div class="col-md-8 inputGroupContainer">
-														<div class="input-group">
-															<textarea class="form-control" name="invoice_notes"
-																placeholder="Please enter any invoice notes here."
-																style="margin: 0px; width: 649px; height: 89px;"></textarea>
+														<div class="col-md-8 inputGroupContainer">
+															<div class="input-group">
+																<textarea class="form-control" name="invoice_notes"
+																	placeholder="Please enter any invoice notes here."
+																	style="margin: 0px; width: 649px; height: 89px;"></textarea>
+															</div>
+														</div>
+													</div>
+
+												</div>
+												<div class="col-xs-6 no-padding-right">
+													<div class="row">
+														<div class="col-xs-4 col-xs-offset-5">
+															<b>Sub Total:</b>
+														</div>
+														<div class="col-xs-3">
+															R<span class="invoice-sub-total">0.00</span> <input
+																type="hidden" name="subTotal" id="subTotal">
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-xs-4 col-xs-offset-5">
+															<b>Discount:</b>
+														</div>
+														<div class="col-xs-3">
+															R<span class="invoice-discount">0.00</span> <input
+																type="hidden" name="discount" id="discount">
+														</div>
+													</div>
+
+													<div class="row">
+														<div class="col-xs-4 col-xs-offset-5">
+															<b>TAX/VAT:</b><br>Remove TAX/VAT <input
+																type="checkbox" class="remove_vat">
+														</div>
+														<div class="col-xs-3">
+															R<span class="invoice-vat" data-enable-vat="1"
+																data-vat-rate="15" data-vat-method="">0.00</span> <input
+																type="hidden" name="vat" id="vat">
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-xs-4 col-xs-offset-5">
+															<b>Total:</b>
+														</div>
+														<div class="col-xs-3">
+															R<span class="invoice-total">0.00</span> <input
+																type="hidden" name="total" id="total">
 														</div>
 													</div>
 												</div>
 
 											</div>
-											<div class="col-xs-6 no-padding-right">
-												<div class="row">
-													<div class="col-xs-4 col-xs-offset-5">
-														<strong>Sub Total:</strong>
-													</div>
-													<div class="col-xs-3">
-														R<span class="invoice-sub-total">0.00</span> <input
-															type="hidden" name="invoice_subtotal"
-															id="invoice_subtotal">
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-xs-4 col-xs-offset-5">
-														<strong>Discount:</strong>
-													</div>
-													<div class="col-xs-3">
-														R<span class="invoice-discount">0.00</span> <input
-															type="hidden" name="invoice_discount"
-															id="invoice_discount">
-													</div>
-												</div>
 
-												<div class="row">
-													<div class="col-xs-4 col-xs-offset-5">
-														<strong>TAX/VAT:</strong><br>Remove TAX/VAT <input
-															type="checkbox" class="remove_vat">
-													</div>
-													<div class="col-xs-3">
-														R<span class="invoice-vat" data-enable-vat="1"
-															data-vat-rate="15" data-vat-method="">0.00</span> <input
-															type="hidden" name="invoice_vat" id="invoice_vat">
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-xs-4 col-xs-offset-5">
-														<strong>Total:</strong>
-													</div>
-													<div class="col-xs-3">
-														R<span class="invoice-total">0.00</span> <input
-															type="hidden" name="invoice_total" id="invoice_total">
-													</div>
-												</div>
-											</div>
-
-										</div>
-
-										<div id="insert" class="modal fade">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header">
-														<button type="button" class="close" data-dismiss="modal"
-															aria-label="Close">
-															<span aria-hidden="true">&times;</span>
-														</button>
-														<h4 class="modal-title">Select an Line item</h4>
-													</div>
-													<div class="modal-body">
-													   <div class="well form-horizontal">
-													   <div class="form-group">
-															<select class="form-control item-select">
-															   <option value="45454.21">Populate Machine Readings Here 1</option>
-															   <option value="200.11">Populate Machine Readings Here 2</option>
-															    <option value="300.21">Populate Machine Readings Here 3</option>
-															</select>
+											<div id="insert" class="modal fade">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal"
+																aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+															<h4 class="modal-title">Select an Line item</h4>
 														</div>
-													  </div>
+														<div class="modal-body">
+															<div class="well form-horizontal">
+																<div class="form-group">
+																	<select class="form-control item-select" name="" id="">
+																		<option value="45454.21"></option>
+																		<option value="200.11"></option>
+																		<option value="300.21"></option>
+																	</select>
+																</div>
+															</div>
+														</div>
+														<div class="modal-footer">
+															<button type="button" data-dismiss="modal"
+																class="btn btn-primary" id="selected">Add</button>
+															<button type="button" data-dismiss="modal" class="btn">Cancel</button>
+														</div>
 													</div>
-													<div class="modal-footer">
-														<button type="button" data-dismiss="modal"
-															class="btn btn-primary" id="selected">Add</button>
-														<button type="button" data-dismiss="modal" class="btn">Cancel</button>
-													</div>
+													<!-- /.modal-content -->
 												</div>
-												<!-- /.modal-content -->
+												<!-- /.modal-dialog -->
 											</div>
-											<!-- /.modal-dialog -->
+											<!-- /.modal -->
+
 										</div>
-										<!-- /.modal -->
 
-									</div>
-
-									<div class="form-wizard-buttons">
-										<br> <br>
-										<button type="button" class="btn btn-previous" style=" color: white;">Previous</button>
-										
-
-										<div class="row">
+										<div class="form-wizard-buttons">
 											<br> <br>
-											<div class="col-sm-3"></div>
-											<div class="col-sm-3">
-												<div class="col text-center">
-													<input type="submit" name="SaveInvoice"
-														value="Save Invoice"
-														class="btn btn-primary btn-block btn-md" tabindex="9"
-														id="SaveInvoice">
-												</div>
-											</div>
+											<button type="button" class="btn btn-previous"
+												style="color: white;">Previous</button>
 
-											<div class="col-sm-3">
-												<div class="col text-center">
-													<input type="submit" name="SubmitInvoice"
-														value="Submit Invoice"
-														class="btn btn-primary btn-block btn-md" tabindex="9"
-														id="submitInvoice">
+
+											<div class="row">
+												<br> <br>
+												<div class="col-sm-3"></div>
+												<div class="col-sm-3">
+													<div class="col text-center">
+														<input type="submit" name="SaveInvoice"
+															value="Save Invoice"
+															class="btn btn-primary btn-block btn-md" tabindex="9"
+															id="SaveInvoice">
+													</div>
 												</div>
+
+												<div class="col-sm-3">
+													<div class="col text-center">
+														<input type="submit" name="SubmitInvoice"
+															value="Submit Invoice"
+															class="btn btn-primary btn-block btn-md" tabindex="9"
+															id="submitInvoice">
+													</div>
+												</div>
+												<div class="col-sm-3"></div>
+
 											</div>
-											<div class="col-sm-3"></div>
 
 										</div>
 
-									</div>
-
+									</form:form>
 
 								</fieldset>
 								<!-- Form Step 2 -->
 
-								<%-- </form:form> --%>
+
 								<!-- Form Wizard -->
 							</div>
 						</div>

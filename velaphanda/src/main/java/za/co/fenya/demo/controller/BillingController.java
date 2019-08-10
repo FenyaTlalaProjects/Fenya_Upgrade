@@ -20,6 +20,7 @@ import za.co.fenya.demo.model.Accessories;
 import za.co.fenya.demo.model.Customer;
 import za.co.fenya.demo.model.Device;
 import za.co.fenya.demo.model.Employee;
+import za.co.fenya.demo.model.Invoice;
 import za.co.fenya.demo.model.Reading;
 import za.co.fenya.demo.model.Tickets;
 import za.co.fenya.demo.service.AccessoriesInt;
@@ -27,6 +28,7 @@ import za.co.fenya.demo.service.CustomerContactDetailsServiceInt;
 import za.co.fenya.demo.service.CustomerDeviceHistoryServiceInt;
 import za.co.fenya.demo.service.CustomerServiceInt;
 import za.co.fenya.demo.service.DeviceServiceInt;
+import za.co.fenya.demo.service.InvoiceServiceInt;
 import za.co.fenya.demo.service.ModelNumbersMasterServiceInt;
 import za.co.fenya.demo.service.OrdersServiceInt;
 import za.co.fenya.demo.service.ReadingServiceInt;
@@ -42,6 +44,8 @@ public class BillingController {
 	@Autowired
 	private ReadingServiceInt deviceReadingServiceInt;
 	@Autowired
+	private InvoiceServiceInt deviceInvoiceServiceInt;
+	@Autowired
 	private HttpSession session;
 
 	private String retMessage = null;
@@ -52,6 +56,7 @@ public class BillingController {
 	private String customerName, technicianName, technicianEmail, selectedDateRange, heading, machineType = null;
 	public String[] getSerialNumbers = null;
 	Reading getReadings = new Reading();
+	Invoice getInvocie = new Invoice();
 	Reading readings = null;
 	private String globalCustomerName = null;
 
@@ -100,29 +105,29 @@ public class BillingController {
 		}
 		return model;
 	}
-	
-	// invoice management page
-		@RequestMapping(value = "invoicemanagement", params = { "newCustomer" }, method = RequestMethod.GET)
-		public ModelAndView displayInvoiceMangementNew() {
-			heading = "All Invoices";
-			model = new ModelAndView();
-			userName = (Employee) session.getAttribute("loggedInUser");
-			if (userName != null) {
-				if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
-					model.addObject("heading", heading);
-					model.addObject("deviceReadingList", deviceReadingServiceInt.getAllReadings());
-					model.setViewName("invoicemanagement");
 
-				} else if (userName.getRole().equalsIgnoreCase("User")) {
-					model.addObject("heading", heading);
-					model.addObject("deviceReadingList", deviceReadingServiceInt.getAllReadings());
-					model.setViewName("userinvoicemanagement");
-				}
-			} else {
-				model.setViewName("login");
+	// invoice management page
+	@RequestMapping(value = "invoicemanagement", params = { "newCustomer" }, method = RequestMethod.GET)
+	public ModelAndView displayInvoiceMangementNew() {
+		heading = "All Invoices";
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				model.addObject("heading", heading);
+				model.addObject("deviceReadingList", deviceReadingServiceInt.getAllReadings());
+				model.setViewName("invoicemanagement");
+
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				model.addObject("heading", heading);
+				model.addObject("deviceReadingList", deviceReadingServiceInt.getAllReadings());
+				model.setViewName("userinvoicemanagement");
 			}
-			return model;
+		} else {
+			model.setViewName("login");
 		}
+		return model;
+	}
 
 	// SLA management page
 	@RequestMapping(value = { "slamanagement", "userslamanagement" }, method = RequestMethod.GET)
@@ -422,6 +427,52 @@ public class BillingController {
 		return model;
 	}
 
+	//capture invoice
+	@RequestMapping(value = "captureInvoice", params = { "SaveInvoice" }, method = RequestMethod.POST)
+	public ModelAndView saveInvoice(@ModelAttribute("captureInvoice") ReadingBean reading,Invoice invoice) {
+		model = new ModelAndView();
+		String saveInvoice = "saveInvoice";
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				reading.setEmployee(userName.getEmail());
+				model.addObject("saveInvoice", saveInvoice);
+				//getInvocie = deviceInvoiceServiceInt.saveInvoice(invoice);
+				model.setViewName("confirmations");
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				model.addObject("saveInvoice", saveInvoice);
+				//getInvocie = deviceInvoiceServiceInt.saveInvoice(invoice);
+				model.setViewName("confirm");
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	// submit invoice
+	@RequestMapping(value = "captureInvoice", params = { "SubmitInvoice" }, method = RequestMethod.POST)
+	public ModelAndView submitInvoice(@ModelAttribute("captureInvoice") ReadingBean reading,Invoice invoice) {
+		model = new ModelAndView();
+		String submitInvoice = "submitInvoice";
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
+				reading.setEmployee(userName.getEmail());
+				//getInvocie = deviceInvoiceServiceInt.submitInvoice(invoice);
+				model.addObject("submitInvoice", submitInvoice);
+				model.setViewName("confirmations");
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				//getInvocie = deviceInvoiceServiceInt.submitInvoice(invoice);
+				model.addObject("submitInvoice", submitInvoice);
+				model.setViewName("confirm");
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
 	// read and display list of captured readings
 	@RequestMapping(value = { "capturedReadings" }, method = RequestMethod.GET)
 	public ModelAndView displayCapturedReading(String serialNumber) {
@@ -552,10 +603,10 @@ public class BillingController {
 
 	// search available reading for a client to display when creating invoice
 	@RequestMapping(value = { "invoiceSearchCustomerReading",
-			"userinvoiceSearchCustomerReading" }, method = RequestMethod.POST)
+			"userInvoiceSearchCustomerReading" }, method = RequestMethod.POST)
 	public ModelAndView searchCustomerReadingForInvoice(@RequestParam("customerName") String customerName,
 			@RequestParam("serialNumber") String serialNumber, @RequestParam("period") String period,
-			ReadingBean reading) {
+			ReadingBean reading, InvoiceBean invoice) {
 		String selectedName = customerName;
 		String selectedSerialNumber = serialNumber;
 		String selectedPeriod = period;
@@ -567,9 +618,14 @@ public class BillingController {
 				reading.setEmployee(userName.getEmail());
 				reading.setReadingPeriod(selectedPeriod);
 				getReadings = deviceReadingServiceInt.createReading(reading);
+				// getInvocie = deviceInvoiceServiceInt.createInvoiceHeader(invoice);
 				if (getReadings != null) {
 					model.addObject("readingBean", getReadings);
 					System.err.println("Moleko...................................");
+				}
+				if (getInvocie != null) {
+					model.addObject("invoiceBean", getInvocie);
+					System.err.println("Re lata existing invoice...................................");
 				}
 				model.addObject("serialNumbers", getSerialNumbers);
 				model.addObject("customerName", customerName);
@@ -617,7 +673,6 @@ public class BillingController {
 		}
 		return model;
 	}
-	
 
 	// read and display list of captured invoice
 	@RequestMapping(value = { "capturedinvoice" }, method = RequestMethod.GET)

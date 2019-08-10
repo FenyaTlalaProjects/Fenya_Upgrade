@@ -16,5 +16,6 @@ public interface InvoiceDaoInt {
 
 	List<InvoiceLineItem> getAllLineItems();
 	InvoiceBean createInvoice (InvoiceBean invoice);
+	
 
 }
