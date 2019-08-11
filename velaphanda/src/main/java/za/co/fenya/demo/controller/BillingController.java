@@ -427,9 +427,9 @@ public class BillingController {
 		return model;
 	}
 
-	//capture invoice
+	// capture invoice
 	@RequestMapping(value = "captureInvoice", params = { "SaveInvoice" }, method = RequestMethod.POST)
-	public ModelAndView saveInvoice(@ModelAttribute("captureInvoice") ReadingBean reading,Invoice invoice) {
+	public ModelAndView saveInvoice(@ModelAttribute("captureInvoice") ReadingBean reading, Invoice invoice) {
 		model = new ModelAndView();
 		String saveInvoice = "saveInvoice";
 		userName = (Employee) session.getAttribute("loggedInUser");
@@ -437,11 +437,11 @@ public class BillingController {
 			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
 				reading.setEmployee(userName.getEmail());
 				model.addObject("saveInvoice", saveInvoice);
-				//getInvocie = deviceInvoiceServiceInt.saveInvoice(invoice);
+				// getInvocie = deviceInvoiceServiceInt.saveInvoice(invoice);
 				model.setViewName("confirmations");
 			} else if (userName.getRole().equalsIgnoreCase("User")) {
 				model.addObject("saveInvoice", saveInvoice);
-				//getInvocie = deviceInvoiceServiceInt.saveInvoice(invoice);
+				// getInvocie = deviceInvoiceServiceInt.saveInvoice(invoice);
 				model.setViewName("confirm");
 			}
 		} else {
@@ -452,18 +452,18 @@ public class BillingController {
 
 	// submit invoice
 	@RequestMapping(value = "captureInvoice", params = { "SubmitInvoice" }, method = RequestMethod.POST)
-	public ModelAndView submitInvoice(@ModelAttribute("captureInvoice") ReadingBean reading,Invoice invoice) {
+	public ModelAndView submitInvoice(@ModelAttribute("captureInvoice") ReadingBean reading, Invoice invoice) {
 		model = new ModelAndView();
 		String submitInvoice = "submitInvoice";
 		userName = (Employee) session.getAttribute("loggedInUser");
 		if (userName != null) {
 			if (userName.getRole().equalsIgnoreCase("Manager") || (userName.getRole().equalsIgnoreCase("Admin"))) {
 				reading.setEmployee(userName.getEmail());
-				//getInvocie = deviceInvoiceServiceInt.submitInvoice(invoice);
+				// getInvocie = deviceInvoiceServiceInt.submitInvoice(invoice);
 				model.addObject("submitInvoice", submitInvoice);
 				model.setViewName("confirmations");
 			} else if (userName.getRole().equalsIgnoreCase("User")) {
-				//getInvocie = deviceInvoiceServiceInt.submitInvoice(invoice);
+				// getInvocie = deviceInvoiceServiceInt.submitInvoice(invoice);
 				model.addObject("submitInvoice", submitInvoice);
 				model.setViewName("confirm");
 			}
@@ -560,6 +560,32 @@ public class BillingController {
 				model.addObject("customers", customerServiceInt.getClientList());
 				model.addObject("newDate", selectedDateRange);
 				model.setViewName("userinvoice");
+			}
+		} else {
+			model.setViewName("login");
+		}
+		return model;
+	}
+
+	// edit invoice page
+	@RequestMapping(value = { "editinvoice", "usereditinvoice" }, method = RequestMethod.GET)
+	public ModelAndView editInvoicePage(String customerName) {
+		selectedDateRange = "Select Date";
+		model = new ModelAndView();
+		userName = (Employee) session.getAttribute("loggedInUser");
+		if (userName != null) {
+
+			if (userName.getRole().equalsIgnoreCase("Manager") || userName.getRole().equalsIgnoreCase("Admin")) {
+				model.addObject("customerName", customerName);
+				model.addObject("customers", customerServiceInt.getClientList());
+				model.addObject("newDate", selectedDateRange);
+				model.setViewName("editinvoice");
+
+			} else if (userName.getRole().equalsIgnoreCase("User")) {
+				model.addObject("customerName", customerName);
+				model.addObject("customers", customerServiceInt.getClientList());
+				model.addObject("newDate", selectedDateRange);
+				model.setViewName("usereditinvoice");
 			}
 		} else {
 			model.setViewName("login");
